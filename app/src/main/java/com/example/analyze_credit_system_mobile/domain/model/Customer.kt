@@ -1,17 +1,30 @@
 package com.example.analyze_credit_system_mobile.domain.model
 
 import com.example.analyze_credit_system_mobile.data.dto.CreditDTO
+import com.example.analyze_credit_system_mobile.data.dto.CustumerDTO
 import java.math.BigDecimal
 
 data class Customer(
- private val fistName :String,
- private val lastName :String,
- private val cpf :String,
- private val email :String,
- private val password :String,
- private val address : Address,
- private val income : BigDecimal,
- private val listCredits:MutableList<CreditDTO>,
- private val id : Long
- ) {
-}
+  val fistName :String,
+  val lastName :String,
+  val cpf :String,
+  val email :String,
+  val password :String,
+  val address : Address,
+  val income : BigDecimal,
+  val listCredits:MutableList<CreditDTO>,
+  val id : Long
+ )
+
+fun Customer.toDTO() =CustumerDTO(
+  fistName = this.fistName,
+  lastName = this.lastName,
+   cpf =  this.cpf,
+ email = this.email,
+ password = this.password,
+ address =  this.address,
+ income = this.income,
+ id = this.id,
+ listCredits = this.listCredits
+
+)
