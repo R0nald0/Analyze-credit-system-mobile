@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.activity.fragments.CreateCreditFragment">
+
+    <LinearLayout
+        android:id="@+id/linearLayoutCredit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.497">
+
+        <TextView
+            android:id="@+id/txvName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/credit_create_txv_quanto_precisa"
+            android:textSize="24sp" />
+
+        <com.vicmikhailau.maskededittext.MaskedEditText
+            android:id="@+id/edt_credit_value"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:gravity="center|fill_horizontal"
+            android:inputType="numberDecimal"
+            android:maxLines="1"
+            android:numeric="decimal"
+            android:textAlignment="center"
+            android:textSize="25sp"
+            app:mask="###.###,##" />
+
+        <com.example.analyze_credit_system_mobile.shared.widgets.ProgresseButton
+            android:id="@+id/btn_next"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="20dp"
+            app:title="@string/credit_create_txt_btn_proximo_passo"
+            app:title_loading_state="verificando.." />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

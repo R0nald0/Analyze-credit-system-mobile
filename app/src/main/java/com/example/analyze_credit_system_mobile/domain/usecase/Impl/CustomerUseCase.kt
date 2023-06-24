@@ -1,60 +1,81 @@
 package com.example.analyze_credit_system_mobile.domain.usecase.Impl
 
+import android.util.Log
+import com.example.analyze_credit_system_mobile.R
+import com.example.analyze_credit_system_mobile.data.remote.ViaCepApi
+import com.example.analyze_credit_system_mobile.domain.model.Address
+
 import com.example.analyze_credit_system_mobile.domain.model.Customer
+import com.example.analyze_credit_system_mobile.domain.model.toDTO
 import com.example.analyze_credit_system_mobile.domain.repository.ICustomerRepository
+import com.example.analyze_credit_system_mobile.domain.states.AutenticationValidFormState
 import com.example.analyze_credit_system_mobile.domain.usecase.ICustomerUseCase
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import retrofit2.Response
+import java.math.BigDecimal
 import javax.inject.Inject
 
 class CustomerUseCase @Inject constructor(
-    private val custumerRepository: ICustomerRepository
+    private val custumerRepository: ICustomerRepository,
+
 ): ICustomerUseCase {
-    override fun createCustumer(customer: Customer): Result<Boolean> {
+
+    override suspend fun createCustumer(customer: Customer): Result<Customer> {
          try {
              val customer = custumerRepository.createCustumer(customer)
-                return Result.success(customer)
-         }catch (e:Exception){
+                 if (customer != null ){
+                     return Result.success(customer)
+                 }
+             return Result.failure(Throwable("nenhum customer foi salvo verifica os campos"))
+         }catch (fbExecption : FirebaseAuthInvalidCredentialsException){
+             return Result.failure(FirebaseAuthInvalidCredentialsException(fbExecption.errorCode,"erro ao salvar o customer,email deve conter @ e .com"))
+         }
+         catch (e:Exception){
              e.printStackTrace()
-             return Result.failure(Throwable("erro ao cadastrar customer",e))
+             return Result.failure(Exception("erro ao cadastrar,dados inválidos",e))
          }
     }
 
-    override fun getAllCustomer(): Result<List<Customer>> {
+    override suspend fun getAllCustomer(): Result<List<Customer>> {
         TODO("Not yet implemented")
     }
 
-    override fun findCustumerById(idCustomer: Long): Result<Customer> {
+    override suspend fun findCustumerById(idCustomer: Long): Result<Customer> {
         try {
             val customer =custumerRepository.findCustumerById(idCustomer)
              if (customer != null){
                  return Result.success(customer)
              }else{
-                 return Result.failure(Throwable("Identificador innválido"))
+                 return Result.failure(Throwable("Identificador inválido"))
              }
-        }catch (e:Exception){
+        }
+        catch (e:Exception){
             e.printStackTrace()
             return Result.failure(Throwable("erro ao buscar custumer",e ))
         }
     }
 
-    override fun deleteCustumer(customer: Customer): Result<Boolean> {
+    override suspend fun deleteCustumer(customer: Customer): Result<Boolean> {
         try{
             val result = custumerRepository.deleteCustumer(customer)
-               return  Result.success(result)
+            return  Result.success(result)
         }catch (e:Exception){
             e.printStackTrace()
-            return Result.failure(Throwable("erro deletar Customer",e))
+            return Result.failure(Throwable("erro when delete customer",e))
         }
     }
 
-    override fun updateCustumer(idCustomer: Long): Result<Boolean> {
+    override suspend fun updateCustumer(idCustomer: Long): Result<Boolean> {
         try{
-            val result = custumerRepository.updateCustumer(idCustomer)
+            val customer = findCustumerById(idCustomer).getOrThrow()
+            val result = custumerRepository.updateCustumer(idCustomer,customer.toDTO())
             return  Result.success(result)
         }catch (e:Exception){
             e.printStackTrace()
             return Result.failure(Throwable("erro atualizar Customer",e))
         }
     }
+
 
 
 }

@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/backgroundhomecolor"
+        android:backgroundTint="@color/backgroundhomecolor"
+        tools:context=".view.activity.fragments.HomeFragment">
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:orientation="horizontal"
+            android:padding="12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/img_perfil"
+                android:layout_width="@dimen/dimens_img_perfil"
+                android:layout_height="@dimen/dimens_img_perfil"
+                android:layout_gravity="center"
+                android:src="@drawable/perfil_imagem"
+                app:shapeAppearanceOverlay="@style/ImagemRounded" />
+
+            <TextView
+                android:id="@+id/txv_name_user"
+                style="@style/TexvAppStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:foregroundGravity="center"
+                android:gravity="center|left"
+                android:padding="8dp"
+                android:text="Nome user"
+                android:textColor="@color/white" />
+
+            <ImageButton
+                android:id="@+id/img_Notification"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_gravity="center|left"
+                android:layout_weight="0.1"
+                android:background="?attr/selectableItemBackground"
+                android:src="@drawable/baseline_notifications_24" />
+        </LinearLayout>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:elevation="10dp"
+            app:cardBackgroundColor="@color/backgroundhomecolor"
+            app:cardCornerRadius="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/txv_titulo_saldo"
+                    style="@style/TexvAppStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:text="Saldo"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/txv_saldo_valor"
+                    style="@style/TexvAppStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="16dp"
+                    android:text="R$ 1,000.00"
+                    android:textSize="45sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/txv_titulo_saldo"
+                    app:layout_constraintVertical_bias="0.256" />
+
+                <TextView
+                    android:id="@+id/txv_saldo_bloqueado"
+                    style="@style/TexvAppStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="16dp"
+                    android:text="você tem R$ 200,00 bloqueado"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/txv_saldo_valor"
+                    app:layout_constraintVertical_bias="0.92" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/textView2"
+            style="@style/TexvAppStyle"
+            android:layout_width="0dp"
+            android:layout_height="15dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
+            android:text="Formas de Pagamentos"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardView" />
+
+        <Button
+            android:id="@+id/button"
+            style="@style/ButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_weight="1"
+            android:text="ted"
+            android:textSize="10dp"
+            app:icon="@drawable/paid_24"
+            app:iconGravity="top"
+            app:layout_constraintBottom_toBottomOf="@+id/btn_pix"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/btn_pix"
+            app:layout_constraintTop_toTopOf="@+id/btn_pix" />
+
+        <Button
+            android:id="@+id/btn_pix"
+            style="@style/ButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:text="pix"
+            android:textSize="10dp"
+            app:icon="@drawable/baseline_pix_24"
+            app:iconGravity="top"
+            app:layout_constraintEnd_toStartOf="@+id/button"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/btn_boleto"
+            app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+        <Button
+            android:id="@+id/btn_boleto"
+            style="@style/ButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_weight="1"
+            android:text="boleto"
+            android:textSize="10dp"
+            app:icon="@drawable/text_snippet_24"
+            app:iconGravity="top"
+            app:layout_constraintBottom_toBottomOf="@+id/btn_pix"
+            app:layout_constraintEnd_toStartOf="@+id/btn_pix"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/btn_pix" />
+
+        <TextView
+            android:id="@+id/textView3"
+            style="@style/TexvAppStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="Ultimas Atividades"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_pix" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcv_atividades"
+            android:layout_width="0dp"
+            android:layout_height="228dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView3"
+            app:layout_constraintVertical_bias="0.168" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

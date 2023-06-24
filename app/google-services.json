@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1036700739006",
+    "project_id": "creditapp-c1f4f",
+    "storage_bucket": "creditapp-c1f4f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1036700739006:android:50c4861fa3a6fe8fa185ef",
+        "android_client_info": {
+          "package_name": "com.example.analyze_credit_system_mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1036700739006-i1v0fp5lg995hjcuh0ma9sri3pdfca62.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCID0Y2y-ENpnBMD5ZQQ7muj-TC3-VC3Fo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1036700739006-i1v0fp5lg995hjcuh0ma9sri3pdfca62.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

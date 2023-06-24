@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_user_accers"
+    android:label="@string/home_fragment_label"
+    app:startDestination="@id/mainFragment">
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.analyze_credit_system_mobile.view.activity.fragments.LoginFragment"
+        android:label="@string/login_fragment_label"
+        tools:layout="@layout/fragment_login">
+        <action
+            android:id="@+id/action_loginFragment_to_cadastroFragment"
+            app:destination="@id/cadastroFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_homeFragment"
+            app:destination="@+id/homeFragment"
+           />
+        <action
+            android:id="@+id/action_loginFragment_to_createCreditFragment"
+            app:destination="@id/createCreditFragment" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/cadastroFragment"
+        android:name="com.example.analyze_credit_system_mobile.view.activity.fragments.CadastroFragment"
+        android:label="@string/cadastro_fragment_label"
+        tools:layout="@layout/fragment_cadastro">
+        <action
+            android:id="@+id/action_cadastroFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.analyze_credit_system_mobile.view.activity.fragments.HomeFragment"
+        android:label="@string/conta_txt"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <argument
+            app:argType="string"
+            android:name="name_user"
+            android:defaultValue="No user"
+            app:nullable="true" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.example.analyze_credit_system_mobile.view.activity.fragments.MainFragment"
+        android:label="@string/main_fragment_title"
+        tools:layout="@layout/fragment_main" >
+
+    </fragment>
+    <fragment
+        android:id="@+id/createCreditFragment"
+        android:name="com.example.analyze_credit_system_mobile.view.activity.fragments.CreateCreditFragment"
+        android:label="@string/credit_create_fragment_title"
+        tools:layout="@layout/fragment_create_credit" >
+        <action
+            android:id="@+id/action_createCreditFragment_to_navigation"
+            app:destination="@id/navigationGraphCradit" />
+        <action
+            android:id="@+id/action_createCreditFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+
+    </fragment>
+    <navigation
+        android:id="@+id/navigationGraphCradit"
+        app:startDestination="@id/createCreditDateFragment">
+        <fragment
+            android:id="@+id/createCreditDateFragment"
+            android:name="com.example.analyze_credit_system_mobile.view.activity.fragments.CreateCreditDateFragment"
+            android:label="@string/credit_create_fragment_title"
+            tools:layout="@layout/fragment_create_credit_date" >
+            <action
+                android:id="@+id/action_createCreditDateFragment_to_createCreditEndFragment"
+                app:destination="@id/createCreditEndFragment" />
+            <argument
+                 app:argType="string"
+                 app:nullable="false"
+                 android:name="creditValue"
+                android:defaultValue="0"
+                />
+        </fragment>
+
+        <fragment
+            android:id="@+id/createCreditEndFragment"
+            android:name="com.example.analyze_credit_system_mobile.view.activity.fragments.CreateCreditEndFragment"
+            android:label="@string/credit_create_fragment_title"
+            tools:layout="@layout/fragment_create_credit_end" >
+
+            <argument
+                android:defaultValue="0.0"
+                android:name="creditValue"
+                app:nullable="false"
+                app:argType="string" />
+            <argument
+                android:defaultValue="12/23/2034"
+                android:name="dateFistInstallment"
+                app:nullable="false"
+                app:argType="string" />
+            <argument
+                android:defaultValue="1"
+                android:name="installmentValue"
+                app:nullable="false"
+                app:argType="string"
+                />
+        </fragment>
+
+
+
+        <argument
+            app:argType="string"
+            app:nullable="false"
+            android:name="creditValue"
+            android:defaultValue="100.00"
+            />
+        <action
+            android:id="@+id/action_global_createCreditDateFragment"
+            app:destination="@id/createCreditDateFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            />
+    </navigation>
+</navigation>

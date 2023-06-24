@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="45dp"
+    tools:background="@drawable/button_bg_normal">
+
+    <TextView
+        android:id="@+id/txt_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        tools:text="button"
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        custom:layout_constraintBottom_toBottomOf="parent"
+        custom:layout_constraintEnd_toStartOf="@+id/id_progress"
+        custom:layout_constraintHorizontal_bias="0.5"
+        custom:layout_constraintHorizontal_chainStyle="packed"
+        custom:layout_constraintStart_toStartOf="parent"
+        custom:layout_constraintTop_toTopOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/id_progress"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="16dp"
+        android:indeterminate="true"
+        android:indeterminateTintMode="multiply"
+        custom:layout_constraintBottom_toBottomOf="parent"
+        custom:layout_constraintEnd_toEndOf="parent"
+        custom:layout_constraintHorizontal_bias="0.5"
+        custom:layout_constraintStart_toEndOf="@+id/txt_title"
+        custom:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout >

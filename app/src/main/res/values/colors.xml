@@ -7,4 +7,10 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="gray">#A67A7A</color>
+
+    <color name="redButtons">#ED4D4D</color>
+    <color name="backgroundhomecolor">#1b3b2c</color>
+    <color name="statusecolor">#19211c</color>
+    <color name="titleNoticeColor">#0E833A</color>
 </resources>

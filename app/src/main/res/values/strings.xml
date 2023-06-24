@@ -1,3 +1,43 @@
 <resources>
+    <!-- Strings Main Fragment -->
+    <string name="main_fragment_title">Inicio</string>
+
     <string name="app_name">Analyze-credit-system-mobile</string>
+    <!-- Strings Home Fragment -->
+    <string name="home_fragment_label">Credit APP</string>
+
+    <!-- Strings cadastro Fragment -->
+    <string name="cadastro_fragment_label">Cadastro</string>
+    <string name="cadastro_fragment_btn">Cadastrar</string>
+    <string name="erro_first_name_cadastro">O campo nome não pode ser vázio</string>
+    <string name="erro_last_name">O sobre-nome nao pode ser vázio</string>
+    <string name="erro_cpf_field">O cpf nao pode ser vázio,verifique os dados</string>
+    <string name="erro_income_field">campo renda não pode ser vázio nao pode ser vázio</string>
+    <string name="erro_email_field">digite um email válido</string>
+    <string name="erro_cep_field">CEP inválido</string>
+    <string name="erro_street_field">campo inválido</string>
+    <string name="erro_password_field">campo inválido,a senha deve conter mais de 6 caracteres</string>
+
+    <!-- Strings Login Fragment -->
+    <string name="hello_blank_fragment">Login Fragment</string>
+    <string name="erro_massage_invalid_email">campo email invalido</string>
+    <string name="login_fragment_label">Login</string>
+    <string name="erro_message_invalid_password">campo senha invalido</string>
+    <string name="login">login</string>
+
+    <!-- Strings create credit -->
+    <string name="credit_create_fragment_title">Empréstimo</string>
+    <string name="credit_create_txv_quanto_precisa">Olá %1$s de quanto você precisa?</string>
+    <string name="credit_create_txt_btn_proximo_passo">proximo passo"</string>
+
+    <!-- Strings create credit date -->
+    <string name="credit_create_date_chose_date_installment_txt">Agora,escolha em qual data é melhor para pagamento das parcelas</string>
+    <string name="credit_create_date_number_installment_txt">e em quantas vezes desaja pagar ?</string>
+    <string name="credit_create_date_number_selected">Data do pagamento %1$d/%2$d/%3$d</string>
+
+    <!-- Strings create credit date end -->
+    <string name="credit_create_end_confirme_txt_button">Confirmar Proposta</string>
+    <string name="conta_txt">Conta</string>
+    <string name="cep_inexistente_erro">Cep Inexistente</string>
+
 </resources>

@@ -1,63 +1,52 @@
 package com.example.analyze_credit_system_mobile.data.repository
 
 
+import com.example.analyze_credit_system_mobile.data.dto.CustomerViewDTO
+import com.example.analyze_credit_system_mobile.data.dto.CustumerDTO
 import com.example.analyze_credit_system_mobile.data.dto.toCustomer
-import com.example.analyze_credit_system_mobile.data.remote.CustumerService
+import com.example.analyze_credit_system_mobile.data.remote.CustumerApi
+import com.example.analyze_credit_system_mobile.data.remote.RetrofitApiClient
+import com.example.analyze_credit_system_mobile.data.remote.service.CustomerService
+import com.example.analyze_credit_system_mobile.domain.constant.Consts
+import com.example.analyze_credit_system_mobile.domain.model.Address
 import com.example.analyze_credit_system_mobile.domain.model.Customer
 import com.example.analyze_credit_system_mobile.domain.model.toDTO
 import com.example.analyze_credit_system_mobile.domain.repository.ICustomerRepository
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import retrofit2.Response
 import javax.inject.Inject
 
 class CustomerRepository @Inject constructor(
-    private val serviceCustomer: CustumerService
+    private val customerService: CustomerService
 ) :ICustomerRepository{
-    override fun createCustumer(customer: Customer): String {
+    override suspend fun createCustumer(customer: Customer): Customer? {
+        val customerDt =customer.toDTO()
          try {
-
-             val credit =  serviceCustomer.createUser(customer.toDTO())
-             if (credit.isSuccessful){
-                   val result = credit.body()
-                 if (result !=null){
-                     return result
-                 }else return " null credito"
-             }else{
-                 return credit.message()
-             }
-
-         }catch (e:Exception){
+               val custumerApi = customerService.registerUser(customerDt)
+              /* if (custumerApi != null){
+                   return custumerApi.toCustomer()
+               }*/
+             return custumerApi.getOrThrow().toCustomer()
+         }catch (fbExecption : FirebaseAuthInvalidCredentialsException){
+             throw FirebaseAuthInvalidCredentialsException(fbExecption.errorCode,"erro repo firebase :${fbExecption.message}")
+         }
+         catch (e:Exception){
               e.printStackTrace()
-              return throw Exception("falha ao salvar Customer")
+               throw Exception("${e.message}")
          }
     }
 
-    override fun getAllCustomer(): List<Customer> {
-        try{
-            val result = serviceCustomer.gelAllCustomers()
-            if (result.isSuccessful){
-                val listCustomerDTO= result.body()
-                val customerList  = listCustomerDTO?.map {customerDTO ->
-                    customerDTO.toCustomer()
-                }
-                if (customerList != null) return customerList
-                     else  return listOf()
-              }else{
-                  return listOf()
-              }
-        }catch (e:Exception){
-            e.printStackTrace()
-            return throw java.lang.RuntimeException("falha ao buscar dados")
-        }
-    }
-
-    override fun findCustumerById(idCustomer: Long): Customer? {
+    override suspend fun findCustumerById(idCustomer: Long): Customer? {
         TODO("Not yet implemented")
     }
 
-    override fun deleteCustumer(customer: Customer): Boolean {
+    override suspend fun deleteCustumer(customer: Customer): Boolean {
         TODO("Not yet implemented")
     }
 
-    override fun updateCustumer(idCustomer: Long): Boolean {
+    override suspend fun updateCustumer(idCustomer: Long, custumerDTO: CustumerDTO): Boolean {
         TODO("Not yet implemented")
     }
+
+
 }
