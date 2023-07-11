@@ -9,8 +9,18 @@
     <color name="white">#FFFFFFFF</color>
     <color name="gray">#A67A7A</color>
 
+    <!--MyColors-->
+    <color name="myPurple1">#b34cb2</color>
+    <color name="myPurpleSec">#B34CB2</color>
+    <color name="myGreen">#4CB34D</color>
+
+    <color name="colorPrimaContainer">#4CAF50</color>
+    <color name="colorOnPrimaryContainer">#FFFFFF</color>
+
+
+    <!---->
     <color name="redButtons">#ED4D4D</color>
     <color name="backgroundhomecolor">#1b3b2c</color>
     <color name="statusecolor">#19211c</color>
-    <color name="titleNoticeColor">#0E833A</color>
+    <color name="titleNoticeColor">#12582C</color>
 </resources>

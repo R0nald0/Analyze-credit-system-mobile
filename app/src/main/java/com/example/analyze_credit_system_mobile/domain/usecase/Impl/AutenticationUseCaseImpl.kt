@@ -1,9 +1,12 @@
 package com.example.analyze_credit_system_mobile.domain.usecase.Impl
 
+
+
+import androidx.core.content.ContextCompat
 import com.example.analyze_credit_system_mobile.R
 import com.example.analyze_credit_system_mobile.data.repository.AddressRespository
 import com.example.analyze_credit_system_mobile.domain.model.Address
-import com.example.analyze_credit_system_mobile.domain.states.AutenticationValidFormState
+import com.example.analyze_credit_system_mobile.domain.states.AuthenticationState
 import com.example.analyze_credit_system_mobile.domain.usecase.IAutenticationUseCase
 import java.math.BigDecimal
 import javax.inject.Inject
@@ -11,26 +14,25 @@ import javax.inject.Inject
 class AutenticationUseCaseImpl @Inject constructor(
     private val addressRespository: AddressRespository
 ):IAutenticationUseCase {
-    private  val invalidField = mutableListOf<Pair<String,Int>>()
+    private  val invalidField = mutableSetOf<Pair<String,Int>>()
 
-    override fun checkInvalidFormList():AutenticationValidFormState.InvalidForm{
+    override fun checkInvalidFormList(): AuthenticationState.InvalidForm{
         if (invalidField.isNotEmpty()){
-            return AutenticationValidFormState.InvalidForm(invalidField)
+            return AuthenticationState.InvalidForm(invalidField)
         }
-        return AutenticationValidFormState.InvalidForm(mutableListOf())
+        return AuthenticationState.InvalidForm(mutableSetOf())
     }
 
-    override  fun validForm(
+    override suspend fun validForm(
         nameCustomer: String,
         lastName: String,
         cpf: String,
         income: BigDecimal,
         email: String,
         zipCode: String,
-        street: String,
         password: String
-    ): AutenticationValidFormState.InvalidForm {
-
+    ) {
+         invalidField.clear()
         if(nameCustomer.isBlank()) invalidField.add(FIRSTNAME_CUSTOMER)
         if(lastName.isBlank()) invalidField.add(LASTNAME_CUSTOMER)
         if(cpf.isBlank() || cpf.length != 11) invalidField.add(CPF_CUSTOMER)
@@ -40,22 +42,23 @@ class AutenticationUseCaseImpl @Inject constructor(
             !email.endsWith(".com") ) invalidField.add(EMAIL_CUSTOMER)
         if(zipCode.isBlank() || zipCode.length != 8) invalidField.add(ZIPCODE_CUSTOMER)
         if(password.isBlank() || password.length < 6) invalidField.add(PASSWORD_CUSTOMER)
-
-       return checkInvalidFormList()
     }
 
     override suspend fun getAddress(zipCode:String):Result<Address>{
-         try {
-             val result =addressRespository.getAddress(zipCode)
-                 return result
-         }catch (nullpointer:NullPointerException){
-               invalidField.add(ZIPCODE_CUSTOMER_INEXISTENTE)
-              return Result.failure(NullPointerException("cep inexistente"))
-         }
-         catch (execptionAddress :Exception){
-             invalidField.add(ZIPCODE_CUSTOMER_INEXISTENTE)
-               return Result.failure(execptionAddress)
-         }
+        try {
+           val result = addressRespository.getAddress(zipCode)
+            if (result.isSuccess){
+                return result
+            }
+             else{
+                return Result.failure(Exception("cep inexistente"))
+             }
+
+        } catch (nullpointer: NullPointerException) {
+             return Result.failure(nullpointer)
+        } catch (execptionAddress: Exception) {
+            return Result.failure(execptionAddress)
+        }
     }
 
 

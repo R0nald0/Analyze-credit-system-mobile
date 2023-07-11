@@ -1,20 +1,19 @@
 package com.example.analyze_credit_system_mobile.domain.usecase
 
 import com.example.analyze_credit_system_mobile.domain.model.Address
-import com.example.analyze_credit_system_mobile.domain.states.AutenticationValidFormState
+import com.example.analyze_credit_system_mobile.domain.states.AuthenticationState
 import java.math.BigDecimal
 
 interface IAutenticationUseCase {
-    fun checkInvalidFormList():AutenticationValidFormState.InvalidForm
+    fun checkInvalidFormList(): AuthenticationState.InvalidForm
 
-     fun validForm(nameCustomer:String,
+    suspend  fun validForm(nameCustomer:String,
                   lastName:String,
                   cpf:String,
                   income: BigDecimal,
                   email:String,
                   zipCode:String,
-                  street:String,
-                  password:String) : AutenticationValidFormState.InvalidForm
+                  password:String)
 
     suspend fun getAddress(zipCode:String):Result<Address>
 }

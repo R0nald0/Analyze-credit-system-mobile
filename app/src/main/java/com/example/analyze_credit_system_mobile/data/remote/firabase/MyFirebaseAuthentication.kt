@@ -1,10 +1,9 @@
 package com.example.analyze_credit_system_mobile.data.remote.firabase
 
-import android.util.Log
-import com.example.analyze_credit_system_mobile.data.dto.CustomerViewDTO
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthException
+import com.google.firebase.auth.FirebaseAuthInvalidUserException
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
@@ -21,6 +20,7 @@ class MyFirebaseAuthentication @Inject constructor(
                }.addOnFailureListener {
                   continuationAuth.resumeWith(Result.failure(it))
                }
+
        }
 
       /* return try {
@@ -36,8 +36,13 @@ class MyFirebaseAuthentication @Inject constructor(
     suspend fun loginCustomer(email:String, password:String) : AuthResult{
        return  try {
          auth.signInWithEmailAndPassword(email, password).await()
-       }catch(e :Exception){
-         throw Throwable("erro when login customer: ${e.message}")
+       }catch (emailFirebaseExeption: FirebaseAuthUserCollisionException){
+           throw emailFirebaseExeption
+       } catch (firebaseAuthInvalidUserException: FirebaseAuthInvalidUserException){
+           throw firebaseAuthInvalidUserException
+       }
+       catch(e :Exception){
+         throw e
      }
   }
     suspend fun getCurrentUser():FirebaseUser?{
@@ -48,8 +53,13 @@ class MyFirebaseAuthentication @Inject constructor(
                  return null
              }
          }catch (e:Exception){
-              throw Throwable("erro by search current User ",e)
+              throw e
          }
+    }
+
+   suspend fun logout():Boolean{
+       auth.signOut()
+       return true
     }
 
 }

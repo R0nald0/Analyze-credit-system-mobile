@@ -12,6 +12,7 @@ import com.example.analyze_credit_system_mobile.data.remote.service.CurrencyServ
 import com.example.analyze_credit_system_mobile.data.remote.service.CustomerService
 import com.example.analyze_credit_system_mobile.data.repository.AddressRespository
 import com.example.analyze_credit_system_mobile.domain.constant.Consts
+import com.example.analyze_credit_system_mobile.domain.usecase.Impl.ValidateCredit
 import com.google.firebase.auth.FirebaseAuth
 import dagger.Module
 import dagger.Provides
@@ -21,7 +22,10 @@ import dagger.hilt.components.SingletonComponent
 @Module
 @InstallIn(SingletonComponent::class)
 class ClassModule {
-
+    @Provides
+    fun provideValidCredit():ValidateCredit{
+        return ValidateCredit()
+    }
     @Provides
      fun provideAddresRepository(addressService: AddressService):AddressRespository{
          return  AddressRespository(addressService)

@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.analyze_credit_system_mobile.R
 import com.example.analyze_credit_system_mobile.databinding.FragmentHomeBinding
 import com.example.analyze_credit_system_mobile.domain.adapter.AdapterAtividades
+import com.example.analyze_credit_system_mobile.domain.states.AuthenticationState
 import com.example.analyze_credit_system_mobile.view.viewmodel.HomeViewModel
 import com.example.analyze_credit_system_mobile.view.viewmodel.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -70,11 +71,11 @@ class HomeFragment : Fragment() {
     private fun initObservers() {
         loginViewModel.authenticationState.observe(this.viewLifecycleOwner){authenticateState ->
                when(authenticateState){
-                   is  LoginViewModel.AuthenticationState.Logged ->{
+                   is  AuthenticationState.Logged ->{
                        binding.txvNameUser.setText(args.nameUser)
                      //  binding.idBtnLogarHome.visibility =View.INVISIBLE
                    }
-                   is LoginViewModel.AuthenticationState.Unlogged -> {
+                   is AuthenticationState.Unlogged -> {
                        binding.txvNameUser.setText("No user on ")
                     //   binding.idBtnLogarHome.visibility =View.VISIBLE
                    }

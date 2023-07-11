@@ -1,9 +1,12 @@
 package com.example.analyze_credit_system_mobile.view.model
 
+import android.os.Parcelable
 import com.example.analyze_credit_system_mobile.domain.model.Address
 import com.example.analyze_credit_system_mobile.domain.model.Customer
+import kotlinx.parcelize.Parcelize
 import java.math.BigDecimal
 
+@Parcelize
 data class CustomerView(
     val firstName:String,
     val lastName:String,
@@ -12,7 +15,7 @@ data class CustomerView(
     val email: String,
     val zipCode:String,
     val street :String,
-)
+):Parcelable
 
 fun CustomerView.toEntity() = Customer(
     firstName = this.firstName,
@@ -22,5 +25,6 @@ fun CustomerView.toEntity() = Customer(
     email = this.email,
     address = Address(zipCode= this.zipCode, street = this.street),
     password = "***********",
-    listCredits = mutableListOf()
+    listCredits = mutableListOf(),
+    id = -1
 )

@@ -1,13 +1,11 @@
 package com.example.analyze_credit_system_mobile.view.activity.fragments
 
-import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -16,15 +14,17 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.analyze_credit_system_mobile.R
 import com.example.analyze_credit_system_mobile.databinding.FragmentCreateCreditEndBinding
-import com.example.analyze_credit_system_mobile.domain.model.Address
-import com.example.analyze_credit_system_mobile.domain.model.Customer
+import com.example.analyze_credit_system_mobile.domain.states.AuthenticationState
+import com.example.analyze_credit_system_mobile.domain.states.StateCredit
+import com.example.analyze_credit_system_mobile.shared.extensions.convertDateLongToString
 import com.example.analyze_credit_system_mobile.view.model.CreditView
 import com.example.analyze_credit_system_mobile.view.viewmodel.CreateCreditViewModel
 import com.example.analyze_credit_system_mobile.view.viewmodel.LoginViewModel
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.time.LocalDate
+import java.text.SimpleDateFormat
 import java.util.Date
 
 @AndroidEntryPoint
@@ -33,8 +33,8 @@ class CreateCreditEndFragment : Fragment() {
          FragmentCreateCreditEndBinding.inflate(layoutInflater)
     }
 
-    private val  args : CreateCreditEndFragmentArgs by navArgs()
-    private val creditViewModel : CreateCreditViewModel by viewModels()
+    private val  creditArgs : CreateCreditEndFragmentArgs by navArgs()
+    private val creditViewModel : CreateCreditViewModel by activityViewModels()
     private val  loginViewModel : LoginViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,22 +57,40 @@ class CreateCreditEndFragment : Fragment() {
     }
 
     private fun initListernersViewModel(){
-        loginViewModel.authenticationState.observe(viewLifecycleOwner){loginViewModelAuthenticate ->
 
-             when(loginViewModelAuthenticate){
-                  is LoginViewModel.AuthenticationState.Logged->{
+          creditViewModel.stateCreditLiveData.observe(viewLifecycleOwner){stateCredit->
+                when(stateCredit){
+                    is StateCredit.Sucecss ->{
 
-                  }
-                 else -> {}
-             }
-        }
+                        confirmData()
+                        binding.btnProgresbarConfirm.setNormal()
+                    }
+                    is StateCredit.InvalidCreditfields->{
+                        Toast.makeText(context?.applicationContext, "Erro nos campos", Toast.LENGTH_SHORT).show()
+                    }
+                    is StateCredit.Loading->{
+                        Toast.makeText(context?.applicationContext, "Carregando....", Toast.LENGTH_SHORT).show()
+                        binding.btnProgresbarConfirm.setLoading()
+                    }
+                    is StateCredit.Loaded ->{
+                        Toast.makeText(context?.applicationContext, "Carregado", Toast.LENGTH_SHORT).show()
+                        binding.btnProgresbarConfirm.setNormal()
+                    }
+                    is  StateCredit.error ->{
+                        binding.btnProgresbarConfirm.setNormal()
+                        Toast.makeText(context?.applicationContext, stateCredit.menssage, Toast.LENGTH_SHORT).show()
+                    }
+                    else->{}
+                }
 
+          }
          creditViewModel.resultCreatCredit.observe(viewLifecycleOwner){
              if (it.isSuccess){
-                 Toast.makeText(this.context, it.getOrThrow(), Toast.LENGTH_LONG).show()
+                   Toast.makeText(this.context, it.getOrThrow(), Toast.LENGTH_LONG).show()
              }else{
                     it.getOrElse { falha ->
                         Toast.makeText(this.context, falha.message, Toast.LENGTH_LONG).show()
+                        findNavController().popBackStack()
                  }
 
              }
@@ -81,7 +99,7 @@ class CreateCreditEndFragment : Fragment() {
 
     private fun confirmData(){
         val alertDialog = AlertDialog.Builder(binding.btnProgresbarConfirm.context)
-        alertDialog.setMessage("seu pedido está em análise")
+        alertDialog.setMessage("Seu pedido está em Análise")
             .setPositiveButton("ok"){ lister,tex ->
                 findNavController().popBackStack(R.id.mainFragment,false)
             }
@@ -91,30 +109,16 @@ class CreateCreditEndFragment : Fragment() {
 
 
     fun initBindings(){
-        val resumeCredit = calculateInstallment(args.installmentValue.toInt(),args.creditValue.toDouble())
-        val resul = String.format("x R$ %.4s por mês",resumeCredit)
+        val resumeCredit = calculateInstallment(creditArgs.credit.numberOfInstallments,creditArgs.credit.creditValue.toDouble())
+        val resul = String.format("x R$ %.4s",resumeCredit)
+        val date = Date().convertDateLongToString(creditArgs.credit.dayFistInstallment)
 
-        binding.txvValorCreditConfirm.text = args.creditValue
-        binding.txvDateCreditConfirm.text = args.dateFistInstallment
-        binding.txvInstallmentConference.text = "${args.installmentValue} $resul"
+        binding.txvValorCreditConfirm.text = "R$ ${creditArgs.credit.creditValue}"
+        binding.txvDateCreditConfirm.text = date
+        binding.txvInstallmentConference.text = "${creditArgs.credit.numberOfInstallments} $resul"
 
-        val creditValue = args.creditValue.toBigDecimal()
-        val creditFistInstallment = Date().time
-        val creditNumberIsntallment = args.installmentValue.toInt()
-
-       val creditView = CreditView(
-            creditValue =  creditValue,
-            numberOfInstallments = creditNumberIsntallment,
-            dayFistInstallment = creditFistInstallment,
-        )
         binding.btnProgresbarConfirm.setOnClickListener {
-            binding.btnProgresbarConfirm.setLoading()
-             creditViewModel.createCredit(creditView)
-            lifecycleScope.launch {
-                delay(3000)
-                binding.btnProgresbarConfirm.setNormal()
-                confirmData()
-            }
+            creditViewModel.validCredit(creditArgs.credit)
         }
     }
 

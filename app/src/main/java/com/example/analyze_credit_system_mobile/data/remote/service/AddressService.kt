@@ -46,7 +46,6 @@ class AddressService @Inject constructor(
              }else{
                  Log.d("INFO_", "getAddress: nao teve sucesso}")
              }*/
-
     }
 
     suspend fun <T> callApiMethod(response:Response<T>):Result<Response<T> >{

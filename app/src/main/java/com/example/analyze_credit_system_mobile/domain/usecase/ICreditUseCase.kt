@@ -10,6 +10,8 @@ interface ICreditUseCase {
    suspend fun findCreditById(idCredit:Long):Result<Credit>
     suspend fun deleteCredit(Credit: Credit):Result<Boolean>
    suspend  fun updateCredit(idCredit:Long):Result<Boolean>
+   fun  calculateInstallment(numberInstallment: Int,valueCredit:Double) :Double
+    fun getLimitsDate( field :Int , amountTime: Int) :Long
 
 
 }

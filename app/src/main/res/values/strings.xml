@@ -2,27 +2,27 @@
     <!-- Strings Main Fragment -->
     <string name="main_fragment_title">Inicio</string>
 
-    <string name="app_name">Analyze-credit-system-mobile</string>
+    <string name="app_name">CréditoS</string>
     <!-- Strings Home Fragment -->
     <string name="home_fragment_label">Credit APP</string>
 
     <!-- Strings cadastro Fragment -->
     <string name="cadastro_fragment_label">Cadastro</string>
     <string name="cadastro_fragment_btn">Cadastrar</string>
-    <string name="erro_first_name_cadastro">O campo nome não pode ser vázio</string>
-    <string name="erro_last_name">O sobre-nome nao pode ser vázio</string>
-    <string name="erro_cpf_field">O cpf nao pode ser vázio,verifique os dados</string>
-    <string name="erro_income_field">campo renda não pode ser vázio nao pode ser vázio</string>
-    <string name="erro_email_field">digite um email válido</string>
-    <string name="erro_cep_field">CEP inválido</string>
-    <string name="erro_street_field">campo inválido</string>
-    <string name="erro_password_field">campo inválido,a senha deve conter mais de 6 caracteres</string>
+    <string name="erro_first_name_cadastro">Campo nome não preenchido</string>
+    <string name="erro_last_name">O sobre-nome não pode ser vazio,preencha o campo</string>
+    <string name="erro_cpf_field">O cpf não pode ser vazio,verifique os dados</string>
+    <string name="erro_income_field">valor da renda inválida,verifique os dados</string>
+    <string name="erro_email_field">Digite um email válido</string>
+    <string name="erro_cep_field">Cep inválido</string>
+    <string name="erro_street_field">Campo inválido</string>
+    <string name="erro_password_field">A senha deve conter mais de 6 caracteres,verifique os dados</string>
 
     <!-- Strings Login Fragment -->
     <string name="hello_blank_fragment">Login Fragment</string>
-    <string name="erro_massage_invalid_email">campo email invalido</string>
+    <string name="erro_massage_invalid_email">email inválido</string>
     <string name="login_fragment_label">Login</string>
-    <string name="erro_message_invalid_password">campo senha invalido</string>
+    <string name="erro_message_invalid_password">senha inválido</string>
     <string name="login">login</string>
 
     <!-- Strings create credit -->
@@ -39,5 +39,9 @@
     <string name="credit_create_end_confirme_txt_button">Confirmar Proposta</string>
     <string name="conta_txt">Conta</string>
     <string name="cep_inexistente_erro">Cep Inexistente</string>
+    <string name="credito_invalido">Valor do Crédito inválido</string>
+    <string name="numero_de_parcela_est_invalido">Numero de parcela está inválido</string>
+    <string name="data_invalido">Data inválido</string>
+    <string name="valid_credit_customer_erro">Customer inexistente</string>
 
 </resources>

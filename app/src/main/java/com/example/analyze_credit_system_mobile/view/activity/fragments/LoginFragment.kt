@@ -5,22 +5,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.os.bundleOf
-import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.NavDirections
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.navigateUp
 import com.example.analyze_credit_system_mobile.R
 import com.example.analyze_credit_system_mobile.databinding.FragmentLoginBinding
-import com.example.analyze_credit_system_mobile.view.model.CustomerView
+import com.example.analyze_credit_system_mobile.domain.states.AuthenticationState
+import com.example.analyze_credit_system_mobile.shared.extensions.clearFieldsError
 import com.example.analyze_credit_system_mobile.view.viewmodel.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class LoginFragment : Fragment() {
@@ -32,7 +26,6 @@ class LoginFragment : Fragment() {
     private val loginViewModel by activityViewModels<LoginViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
     override fun onCreateView(
@@ -46,17 +39,21 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initViewModels()
         initBidings()
+
     }
 
     private fun initViewModels() {
-        loginViewModel.authenticationState.observe(viewLifecycleOwner){
-            when(it){
-                is LoginViewModel.AuthenticationState.InvalidAuthentication ->{
-                    it.fields.forEach {campo->
+        loginViewModel.stateProgress.observe(viewLifecycleOwner){ stateProgress->
+             if (stateProgress) binding.btnProgresssLogin.setLoading()
+        }
+        loginViewModel.authenticationState.observe(viewLifecycleOwner){ authenticationState ->
+            when(authenticationState){
+                is AuthenticationState.InvalidAuthentication ->{
+                    authenticationState.fields.forEach {campo->
                         bindInputWithLoginViewModels()[campo]?.error = getString(campo.second)
                     }
                 }
-                is LoginViewModel.AuthenticationState.Logged ->{
+                is AuthenticationState.Logged ->{
                     val email = binding.edtInputEmailLogin.text.toString()
                     val bundle = bundleOf("user" to email)
                     findNavController().navigate(R.id.action_loginFragment_to_createCreditFragment,bundle)
@@ -71,20 +68,16 @@ class LoginFragment : Fragment() {
      )
 
    private fun initBidings(){
-     binding.edtInputEmailLogin.addTextChangedListener {
-         binding.txtInputEmailLogin.error = null
-     }
-        binding.edtInputPassword.addTextChangedListener {
-            binding.txtInputPassword.error = null
-        }
+       binding.txtInputEmailLogin.clearFieldsError()
+       binding.txtInputPassword.clearFieldsError()
+
 
        binding.btnProgresssLogin.setOnClickListener {
-          // binding.btnProgresssLogin.setLoading()
 
-               val email = binding.edtInputEmailLogin.text.toString()
+              val email = binding.edtInputEmailLogin.text.toString()
                val password = binding.edtInputPassword.text.toString()
                loginViewModel.authentication(email, password)
-              // binding.btnProgresssLogin.setNormal()
+
        }
        binding.btnCadastresse.setOnClickListener {
            findNavController().navigate(R.id.action_loginFragment_to_cadastroFragment)

@@ -47,7 +47,7 @@ dependencies {
     implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
 
     testImplementation 'org.junit.jupiter:junit-jupiter'
-    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testImplementation 'junit:junit:4.12'
     def arch_version = "2.2.0"
     def lifecycle_version = "2.6.1"
     def retrofit_version ="2.9.0"
@@ -114,6 +114,8 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     //Kotlin-coroutineTeste
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4"
+
+
 }
 kapt {
     correctErrorTypes true

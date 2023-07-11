@@ -64,7 +64,7 @@ class ProgresseButton  @JvmOverloads constructor(
         isClickable = state.isEnable
 
       //atualiza drawable xml do botão
-        refreshDrawableState()
+
         binding.txtTitle.apply {
               isEnabled =state.isEnable
               isClickable = state.isEnable
@@ -74,17 +74,17 @@ class ProgresseButton  @JvmOverloads constructor(
         when(state){
              ProgressButtonState.Normal -> {
                  binding.txtTitle.text = title
+                 refreshDrawableState()
              }
              ProgressButtonState.Loading -> {
                  binding.txtTitle.text = loadingTitle
-
+                 refreshDrawableState()
              }
         }
-        Log.i("INFO_"," state : ${state} ")
+
     }
     fun setNormal(){
         state =ProgressButtonState.Normal
-
     }
     fun setLoading(){
        state = ProgressButtonState.Loading

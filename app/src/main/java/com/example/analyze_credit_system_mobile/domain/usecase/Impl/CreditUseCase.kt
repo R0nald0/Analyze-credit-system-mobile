@@ -8,6 +8,7 @@ import com.example.analyze_credit_system_mobile.domain.repository.ICreditReposit
 import com.example.analyze_credit_system_mobile.domain.usecase.ICreditUseCase
 import com.example.analyze_credit_system_mobile.view.model.CreditView
 import com.example.analyze_credit_system_mobile.view.model.toCredit
+import java.util.Calendar
 import javax.inject.Inject
 
 class CreditUseCase @Inject constructor(
@@ -16,18 +17,14 @@ class CreditUseCase @Inject constructor(
 ): ICreditUseCase {
     override suspend fun createCredit(credit: Credit): Result<String> {
          try {
-             val customer = Customer("miau","silva","16225601082","miau@gmail.com","23123", Address("40226","433"),133.0.toBigDecimal(),
-                 mutableListOf()
-             )
-             credit.customer = customer
              if (credit.customer !=null){
-                 val result = "Sucesso ao criar"//creditRepository.createCredit(credit)
+                 val result = creditRepository.createCredit(credit)
                  return Result.success(result)
              }else{
                  return Result.failure(Throwable("customer is null"))
-             }
+             } 
          }catch (e:Exception){
-             return Result.failure(Throwable("erro ao criar Credito",e))
+             return Result.failure((Exception(e.message)))
          }
     }
 
@@ -76,6 +73,15 @@ class CreditUseCase @Inject constructor(
              e.printStackTrace()
              return Result.failure(Throwable("erro ao atualizar ",e))
          }
+    }
+     override fun calculateInstallment(numberInstallment: Int,valueCredit:Double) :Double{
+        return  valueCredit/ numberInstallment
+    }
+     override fun getLimitsDate(field :Int, amountTime: Int) :Long {
+        val dataMinima = Calendar.getInstance()
+        dataMinima.time
+        dataMinima.add(field,amountTime)
+        return  dataMinima.time.time
     }
 
 

@@ -34,7 +34,8 @@
                     android:id="@+id/edtInputEmailLogin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Email.." />
+                    android:hint="Email.."
+                    android:inputType="text" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -47,6 +48,7 @@
                     android:id="@+id/edtInputPassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:inputType="textPassword"
                     android:hint="Senha..." />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -54,11 +56,12 @@
 
         <TextView
             android:id="@+id/btn_cadastresse"
-            style="@style/Widget.AppCompat.TextView"
+            style="@style/TextAppearance.AppCompat.Medium"
             android:layout_width="0dp"
             android:layout_height="26dp"
             android:layout_marginTop="16dp"
             android:gravity="center"
+            android:background="?android:selectableItemBackground"
             android:text="Cadastre-se"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -68,17 +71,17 @@
         <com.example.analyze_credit_system_mobile.shared.widgets.ProgresseButton
             android:id="@+id/btn_progresss_login"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout"
             app:title="@string/login"
             app:title_loading_state="verificando" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

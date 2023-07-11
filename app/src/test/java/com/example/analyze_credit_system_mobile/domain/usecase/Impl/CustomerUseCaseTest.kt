@@ -11,6 +11,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
+import org.junit.jupiter.api.assertThrows
 import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.Mockito
@@ -27,7 +28,7 @@ class CustomerUseCaseTest {
     lateinit var customerRepositoryMock : ICustomerRepository
     lateinit var useCaseMock: CustomerUseCase
 
-    val customer = Customer("miau","silva","16225601082","miau@gmail.com","231232", Address("40226540","433"),133.0.toBigDecimal(),
+    val customer = Customer(1,"miau","silva","16225601082","miau@gmail.com","231232", Address("40226540","433"),133.0.toBigDecimal(),
         mutableListOf()
     )
 
@@ -73,6 +74,26 @@ class CustomerUseCaseTest {
 
     }
 
+    @Test
+    fun `findCustumerByEmail_most retunr a customer by email`() = runTest {
+        val email = customer.email
+        Mockito.`when`(customerRepositoryMock.findCustumerByEmail(email)).thenReturn(customer)
+
+        val resulCustomer = useCaseMock.findCustumerByEmail(email)
+        val customer = resulCustomer.getOrNull()
+        assertThat(resulCustomer.isSuccess).isTrue()
+        assertThat(customer).isSameInstanceAs(customer)
+        assertThat(customer).isNotNull()
+        assertThat(customer?.email).contains("@")
+        assertThat(customer?.cpf).isEqualTo("16225601082")
+    }
+
+    @Test
+    fun `findCustomerByEmail_must return exeprion when not found email`() = runTest {
+        Mockito.`when`(customerRepositoryMock.findCustumerByEmail("fakeEmail@gamil.com")).thenThrow(
+            Exception()
+        )
+    }
 
     @After
     fun tearDown() {

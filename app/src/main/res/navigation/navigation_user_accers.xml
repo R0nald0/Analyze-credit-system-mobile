@@ -10,10 +10,15 @@
         android:id="@+id/loginFragment"
         android:name="com.example.analyze_credit_system_mobile.view.activity.fragments.LoginFragment"
         android:label="@string/login_fragment_label"
-        tools:layout="@layout/fragment_login">
+        tools:layout="@layout/fragment_login"
+        >
         <action
             android:id="@+id/action_loginFragment_to_cadastroFragment"
-            app:destination="@id/cadastroFragment" />
+            app:destination="@id/cadastroFragment"
+            app:enterAnim="@anim/enter_anime"
+            app:popEnterAnim="@anim/login_enter"
+            app:popExitAnim="@anim/anime_pop"
+            />
         <action
             android:id="@+id/action_loginFragment_to_homeFragment"
             app:destination="@+id/homeFragment"
@@ -21,7 +26,6 @@
         <action
             android:id="@+id/action_loginFragment_to_createCreditFragment"
             app:destination="@id/createCreditFragment" />
-
     </fragment>
     <fragment
         android:id="@+id/cadastroFragment"
@@ -30,7 +34,9 @@
         tools:layout="@layout/fragment_cadastro">
         <action
             android:id="@+id/action_cadastroFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            app:destination="@id/loginFragment"
+
+            />
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
@@ -60,12 +66,12 @@
         android:label="@string/credit_create_fragment_title"
         tools:layout="@layout/fragment_create_credit" >
         <action
-            android:id="@+id/action_createCreditFragment_to_navigation"
-            app:destination="@id/navigationGraphCradit" />
+            android:id="@+id/action_createCreditFragment_to_navigation_graph"
+            app:destination="@id/navigationGraphCradit"/>
         <action
             android:id="@+id/action_createCreditFragment_to_loginFragment"
+            app:enterAnim="@anim/login_enter"
             app:destination="@id/loginFragment" />
-
     </fragment>
     <navigation
         android:id="@+id/navigationGraphCradit"
@@ -84,6 +90,10 @@
                  android:name="creditValue"
                 android:defaultValue="0"
                 />
+            <argument
+                android:name="customer"
+                app:nullable="false"
+                app:argType="com.example.analyze_credit_system_mobile.view.model.CustomerView" />
         </fragment>
 
         <fragment
@@ -93,24 +103,16 @@
             tools:layout="@layout/fragment_create_credit_end" >
 
             <argument
-                android:defaultValue="0.0"
-                android:name="creditValue"
+                android:name="credit"
                 app:nullable="false"
-                app:argType="string" />
-            <argument
-                android:defaultValue="12/23/2034"
-                android:name="dateFistInstallment"
-                app:nullable="false"
-                app:argType="string" />
-            <argument
-                android:defaultValue="1"
-                android:name="installmentValue"
-                app:nullable="false"
-                app:argType="string"
-                />
+                app:argType="com.example.analyze_credit_system_mobile.view.model.CreditView" />
         </fragment>
 
-
+        <argument
+            app:argType="com.example.analyze_credit_system_mobile.view.model.CustomerView"
+            app:nullable="false"
+            android:name="customer"
+            />
 
         <argument
             app:argType="string"

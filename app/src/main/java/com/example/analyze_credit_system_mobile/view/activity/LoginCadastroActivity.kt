@@ -3,15 +3,19 @@ package com.example.analyze_credit_system_mobile.view.activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.widget.Toast
+import androidx.core.view.MenuProvider
 import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.analyze_credit_system_mobile.R
-import com.example.analyze_credit_system_mobile.data.dto.CustomerViewDTO
 import com.example.analyze_credit_system_mobile.data.remote.RetrofitApiClient
 import com.example.analyze_credit_system_mobile.data.remote.CustumerApi
 import com.example.analyze_credit_system_mobile.databinding.ActivityLoginCadastroBinding
@@ -42,67 +46,45 @@ class LoginCadastroActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
-
         initNavHostfragment()
         configBottomView()
-
-        val add = Address("1313","rua d3")
-        val cost = Customer(
-            "Bob","Silva","56122261602","bob@gmail.com","13412321"
-            ,add,244.32.toBigDecimal(), mutableListOf()
-        )
+        menuToolbar()
     }
 
-    override fun onSupportNavigateUp(): Boolean {
+    /*override fun onSupportNavigateUp(): Boolean {
          return navController.navigateUp(appbar) || super.onSupportNavigateUp()
     }
-
-    fun getapi(cutomer : Customer){
-        CoroutineScope(Dispatchers.IO).launch {
-            var result : retrofit2.Response<CustomerViewDTO>? = null
-            try {
-                //  val test = CreditSystemApi.createApi(CustumerService::class.java).findCustumerById(1)
-                val test = RetrofitApiClient.createApi(CustumerApi::class.java,Consts.BASE_URL_COTACOES_API)
-                    .createCustomer(cutomer.toDTO())
-                result = test
-            }catch (ex : Exception){
-                ex.printStackTrace()
-                throw  Exception("falaha a carregar dados da api : ${ex.message}")
-            }
-
-            if (result != null) {
-                if (result.isSuccessful){
-                    result.body().let {
-                        withContext(Dispatchers.Main){
-                            binding.toolbar.title = it?.fistName
-                        }
-                    }
-
-                }else{
-                    withContext(Dispatchers.Main){
-                        Toast.makeText(this@LoginCadastroActivity, result.code(), Toast.LENGTH_SHORT).show()
-                        Log.i("INFO_", "getapi:${result.code()} ")
-                    }
-                }
-            }else{
-                withContext(Dispatchers.Main){
-                    Toast.makeText(this@LoginCadastroActivity, "resultado nulo", Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
-
-    }
+*/
     private fun initNavHostfragment(){
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.containerViewNavHost) as NavHostFragment
 
         navController = navHostFragment.navController
-        appbar =  AppBarConfiguration(navController.graph)
-        setupActionBarWithNavController(navController,appbar)
+        appbar =  AppBarConfiguration(setOf(R.id.homeFragment,R.id.createCreditFragment,R.id.mainFragment,R.id.loginFragment))
+      // setupActionBarWithNavController(navController,appbar)
+       binding.toolbar.setupWithNavController(navController,appbar)
     }
     private fun configBottomView(){
         binding.bottomNavigation.apply {
             setupWithNavController(navController)
         }
+    }
+    private fun menuToolbar(){
+        addMenuProvider(object :MenuProvider{
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                val menu = menuInflater.inflate(R.menu.menu_toolbar,menu)
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+              return  when(menuItem.itemId){
+                     R.id.item_sair->{
+                         Toast.makeText(this@LoginCadastroActivity, "Saindo", Toast.LENGTH_SHORT).show()
+                         //findNavController().navigate(R.id.homeFragment)
+                         true
+                     }
+                     else->true
+                 }
+            }
+        })
     }
 }

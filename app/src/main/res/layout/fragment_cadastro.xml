@@ -27,15 +27,17 @@
                 android:id="@+id/txt_input_first_name"
                 style="@style/TextStyleInput"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                app:startIconDrawable="@drawable/account_circle_24"
+                app:startIconTint="#00BFA5">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edt_input_first_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:hint="Nome.."
                     android:lines="1"
-                    android:maxLines="1"
-                    android:hint="Nome.." />
+                    android:maxLines="1" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -43,13 +45,14 @@
                 style="@style/TextStyleInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edt_input_last_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:hint="Sobrenome.."
                     android:lines="1"
-                    android:maxLines="1"
-                    android:hint="Sobrenome.." />
+                    android:maxLines="1" />
             </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -59,31 +62,32 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-               <com.vicmikhailau.maskededittext.MaskedEditText
-                   android:id="@+id/edt_input_cpf"
-                   android:layout_width="match_parent"
-                   android:layout_height="wrap_content"
-                   android:hint="CPF"
-                   android:maxLines="1"
-                   android:inputType="number"
-                   app:mask="###.###.###-##"
-                   />
+                <com.vicmikhailau.maskededittext.MaskedEditText
+                    android:id="@+id/edt_input_cpf"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="CPF"
+                    android:inputType="number"
+                    android:maxLines="1"
+                    app:mask="###.###.###-##" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/txt_input_income"
                 style="@style/TextStyleInput"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                app:startIconDrawable="@drawable/baseline_attach_money_24"
+                app:startIconTint="#00BFA5">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <com.vicmikhailau.maskededittext.MaskedEditText
                     android:id="@+id/edt_input_income"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Renda.. "
-                    android:maxLines="1"
                     android:inputType="numberDecimal"
-                    />
+                    android:maxLines="1"
+                    app:mask="#.###,##" />
 
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -92,22 +96,26 @@
                 android:id="@+id/txt_input_email"
                 style="@style/TextStyleInput"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                app:startIconDrawable="@drawable/baseline_email_24"
+                app:startIconTint="#00BFA5">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edt_input_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:hint="Email..."
                     android:lines="1"
-                    android:maxLines="1"
-                    android:hint="Email..." />
+                    android:maxLines="1" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/txt_input_zip_code"
                 style="@style/TextStyleInput"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                app:startIconDrawable="@drawable/baseline_location_on_24"
+                app:startIconTint="#00BFA5">
 
                 <com.vicmikhailau.maskededittext.MaskedEditText
                     android:id="@+id/edt_input_zip_code"
@@ -118,12 +126,19 @@
                     android:maxLines="1"
                     app:mask="#####-###" />
             </com.google.android.material.textfield.TextInputLayout>
+            <ProgressBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/progressZipCode"
+                />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/txt_input_street"
                 style="@style/TextStyleInput"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                app:boxStrokeColor="@color/gray">
+
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edt_input_street"
@@ -142,7 +157,9 @@
                 android:id="@+id/txt_input_password"
                 style="@style/TextStyleInput"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                app:startIconDrawable="@drawable/baseline_password_24"
+                app:startIconTint="#00BFA5">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edt_input_password"
@@ -150,8 +167,8 @@
                     android:layout_height="wrap_content"
                     android:gravity="start|center_horizontal"
                     android:hint="Senha..."
+                    android:inputType="textPassword"
                     android:lines="1"
-                    android:maxLength="20"
                     android:maxLines="0" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -160,15 +177,11 @@
         <com.example.analyze_credit_system_mobile.shared.widgets.ProgresseButton
             android:id="@+id/btn_save"
             style="@style/ButtonStyle"
-            android:layout_width="0dp"
+            android:layout_width="320dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-            app:layout_constraintVertical_bias="0.18"
             app:title="@string/cadastro_fragment_btn"
             app:title_loading_state="verificando..." />
 

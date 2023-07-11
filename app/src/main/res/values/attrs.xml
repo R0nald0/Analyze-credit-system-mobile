@@ -4,4 +4,15 @@
         <attr name="title" format="string"/>
         <attr name="title_loading_state" format="string"/>
     </declare-styleable>
+    <declare-styleable name="EditTextCustom">
+      <attr name="hint" format="string"/>
+        <attr name="masked" format="string"/>
+        <attr name="inputType" format="enum">
+             <enum name="textPassword" value="0x00000081"/>
+            <enum name="number" value="0x00000002"/>
+        </attr>
+    </declare-styleable>
+
+    <attr name="backgroundColorss" format="color"/>
+
 </resources>

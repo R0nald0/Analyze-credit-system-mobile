@@ -1,17 +1,19 @@
 package com.example.analyze_credit_system_mobile.view.model
 
+import android.os.Parcelable
 import com.example.analyze_credit_system_mobile.domain.enums.Status
 import com.example.analyze_credit_system_mobile.domain.model.Credit
-import com.example.analyze_credit_system_mobile.domain.model.Customer
+import kotlinx.parcelize.Parcelize
 import java.math.BigDecimal
-import java.time.LocalDate
 import java.util.UUID
 
+@Parcelize
 data class CreditView(
     val creditValue :BigDecimal,
     val numberOfInstallments :Int,
-    val  dayFistInstallment : Long,
-    )
+    val dayFistInstallment : Long,
+    val customerView: CustomerView
+    ):Parcelable
 
 fun CreditView.toCredit(): Credit {
     return Credit(
@@ -20,7 +22,7 @@ fun CreditView.toCredit(): Credit {
         dayFistInstallment = this.dayFistInstallment,
         numberOfInstallments =this.numberOfInstallments,
         status = Status.IN_PROGRESS,
-        customer = null,
+        customer = customerView.toEntity(),
         id = null
     )
 }

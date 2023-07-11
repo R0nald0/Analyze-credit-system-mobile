@@ -3,33 +3,57 @@ package com.example.analyze_credit_system_mobile.view.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.analyze_credit_system_mobile.R
-import com.example.analyze_credit_system_mobile.view.model.CustomerView
+import com.example.analyze_credit_system_mobile.domain.states.AuthenticationState
+import com.example.analyze_credit_system_mobile.domain.usecase.ICustomerUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class LoginViewModel  @Inject constructor() : ViewModel() {
-    sealed class AuthenticationState{
-        object Unlogged :AuthenticationState()
-        object Logged :AuthenticationState()
-        class InvalidAuthentication (val fields : List<Pair<String,Int>>) :AuthenticationState()
-    }
+class LoginViewModel  @Inject constructor(
+    private val customerUseCase: ICustomerUseCase
+) : ViewModel() {
 
-      private val _userloggedData =MutableLiveData<CustomerView?>()
-       val userloggedData : LiveData<CustomerView?>
-           get() = _userloggedData
+    private val _stateProgress = MutableLiveData<Boolean>()
+    val stateProgress :LiveData<Boolean>
+        get() = _stateProgress
 
-      private val _authenticationStateEvent = MutableLiveData<AuthenticationState>()
-      val authenticationState : LiveData<AuthenticationState>
-          get() = _authenticationStateEvent
+
+    private val _authenticationStateEvent = MutableLiveData<AuthenticationState>()
+    val authenticationState : LiveData<AuthenticationState>
+       get() = _authenticationStateEvent
+
     init {
-        _authenticationStateEvent.value =AuthenticationState.Unlogged
+        _stateProgress.value = false
+        customerLogged()
     }
 
+    fun customerLogged(){
+        _stateProgress.value=true
+        viewModelScope.launch {
+            val resultAuth = customerUseCase.custmerAuth()
+            val customerView = resultAuth.getOrNull()
+              if (customerView != null){
+                   _authenticationStateEvent.value =AuthenticationState.Logged(customerView)
+              }else{
+                  _authenticationStateEvent.value =AuthenticationState.Unlogged
+              }
+             _stateProgress.value=false
+        }
+    }
     fun authentication(email: String,password: String){
          if (validForm(email,password)){
-             _authenticationStateEvent.value = AuthenticationState.Logged
+             viewModelScope.launch {
+                 _stateProgress.value =true
+                val result =  customerUseCase.login(email, password)
+                if (result.isSuccess){
+                     val customerView = result.getOrThrow()
+                    _authenticationStateEvent.value = AuthenticationState.Logged(customerView)
+                }
+                 _stateProgress.value = false
+             }
          }
     }
 
@@ -44,9 +68,10 @@ class LoginViewModel  @Inject constructor() : ViewModel() {
         return true
     }
 
-
     fun delsogar(){
-        _authenticationStateEvent.value =AuthenticationState.Unlogged
+        viewModelScope.launch {
+            _authenticationStateEvent.value =AuthenticationState.Unlogged
+        }
     }
 
 

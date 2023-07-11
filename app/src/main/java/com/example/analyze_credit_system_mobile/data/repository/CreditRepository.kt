@@ -16,7 +16,7 @@ class CreditRepository @Inject  constructor(
             if (response.isSuccessful){
                 val result = response.body()
                 if (result !=null){
-                    return "criado com sucesso"
+                    return result
                 }else return "Credito nao criado"
             }else{
                 return "sem sucesso para criar o credit ${response.code()}"
@@ -24,7 +24,7 @@ class CreditRepository @Inject  constructor(
 
         }catch (e:Exception){
             e.printStackTrace()
-            return throw Exception("falha ao salvar credito")
+            throw e
         }
     }
 
