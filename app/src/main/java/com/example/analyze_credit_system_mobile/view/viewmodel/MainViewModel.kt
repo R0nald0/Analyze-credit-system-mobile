@@ -15,6 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel  @Inject constructor(
+    //Todo passar injecao para o CurrencyRespository
     private val serviceCurrecy : CurrencyService,
 
 ) : ViewModel() {

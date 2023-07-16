@@ -1,7 +1,5 @@
 package com.example.analyze_credit_system_mobile.view.viewmodel
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,22 +8,11 @@ import com.example.analyze_credit_system_mobile.domain.states.StateCredit
 import com.example.analyze_credit_system_mobile.domain.usecase.ICreditUseCase
 import com.example.analyze_credit_system_mobile.domain.usecase.Impl.CustomerUseCase
 import com.example.analyze_credit_system_mobile.domain.usecase.Impl.ValidateCredit
-import com.example.analyze_credit_system_mobile.view.model.CreditView
+import com.example.analyze_credit_system_mobile.view.model.CreditCreateView
+import com.example.analyze_credit_system_mobile.view.model.CreditExhibitionView
 import com.example.analyze_credit_system_mobile.view.model.toCredit
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import java.text.DateFormat
-import java.text.ParseException
-import java.text.ParsePosition
-import java.text.SimpleDateFormat
-import java.time.DateTimeException
-import java.time.Instant
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import java.time.temporal.TemporalField
-import java.util.Calendar
-import java.util.Date
 import javax.inject.Inject
 
 
@@ -42,35 +29,39 @@ class CreateCreditViewModel @Inject constructor(
     private val _stateCreditLiveData = MutableLiveData<StateCredit>()
     val stateCreditLiveData : LiveData<StateCredit>
         get() =  _stateCreditLiveData
-    fun createCredit(creditView : CreditView){
-         val credit = creditView.toCredit()
+    fun createCredit(creditCreateView : CreditCreateView){
+         val credit = creditCreateView.toCredit()
         viewModelScope.launch {
             val result = creditUseCase.createCredit(credit)
                if (result.isSuccess){
+
+                   val credit =  result.getOrThrow()
                    _stateCreditLiveData.value = StateCredit.Loaded
-                   //TODo recuperrar resultado
                }else{
                    result.getOrElse {
-                       _stateCreditLiveData.value = it.message?.let { it1 -> StateCredit.error(it1) }
+                       _stateCreditLiveData.value = it.message?.let { it1 -> StateCredit.Error(it1) }
                    }
+
                }
+            _stateCreditLiveData.value = StateCredit.Loaded
         }
     }
-     fun validCredit(creditView: CreditView){
+     fun validCredit(creditCreateView: CreditCreateView){
          viewModelScope.launch {
              _stateCreditLiveData.value =StateCredit.Loading
-             val custumerById = customerUseCase.findCustumerById()
+              val custumerById = customerUseCase.findCustumerById()
 
               if (custumerById.isSuccess){
-                  val validStateCredit  = validateCredit.validCredit(creditView.creditValue, creditView.numberOfInstallments, creditView.dayFistInstallment,
-                      custumerById.getOrThrow().id!!)
-                  if (validStateCredit.fildsCredit.isEmpty()){
-                      createCredit(creditView)
+                  val invalidCreditfields  = validateCredit.validCredit(creditCreateView.creditValue, creditCreateView.numberOfInstallments, creditCreateView.dayFistInstallment,
+                      custumerById.getOrThrow().id!!
+                  )
+                  if (invalidCreditfields.fildsCredit.isEmpty()){
+                           _stateCreditLiveData.value = StateCredit.Sucecss(creditCreateView)
                   }else{
-                      _stateCreditLiveData.value = validStateCredit
+                      _stateCreditLiveData.value = invalidCreditfields
                   }
               }else{
-                  _stateCreditLiveData.value =StateCredit.error("customer erro ${custumerById.exceptionOrNull()?.message} ")
+                  _stateCreditLiveData.value =StateCredit.Error("customer erro ${custumerById.exceptionOrNull()?.message} ")
               }
 
              _stateCreditLiveData.value =StateCredit.Loaded

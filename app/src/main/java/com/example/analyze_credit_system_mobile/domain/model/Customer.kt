@@ -17,15 +17,7 @@ data class Customer(
     val listCredits:MutableList<CreditDTO>,
  )
 
-fun Customer.toView() = CustomerView(
-    firstName = this.firstName,
-    lastName = this.lastName,
-    cpf = this.cpf,
-    email = this.email,
-    street = this.address.street,
-    zipCode = this.address.zipCode,
-    income = this.income
-)
+
 fun Customer.toDTO() =CustomerDTO(
    fistName = this.firstName,
    lastName = this.lastName,

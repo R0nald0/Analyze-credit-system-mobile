@@ -20,9 +20,6 @@ class CustomerRepository @Inject constructor(
         val customerDt =customer.toDTO()
          try {
                val custumerApi = customerService.registerUser(customerDt)
-              /* if (custumerApi != null){
-                   return custumerApi.toCustomer()
-               }*/
              return custumerApi.getOrThrow().toCustomer()
          }catch (firebaseAuthInvalidCredentialsException : FirebaseAuthInvalidCredentialsException){
              throw firebaseAuthInvalidCredentialsException

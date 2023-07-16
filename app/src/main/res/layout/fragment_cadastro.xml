@@ -37,7 +37,8 @@
                     android:layout_height="wrap_content"
                     android:hint="Nome.."
                     android:lines="1"
-                    android:maxLines="1" />
+                    android:maxLines="1"
+                    android:text="Obi-Wan" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -52,7 +53,8 @@
                     android:layout_height="wrap_content"
                     android:hint="Sobrenome.."
                     android:lines="1"
-                    android:maxLines="1" />
+                    android:maxLines="1"
+                    android:text="Kenobi" />
             </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -69,6 +71,7 @@
                     android:hint="CPF"
                     android:inputType="number"
                     android:maxLines="1"
+                    android:text="85799923545"
                     app:mask="###.###.###-##" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -87,6 +90,7 @@
                     android:hint="Renda.. "
                     android:inputType="numberDecimal"
                     android:maxLines="1"
+                    android:text="5000"
                     app:mask="#.###,##" />
 
 
@@ -106,7 +110,8 @@
                     android:layout_height="wrap_content"
                     android:hint="Email..."
                     android:lines="1"
-                    android:maxLines="1" />
+                    android:maxLines="1"
+                    android:text="kenob@gmail.com" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -169,7 +174,8 @@
                     android:hint="Senha..."
                     android:inputType="textPassword"
                     android:lines="1"
-                    android:maxLines="0" />
+                    android:maxLines="0"
+                    android:text="qwert123" />
             </com.google.android.material.textfield.TextInputLayout>
 
         </LinearLayout>

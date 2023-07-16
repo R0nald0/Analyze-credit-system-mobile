@@ -17,13 +17,7 @@ import com.example.analyze_credit_system_mobile.domain.usecase.Impl.Autenticatio
 import com.example.analyze_credit_system_mobile.shared.dialog.AlertDialogCustom
 import com.example.analyze_credit_system_mobile.shared.extensions.clearFieldsError
 import com.example.analyze_credit_system_mobile.view.viewmodel.CadastroViewModel
-import com.google.android.material.textfield.TextInputLayout
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 @AndroidEntryPoint
 class CadastroFragment : Fragment() {
@@ -55,7 +49,7 @@ class CadastroFragment : Fragment() {
               when(authInvaliForm){
                   is AuthenticationState.FetchingDataState->{
                       if (!authInvaliForm.isActivated ){
-                          alertDialog.exibirDiaolog()
+                          alertDialog.exibirDiaolog("Carregando...")
                       }
                       else{
                           alertDialog.fecharDialog()
@@ -76,7 +70,7 @@ class CadastroFragment : Fragment() {
                  }
                  is AuthenticationState.Loading ->{
                      binding.btnSave.setLoading()
-                     alertDialog.exibirDiaolog()
+                     alertDialog.exibirDiaolog("Carregando...")
                  }
                   is AuthenticationState.Loaded ->{
                       binding.btnSave.setNormal()

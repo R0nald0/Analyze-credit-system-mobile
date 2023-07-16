@@ -103,9 +103,8 @@
             tools:layout="@layout/fragment_create_credit_end" >
 
             <argument
-                android:name="credit"
-                app:nullable="false"
-                app:argType="com.example.analyze_credit_system_mobile.view.model.CreditView" />
+                android:name="creditCreateView"
+                app:argType="com.example.analyze_credit_system_mobile.view.model.CreditCreateView" />
         </fragment>
 
         <argument

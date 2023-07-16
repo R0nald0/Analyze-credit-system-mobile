@@ -1,34 +1,49 @@
 package com.example.analyze_credit_system_mobile.data.repository
 
+import com.example.analyze_credit_system_mobile.data.dto.CreditCreate
+import com.example.analyze_credit_system_mobile.data.dto.CreditDTO
 import com.example.analyze_credit_system_mobile.data.dto.toCredit
 import com.example.analyze_credit_system_mobile.data.remote.CreditApi
+import com.example.analyze_credit_system_mobile.data.remote.RetrofitApiClient
+import com.example.analyze_credit_system_mobile.domain.constant.Consts
 import com.example.analyze_credit_system_mobile.domain.model.Credit
-import com.example.analyze_credit_system_mobile.domain.model.toDTO
 import com.example.analyze_credit_system_mobile.domain.repository.ICreditRepositoty
+import com.example.analyze_credit_system_mobile.shared.extensions.convertDateLongToString
+import retrofit2.Response
+import java.util.Date
 import javax.inject.Inject
 
 class CreditRepository @Inject  constructor(
     private val serviceCredit: CreditApi
 ) :ICreditRepositoty {
-    override fun createCredit(credit: Credit): String {
+    override suspend fun createCredit(credit: Credit): Result<Credit> {
         try {
-            val response =  serviceCredit.createCredit(credit.toDTO())
-            if (response.isSuccessful){
-                val result = response.body()
-                if (result !=null){
-                    return result
-                }else return "Credito nao criado"
-            }else{
-                return "sem sucesso para criar o credit ${response.code()}"
-            }
+            val creditCreate = CreditCreate(credit)
 
-        }catch (e:Exception){
+             val response =  serviceCredit.createCredit(creditCreate)
+             val responseDto =  RetrofitApiClient.consultApi(response)
+
+            if (responseDto.isSuccessful){
+
+                val creditDTO = response.body()
+                if (creditDTO !=null){
+
+                    return Result.success(creditDTO.toCredit())
+                }else{
+                    return Result.failure(Exception("dados nulo ${creditDTO}"))
+                }
+            }
+            return  Result.failure(Exception("erro ao retornar dados da api ${response.errorBody()}  Status:${response.code()}"))
+        }catch (illegalArgumentException:IllegalArgumentException){
+            throw illegalArgumentException
+        }
+        catch (e:Exception){
             e.printStackTrace()
             throw e
         }
     }
 
-    override fun getAllCredit(): List<Credit> {try{
+    override suspend fun getAllCredit(): List<Credit> {try{
         val response = serviceCredit.getAllCredit()
         if (response.isSuccessful){
             val listCredit= response.body()
@@ -46,7 +61,7 @@ class CreditRepository @Inject  constructor(
     }
     }
 
-    override fun findCreditById(idCredit: Long): Credit? {
+    override suspend fun findCreditById(idCredit: Long): Credit? {
         try {
             val response = serviceCredit.findCreditById(idCredit)
             if (response.isSuccessful){
@@ -61,7 +76,7 @@ class CreditRepository @Inject  constructor(
         }
     }
 
-    override fun deleteCredit(credit: Credit): Boolean {
+    override suspend fun deleteCredit(credit: Credit): Boolean {
         try {
             val response = serviceCredit.deleteCredit(credit.id!!)
             if (response.isSuccessful){
@@ -77,7 +92,7 @@ class CreditRepository @Inject  constructor(
 
     override fun updateCredit(idCredit: Long, credit: Credit): Boolean {
         try {
-            val response = serviceCredit.updateCredit(idCredit,credit.toDTO())
+            val response = serviceCredit.updateCredit(idCredit,CreditCreate(credit))
             if (response.isSuccessful){
                 return (response.body()  != null)
             }else{

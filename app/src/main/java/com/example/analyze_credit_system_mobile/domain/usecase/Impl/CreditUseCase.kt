@@ -1,13 +1,8 @@
 package com.example.analyze_credit_system_mobile.domain.usecase.Impl
 
-import com.example.analyze_credit_system_mobile.data.repository.AddressRespository
-import com.example.analyze_credit_system_mobile.domain.model.Address
 import com.example.analyze_credit_system_mobile.domain.model.Credit
-import com.example.analyze_credit_system_mobile.domain.model.Customer
 import com.example.analyze_credit_system_mobile.domain.repository.ICreditRepositoty
 import com.example.analyze_credit_system_mobile.domain.usecase.ICreditUseCase
-import com.example.analyze_credit_system_mobile.view.model.CreditView
-import com.example.analyze_credit_system_mobile.view.model.toCredit
 import java.util.Calendar
 import javax.inject.Inject
 
@@ -15,20 +10,24 @@ class CreditUseCase @Inject constructor(
     private val creditRepository : ICreditRepositoty,
 
 ): ICreditUseCase {
-    override suspend fun createCredit(credit: Credit): Result<String> {
+    override suspend fun createCredit(credit: Credit): Result<Credit> {
          try {
-             if (credit.customer !=null){
-                 val result = creditRepository.createCredit(credit)
-                 return Result.success(result)
-             }else{
-                 return Result.failure(Throwable("customer is null"))
-             } 
-         }catch (e:Exception){
-             return Result.failure((Exception(e.message)))
+             val result = creditRepository.createCredit(credit)
+             if (result.isSuccess){
+                 return result
+             }
+             return Result.failure(Throwable("customer is null ${result.exceptionOrNull()}"))
+
+         } catch (illegalArgumentException:IllegalArgumentException){
+               illegalArgumentException.printStackTrace()
+               return Result.failure(IllegalArgumentException("Dados do crédito inválidos,preencha os dados corretamente"))
+         }
+         catch (e:Exception){
+              throw e
          }
     }
 
-    override suspend fun getAllCredit(): Result<List<Credit>> {
+    override suspend fun getAllCredit(): Result<List<Credit>>{
         try {
             val listCredit = creditRepository.getAllCredit()
              listCredit.let {

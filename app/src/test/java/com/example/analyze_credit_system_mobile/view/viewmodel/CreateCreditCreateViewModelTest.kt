@@ -17,7 +17,7 @@ import org.mockito.junit.MockitoJUnitRunner
 import java.util.Date
 
 @RunWith(MockitoJUnitRunner::class)
-class CreateCreditViewModelTest {
+class CreateCreditCreateViewModelTest {
 
     @Mock
     lateinit var creditUseCaseMock : ICreditUseCase
@@ -44,10 +44,10 @@ class CreateCreditViewModelTest {
 
     @Test
     fun `formataDataDeLongParaString must receive date in Long and return a String`() {
-        val dataLong = 1614049200000
+        val dataLong = 1692327600000
         val  dateReturn = Date().convertDateLongToString(dataLong)
         assertThat(dateReturn).isNotNull()
-        assertThat(dateReturn).isEqualTo("23/02/2021")
+        assertThat(dateReturn).isEqualTo("18/08/2023")
     }
 }
 

@@ -32,9 +32,9 @@ class CurrencyService @Inject constructor(
                 }else{
                     return Result.failure(Throwable("not sucesseful ${response.code()} "))
                 }
-            } catch (e: Exception) {
-                e.stackTrace
-                throw Exception("erro ao buscas na api")
+            } catch (execption: Exception) {
+                execption.stackTrace
+                throw execption
             }
 
     }

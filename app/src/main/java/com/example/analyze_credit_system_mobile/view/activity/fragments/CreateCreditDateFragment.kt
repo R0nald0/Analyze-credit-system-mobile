@@ -12,9 +12,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.analyze_credit_system_mobile.R
 import com.example.analyze_credit_system_mobile.databinding.FragmentCreateCreditDateBinding
+import com.example.analyze_credit_system_mobile.domain.states.StateCredit
+import com.example.analyze_credit_system_mobile.shared.dialog.AlertDialogCustom
 import com.example.analyze_credit_system_mobile.shared.extensions.convertDateLongToString
 import com.example.analyze_credit_system_mobile.shared.extensions.convertDateStringToLong
-import com.example.analyze_credit_system_mobile.view.model.CreditView
+import com.example.analyze_credit_system_mobile.view.model.CreditCreateView
 import com.example.analyze_credit_system_mobile.view.viewmodel.CreateCreditViewModel
 import java.util.Calendar
 import java.util.Date
@@ -28,23 +30,30 @@ class CreateCreditDateFragment : Fragment() {
     private val creditViewModel by activityViewModels<CreateCreditViewModel>()
 
     private val args : CreateCreditDateFragmentArgs by navArgs()
+    private lateinit var creditCreateView :CreditCreateView
+    private val alertDialog by lazy {
+        AlertDialogCustom(this.requireActivity(),null)
+    }
 
-    override fun onCreateView(
+        override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initBinds()
+        initListernersViewModel()
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initBinds()
     }
 
     fun initBinds(){
         val dateFirstInstallment = creditViewModel.getLimitsDate(Calendar.DATE,20)
-        val inicialDate =Date().convertDateLongToString(dateFirstInstallment)!!
-        var ActualDate = inicialDate
+        var ActualDate =Date().convertDateLongToString(dateFirstInstallment)!!
 
         binding.calendarView.apply {
                 minDate = dateFirstInstallment
@@ -61,21 +70,17 @@ class CreateCreditDateFragment : Fragment() {
         binding.progresseButton.setOnClickListener {
 
             val creditValue = args.creditValue
-            val dateFistInstallmentString= binding.txvDataSelected.text.toString()
-            val numberOfInstallment =binding.edtNumberInstallment.text.toString()
-
+            val numberOfInstallment = binding.edtNumberInstallment.text.toString()
             val date = Date().convertDateStringToLong(ActualDate)
 
             if (date != null && creditValue.isNotEmpty() && date !=null && numberOfInstallment.isNotEmpty()){
-                val creditView = CreditView(
+                creditCreateView = CreditCreateView(
                     creditValue =  args.creditValue.toBigDecimal(),
                     numberOfInstallments = numberOfInstallment.toInt(),
                     dayFistInstallment = date,
                     args.customer
                 )
-                val action = CreateCreditDateFragmentDirections
-                    .actionCreateCreditDateFragmentToCreateCreditEndFragment(creditView)
-                findNavController().navigate(action)
+                creditViewModel.validCredit(creditCreateView)
             }else{
                 Toast.makeText(this.context, "preencha os dados corretamente", Toast.LENGTH_SHORT).show()
             }
@@ -91,4 +96,47 @@ class CreateCreditDateFragment : Fragment() {
         }
     }
 
+    private fun initListernersViewModel(){
+
+        creditViewModel.stateCreditLiveData.observe(viewLifecycleOwner){stateCredit->
+            when(stateCredit){
+                is StateCredit.Sucecss ->{
+                    binding.progresseButton.setNormal()
+                    val action =
+                        CreateCreditDateFragmentDirections.actionCreateCreditDateFragmentToCreateCreditEndFragment(creditCreateView)
+                    findNavController().navigate(action)
+                }
+                is StateCredit.InvalidCreditfields->{
+                    Toast.makeText(context?.applicationContext, "Erro nos campos", Toast.LENGTH_SHORT).show()
+                }
+                is StateCredit.Loading->{
+                    alertDialog.exibirDiaolog(null)
+                    Toast.makeText(context?.applicationContext, "Carregando....", Toast.LENGTH_SHORT).show()
+                    binding.progresseButton.setLoading()
+                }
+                is StateCredit.Loaded ->{
+                    Toast.makeText(context?.applicationContext, "Carregado", Toast.LENGTH_SHORT).show()
+                    binding.progresseButton.setNormal()
+                    alertDialog.fecharDialog()
+                }
+                is StateCredit.Error ->{
+                    binding.progresseButton.setNormal()
+                    Toast.makeText(context?.applicationContext, stateCredit.menssage, Toast.LENGTH_SHORT).show()
+                }
+                else->{}
+            }
+
+        }
+        creditViewModel.resultCreatCredit.observe(viewLifecycleOwner){
+            if (it.isSuccess){
+                Toast.makeText(this.context, it.getOrThrow(), Toast.LENGTH_LONG).show()
+            }else{
+                it.getOrElse { falha ->
+                    Toast.makeText(this.context, falha.message, Toast.LENGTH_LONG).show()
+                    findNavController().popBackStack()
+                }
+
+            }
+        }
+    }
 }

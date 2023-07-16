@@ -5,7 +5,7 @@ import com.example.analyze_credit_system_mobile.domain.model.Credit
 
 interface ICreditUseCase {
 
-  suspend  fun createCredit(credit: Credit):Result<String>
+  suspend  fun createCredit(credit: Credit):Result<Credit>
     suspend fun getAllCredit():Result<List<Credit>>
    suspend fun findCreditById(idCredit:Long):Result<Credit>
     suspend fun deleteCredit(Credit: Credit):Result<Boolean>

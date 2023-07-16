@@ -2,7 +2,7 @@ package com.example.analyze_credit_system_mobile.domain.usecase.Impl
 
 import com.example.analyze_credit_system_mobile.domain.model.Customer
 import com.example.analyze_credit_system_mobile.domain.model.toDTO
-import com.example.analyze_credit_system_mobile.domain.model.toView
+
 import com.example.analyze_credit_system_mobile.domain.repository.ICustomerRepository
 import com.example.analyze_credit_system_mobile.domain.usecase.ICustomerUseCase
 import com.example.analyze_credit_system_mobile.view.model.CustomerView
@@ -38,7 +38,7 @@ class CustomerUseCase @Inject constructor(
           try {
                val resultCustomerLoged  =custumerRepository.loginCustomer(email, password)
                val costomerResul = resultCustomerLoged.getOrThrow()
-                return  Result.success(costomerResul.toView())
+                return  Result.success(CustomerView(costomerResul))
           }catch (firebaseAuthInvalidUserException: FirebaseAuthInvalidUserException){
               return Result.failure(FirebaseAuthInvalidUserException(
                   firebaseAuthInvalidUserException.errorCode,"Usuario inválido,verifique as credenciais"))
@@ -66,7 +66,7 @@ class CustomerUseCase @Inject constructor(
         try {
             val customerResult = custumerRepository.currentUser()
             val customer = customerResult.getOrNull()
-            val customerView = customer?.toView()
+            val customerView = customer?.let { CustomerView(it) }
             return Result.success(customerView)
         }catch (ex:Exception){
             throw ex
