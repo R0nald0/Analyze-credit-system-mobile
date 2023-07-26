@@ -9,7 +9,6 @@ import com.example.analyze_credit_system_mobile.domain.usecase.ICreditUseCase
 import com.example.analyze_credit_system_mobile.domain.usecase.Impl.CustomerUseCase
 import com.example.analyze_credit_system_mobile.domain.usecase.Impl.ValidateCredit
 import com.example.analyze_credit_system_mobile.view.model.CreditCreateView
-import com.example.analyze_credit_system_mobile.view.model.CreditExhibitionView
 import com.example.analyze_credit_system_mobile.view.model.toCredit
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -63,7 +62,6 @@ class CreateCreditViewModel @Inject constructor(
               }else{
                   _stateCreditLiveData.value =StateCredit.Error("customer erro ${custumerById.exceptionOrNull()?.message} ")
               }
-
              _stateCreditLiveData.value =StateCredit.Loaded
          }
     }

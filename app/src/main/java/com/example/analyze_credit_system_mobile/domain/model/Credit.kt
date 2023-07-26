@@ -2,7 +2,7 @@ package com.example.analyze_credit_system_mobile.domain.model
 
 import com.example.analyze_credit_system_mobile.domain.enums.Status
 import java.math.BigDecimal
-import java.util.*
+import java.util.UUID
 
 data class Credit(
     val creditCode : UUID?,

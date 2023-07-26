@@ -15,7 +15,9 @@ class MyFirebaseAuthentication @Inject constructor(
 
     suspend fun registerCostumer(email: String,password: String):AuthResult{
         return suspendCoroutine{ continuationAuth->
-              auth.createUserWithEmailAndPassword(email,password).addOnSuccessListener {
+              auth.createUserWithEmailAndPassword(
+                  email,
+                  password).addOnSuccessListener {
                   continuationAuth.resumeWith(Result.success(it))
                }.addOnFailureListener {
                   continuationAuth.resumeWith(Result.failure(it))
@@ -23,9 +25,9 @@ class MyFirebaseAuthentication @Inject constructor(
 
        }
 
-      /* return try {
+       /*return try {
             auth.createUserWithEmailAndPassword(email, password).await()
-        }catch (fb:FirebaseAuthException){
+        }catch (fb: FirebaseAuthException){
             throw FirebaseAuthException("erro : ${fb.errorCode}","meesage: ${fb.message}")
         }
          catch(ex:Exception){

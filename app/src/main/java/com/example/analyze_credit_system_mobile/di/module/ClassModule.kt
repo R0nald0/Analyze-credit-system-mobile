@@ -1,17 +1,20 @@
 package com.example.analyze_credit_system_mobile.di.module
 
+import com.example.analyze_credit_system_mobile.data.remote.AccountMovimentsApi
 import com.example.analyze_credit_system_mobile.data.remote.CotacaoApi
 import com.example.analyze_credit_system_mobile.data.remote.CreditApi
-import com.example.analyze_credit_system_mobile.data.remote.RetrofitApiClient
 import com.example.analyze_credit_system_mobile.data.remote.CustumerApi
+import com.example.analyze_credit_system_mobile.data.remote.RetrofitApiClient
 import com.example.analyze_credit_system_mobile.data.remote.ViaCepApi
 import com.example.analyze_credit_system_mobile.data.remote.firabase.MyFirebaseAuthentication
 import com.example.analyze_credit_system_mobile.data.remote.service.AddressService
-import com.example.analyze_credit_system_mobile.data.repository.CustomerRepository
 import com.example.analyze_credit_system_mobile.data.remote.service.CurrencyService
 import com.example.analyze_credit_system_mobile.data.remote.service.CustomerService
+import com.example.analyze_credit_system_mobile.data.repository.AccountMovimentRepository
 import com.example.analyze_credit_system_mobile.data.repository.AddressRespository
+import com.example.analyze_credit_system_mobile.data.repository.CustomerRepository
 import com.example.analyze_credit_system_mobile.domain.constant.Consts
+import com.example.analyze_credit_system_mobile.domain.usecase.AccountMovimentUseCase
 import com.example.analyze_credit_system_mobile.domain.usecase.Impl.ValidateCredit
 import com.google.firebase.auth.FirebaseAuth
 import dagger.Module
@@ -22,6 +25,14 @@ import dagger.hilt.components.SingletonComponent
 @Module
 @InstallIn(SingletonComponent::class)
 class ClassModule {
+    @Provides
+    fun provideAccountMovimentUsecase(accountMovimentRepository: AccountMovimentRepository):AccountMovimentUseCase{
+        return AccountMovimentUseCase(accountMovimentRepository)
+    }
+    @Provides
+    fun provideAccountRepository(accountMovimentsApi: AccountMovimentsApi):AccountMovimentRepository{
+        return AccountMovimentRepository(accountMovimentsApi)
+    }
     @Provides
     fun provideValidCredit():ValidateCredit{
         return ValidateCredit()
@@ -67,5 +78,9 @@ class ClassModule {
     @Provides
     fun provideApiViaCep():ViaCepApi{
         return RetrofitApiClient.createApi(ViaCepApi::class.java,Consts.BASE_URL_VIA_CEP_API)
+    }
+    @Provides
+    fun provideApiAccountMovimentation(): AccountMovimentsApi {
+        return RetrofitApiClient.createApi(AccountMovimentsApi::class.java,Consts.BASE_URL_CREDIT_API)
     }
 }

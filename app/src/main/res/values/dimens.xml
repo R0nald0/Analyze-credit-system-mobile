@@ -5,4 +5,8 @@
     <dimen name="size_txt_creat_dat">20dp</dimen>
     <dimen name="txv_confirm_data">19sp</dimen>
     <dimen name="dime_txt_valores_end_page">18dp</dimen>
+
+    <!--fragemtn_home-->
+    <dimen name="name_user_home">17dp</dimen>
+    <dimen name="acoount_number_user">17dp</dimen>
 </resources>

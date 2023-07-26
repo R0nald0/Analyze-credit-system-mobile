@@ -1,5 +1,4 @@
-package com.example.analyze_credit_system_mobile.data.dto
-
+package com.example.analyze_credit_system_mobile.data.dto.response
 
 
 data class MoedaDto(

@@ -15,4 +15,14 @@
 
     <attr name="backgroundColorss" format="color"/>
 
+    <attr format="color" name="colorCustomColor1green"/>
+
+    <attr format="color" name="colorOnCustomColor1green"/>
+
+    <attr format="color" name="colorCustomColor1greenContainer"/>
+
+    <attr format="color" name="colorOnCustomColor1greenContainer"/>
+
+    <attr format="boolean" name="harmonizeCustomColor1green"/>
+
 </resources>

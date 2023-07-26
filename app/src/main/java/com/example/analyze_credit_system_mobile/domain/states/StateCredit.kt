@@ -1,7 +1,6 @@
 package com.example.analyze_credit_system_mobile.domain.states
 
 import com.example.analyze_credit_system_mobile.view.model.CreditCreateView
-import com.example.analyze_credit_system_mobile.view.model.CreditExhibitionView
 
 sealed class StateCredit {
     object Loading :StateCredit()

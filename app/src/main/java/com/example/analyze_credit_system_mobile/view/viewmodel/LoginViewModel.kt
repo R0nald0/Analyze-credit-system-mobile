@@ -16,44 +16,46 @@ class LoginViewModel  @Inject constructor(
     private val customerUseCase: ICustomerUseCase
 ) : ViewModel() {
 
-    private val _stateProgress = MutableLiveData<Boolean>()
-    val stateProgress :LiveData<Boolean>
-        get() = _stateProgress
-
-
     private val _authenticationStateEvent = MutableLiveData<AuthenticationState>()
     val authenticationState : LiveData<AuthenticationState>
        get() = _authenticationStateEvent
 
     init {
-        _stateProgress.value = false
+        _authenticationStateEvent.value =AuthenticationState.Unlogged
         customerLogged()
     }
 
     fun customerLogged(){
-        _stateProgress.value=true
+        _authenticationStateEvent.value =AuthenticationState.Loading
         viewModelScope.launch {
             val resultAuth = customerUseCase.custmerAuth()
             val customerView = resultAuth.getOrNull()
               if (customerView != null){
+                  _authenticationStateEvent.value =AuthenticationState.Loaded
                    _authenticationStateEvent.value =AuthenticationState.Logged(customerView)
               }else{
+                  _authenticationStateEvent.value =AuthenticationState.Loaded
                   _authenticationStateEvent.value =AuthenticationState.Unlogged
               }
-             _stateProgress.value=false
         }
     }
     fun authentication(email: String,password: String){
          if (validForm(email,password)){
+             _authenticationStateEvent.value =AuthenticationState.Loading
              viewModelScope.launch {
-                 _stateProgress.value =true
                 val result =  customerUseCase.login(email, password)
-                if (result.isSuccess){
+
+                 if (result.isSuccess){
                      val customerView = result.getOrThrow()
                     _authenticationStateEvent.value = AuthenticationState.Logged(customerView)
+                }else{
+                     result.getOrElse {erroMensage->
+                         _authenticationStateEvent.value = AuthenticationState.errorState(erroMensage.message!!)
+                     }
                 }
-                 _stateProgress.value = false
+                 _authenticationStateEvent.value =AuthenticationState.Loaded
              }
+
          }
     }
 

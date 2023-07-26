@@ -1,15 +1,7 @@
 package com.example.analyze_credit_system_mobile.data.remote.service
 
-import android.util.Log
-import com.example.analyze_credit_system_mobile.data.dto.MoedaDto
-import com.example.analyze_credit_system_mobile.data.dto.Post
+import com.example.analyze_credit_system_mobile.data.dto.response.MoedaDto
 import com.example.analyze_credit_system_mobile.data.remote.CotacaoApi
-import com.example.analyze_credit_system_mobile.data.remote.RetrofitApiClient
-import com.example.analyze_credit_system_mobile.domain.constant.Consts
-import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import retrofit2.Response
 import javax.inject.Inject
 

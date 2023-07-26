@@ -16,7 +16,6 @@ data class CreditDTO(
     val id :Long?
 )
 
-
 fun CreditDTO.toCredit() = Credit(
     creditValue = this.creditValue,
     creditCode = this.creditCode,

@@ -1,9 +1,10 @@
 package com.example.analyze_credit_system_mobile.data.remote.service
-import com.example.analyze_credit_system_mobile.data.dto.CustomerViewDTO
-import com.example.analyze_credit_system_mobile.data.dto.CustomerDTO
+import com.example.analyze_credit_system_mobile.data.dto.CustomerCreateDto
+import com.example.analyze_credit_system_mobile.data.dto.response.CustomerViewDTO
 import com.example.analyze_credit_system_mobile.data.remote.CustumerApi
 import com.example.analyze_credit_system_mobile.data.remote.RetrofitApiClient
 import com.example.analyze_credit_system_mobile.data.remote.firabase.MyFirebaseAuthentication
+import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
@@ -15,20 +16,21 @@ class CustomerService  @Inject constructor(
       private val customerApi: CustumerApi
 ) {
 
-    suspend fun registerUser(customerDTO: CustomerDTO): Result<CustomerViewDTO> {
+    suspend fun registerUser(customerDTO: CustomerCreateDto): Result<CustomerViewDTO> {
         try {
             val authCustomer =  myFirebaseAuth.registerCostumer(customerDTO.email,customerDTO.password)
             val  email = authCustomer.user?.email
                 if (email != null) {
-                    val customerDTOFromFirebase = CustomerDTO(
-                        customerDTO.cpf,
-                        email,
-                        customerDTO.fistName,
-                        customerDTO.income,
-                        customerDTO.lastName,
-                        customerDTO.password,
-                        customerDTO.street,
-                        customerDTO.zipCode
+                    val customerDTOFromFirebase = CustomerCreateDto(
+                       cpf =  customerDTO.cpf,
+                       email =  email,
+                       fistName =  customerDTO.fistName,
+                       income =  customerDTO.income,
+                       lastName =  customerDTO.lastName,
+                       password =  customerDTO.password,
+                       street =   customerDTO.street,
+                       zipCode =  customerDTO.zipCode,
+                       account = customerDTO.account
                     )
                 return  registerCustomerOnApi(customerDTOFromFirebase)
              }
@@ -48,33 +50,54 @@ class CustomerService  @Inject constructor(
     suspend fun loginCustomer(email:String , password:String):Result<CustomerViewDTO>{
         try {
            val authCustomer =myFirebaseAuth.loginCustomer(email,password)
-            val uuid  = authCustomer.user?.email
-            if (uuid != null){
-            findCustomerByEmail(uuid)?.let {customerViewDTO->
+            val email  = authCustomer.user?.email
+            if (email != null){
+            findCustomerByEmail(email)?.let { customerViewDTO->
                    return Result.success(customerViewDTO)
                }
             }
             return Result.failure(Throwable("erro ao buscar customer"))
-        }catch (firebaseAuthInvalidUser: FirebaseAuthInvalidUserException){
+        }
+        catch (firebaseAuthInvalidUser: FirebaseAuthInvalidUserException){
             throw firebaseAuthInvalidUser
         }
-        catch (ex :Exception) {
-            throw ex
+        catch ( firebaseAuthInvalidCredentialsException :FirebaseAuthInvalidCredentialsException){
+            firebaseAuthInvalidCredentialsException.printStackTrace()
+            throw firebaseAuthInvalidCredentialsException
+        }
+        catch ( firebaseException: FirebaseException){
+             throw firebaseException
+        }
+        catch ( nullPointerException :NullPointerException){
+            nullPointerException.printStackTrace()
+            throw nullPointerException
+        }
+        catch (firebaseException: FirebaseException){
+            throw firebaseException
+        }
+        catch (execption:Exception){
+            throw execption
         }
     }
     suspend fun getCurrentuser():Result<CustomerViewDTO?>{
-        val email = myFirebaseAuth.getCurrentUser()?.email
-        if (email != null) {
-            val customerByEmail = customerApi.findCustomerByEmail(email)
-            if(customerByEmail.isSuccessful){
-                val customerViewDTO = customerByEmail.body()
-                return Result.success(customerViewDTO)
+        try {
+            val email = myFirebaseAuth.getCurrentUser()?.email
+            if (email != null) {
+                val customerByEmail = customerApi.findCustomerByEmail(email)
+                if(customerByEmail.isSuccessful){
+                    val customerViewDTO = customerByEmail.body()
+                    return Result.success(customerViewDTO)
+                }
+                return Result.failure(Exception("customer not found ${customerByEmail.code()} erroBody : ${customerByEmail.errorBody()}"))
             }
-           return Result.failure(Exception("customer not found ${customerByEmail.code()} erroBody : ${customerByEmail.errorBody()}"))
+            return Result.success(null)
         }
-         return Result.success(null)
+        catch ( nullPointerException :NullPointerException){
+            nullPointerException.printStackTrace()
+            throw nullPointerException
+        }
     }
-    suspend fun findCustomerByEmail(email: String):CustomerViewDTO?{
+    suspend fun findCustomerByEmail(email: String): CustomerViewDTO?{
            try {
               val response =customerApi.findCustomerByEmail(email)
                val dto = RetrofitApiClient.consultApi(response)
@@ -88,7 +111,7 @@ class CustomerService  @Inject constructor(
            }
     }
 
-    suspend fun registerCustomerOnApi(customerDTO: CustomerDTO):Result<CustomerViewDTO>{
+    suspend fun registerCustomerOnApi(customerDTO: CustomerCreateDto):Result<CustomerViewDTO>{
         try {
             val customerViewDTOResponse =  callApiMethod(customerDTO)
                 if (customerViewDTOResponse.isSuccessful){
@@ -106,7 +129,7 @@ class CustomerService  @Inject constructor(
         }
     }
 
-    suspend fun callApiMethod(customerDTO: CustomerDTO): Response<CustomerViewDTO>{
+    suspend fun callApiMethod(customerDTO: CustomerCreateDto): Response<CustomerViewDTO>{
         //TODO tornar este metodo reutilizavel
 
         var response : Response<CustomerViewDTO>

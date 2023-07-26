@@ -1,13 +1,9 @@
 package com.example.analyze_credit_system_mobile.domain.adapter
 
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.bumptech.glide.Glide
-import com.example.analyze_credit_system_mobile.R
 import com.example.analyze_credit_system_mobile.databinding.NoticeLayoutBinding
 import com.example.analyze_credit_system_mobile.domain.model.Notice
 import kotlin.random.Random

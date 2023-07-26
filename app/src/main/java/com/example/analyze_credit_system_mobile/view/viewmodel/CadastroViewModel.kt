@@ -4,14 +4,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.analyze_credit_system_mobile.data.dto.CustomerDTO
 
-import com.example.analyze_credit_system_mobile.data.dto.toCustomer
 import com.example.analyze_credit_system_mobile.domain.model.Address
 import com.example.analyze_credit_system_mobile.domain.model.Customer
 import com.example.analyze_credit_system_mobile.domain.states.AuthenticationState
 import com.example.analyze_credit_system_mobile.domain.usecase.IAutenticationUseCase
 import com.example.analyze_credit_system_mobile.domain.usecase.ICustomerUseCase
+import com.example.analyze_credit_system_mobile.view.model.CustomerView
+import com.example.analyze_credit_system_mobile.view.model.toEntity
 
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -37,8 +37,6 @@ class CadastroViewModel @Inject constructor(
 
   private  val _stateProgressLiveDate = MutableLiveData<AuthenticationState.FetchingDataState>()
 
-    val stateProgressLiveData : LiveData<AuthenticationState.FetchingDataState>
-        get() = _stateProgressLiveDate
 
   private val _autenticationState = MutableLiveData<AuthenticationState>()
   val   authenticationState:LiveData<AuthenticationState>
@@ -53,21 +51,21 @@ class CadastroViewModel @Inject constructor(
              _autenticationState.value = AuthenticationState.FetchingDataState(8,true)
          }
    }
-    fun validField(customerDTO: CustomerDTO){
+    fun validField(customerView: CustomerView){
         viewModelScope.launch {
-           autenticationUseCase.validForm(customerDTO.fistName,customerDTO.lastName,customerDTO.cpf, customerDTO.income, customerDTO.email, customerDTO.zipCode,customerDTO.password)
-            val listInvalidsFields  =autenticationUseCase.checkInvalidFormList()
+           autenticationUseCase.validForm(customerView.firstName,customerView.lastName,customerView.cpf, customerView.income, customerView.email, customerView.zipCode,customerView.password!!)
+            val listInvalidsFields  = autenticationUseCase.checkInvalidFormList()
                 if(listInvalidsFields.listInvalidField.isEmpty()){
-                    if (_addressLiveData.value?.isSuccess == true)  createCustomer(customerDTO)
+                    if (_addressLiveData.value?.isSuccess == true)  createCustomer(customerView)
                 }else{
                     _autenticationState.value = listInvalidsFields
                 }
         }
     }
 
-    fun createCustomer(customerDTO: CustomerDTO) {
+    fun createCustomer(customerView: CustomerView) {
         viewModelScope.launch{
-            val customer = customerDTO.toCustomer()
+            val customer = customerView.toEntity()
             _autenticationState.value =AuthenticationState.Loading
             val result= customerUseCase.createCustumer(customer)
             _resulCustomer.value  = result

@@ -73,7 +73,7 @@ class CreateCreditDateFragment : Fragment() {
             val numberOfInstallment = binding.edtNumberInstallment.text.toString()
             val date = Date().convertDateStringToLong(ActualDate)
 
-            if (date != null && creditValue.isNotEmpty() && date !=null && numberOfInstallment.isNotEmpty()){
+            if (date != null && creditValue.isNotEmpty() && numberOfInstallment.toInt() > 0){
                 creditCreateView = CreditCreateView(
                     creditValue =  args.creditValue.toBigDecimal(),
                     numberOfInstallments = numberOfInstallment.toInt(),

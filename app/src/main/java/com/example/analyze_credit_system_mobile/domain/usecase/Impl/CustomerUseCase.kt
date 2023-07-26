@@ -1,11 +1,13 @@
 package com.example.analyze_credit_system_mobile.domain.usecase.Impl
 
+import com.example.analyze_credit_system_mobile.data.dto.CustomerCreateDto
 import com.example.analyze_credit_system_mobile.domain.model.Customer
-import com.example.analyze_credit_system_mobile.domain.model.toDTO
+
 
 import com.example.analyze_credit_system_mobile.domain.repository.ICustomerRepository
 import com.example.analyze_credit_system_mobile.domain.usecase.ICustomerUseCase
 import com.example.analyze_credit_system_mobile.view.model.CustomerView
+import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
@@ -21,11 +23,16 @@ class CustomerUseCase @Inject constructor(
                  if (customer != null ){
                      return Result.success(customer)
                  }
-             return Result.failure(Throwable("nenhum customer foi salvo verifica os campos"))
+             return Result.failure(Throwable("nenhum customer foi salvo verifique os campos"))
          }catch (fbExecption : FirebaseAuthInvalidCredentialsException){
              return Result.failure(FirebaseAuthInvalidCredentialsException(fbExecption.errorCode,"erro ao salvar o customer,email deve conter @ e .com"))
-         }catch (emailFirebaseExeption: FirebaseAuthUserCollisionException){
+         }
+         catch (emailFirebaseExeption: FirebaseAuthUserCollisionException){
              return Result.failure(FirebaseAuthUserCollisionException(emailFirebaseExeption.errorCode,"email já existente"))
+         }
+         catch ( nullPointerException :NullPointerException){
+             nullPointerException.printStackTrace()
+             return Result.failure(NullPointerException("erro ao retornar dados do customer "))
          }
          catch (e:Exception){
              e.printStackTrace()
@@ -39,10 +46,24 @@ class CustomerUseCase @Inject constructor(
                val resultCustomerLoged  =custumerRepository.loginCustomer(email, password)
                val costomerResul = resultCustomerLoged.getOrThrow()
                 return  Result.success(CustomerView(costomerResul))
+
           }catch (firebaseAuthInvalidUserException: FirebaseAuthInvalidUserException){
               return Result.failure(FirebaseAuthInvalidUserException(
                   firebaseAuthInvalidUserException.errorCode,"Usuario inválido,verifique as credenciais"))
+
+          }catch ( firebaseAuthInvalidCredentialsException :FirebaseAuthInvalidCredentialsException){
+              firebaseAuthInvalidCredentialsException.printStackTrace()
+               return Result.failure(FirebaseAuthInvalidCredentialsException(
+                   firebaseAuthInvalidCredentialsException.errorCode,
+                   "senha invaláda"
+                   ))
+        } catch ( nullPointerException :NullPointerException){
+              nullPointerException.printStackTrace()
+              return Result.failure(NullPointerException("erro ao retornar dados do customer"))
+          }catch (firebaseException: FirebaseException){
+                return Result.failure(FirebaseException("erro inteno occorreu"))
           }
+
           catch (execption : Exception){
               throw execption
           }
@@ -68,7 +89,11 @@ class CustomerUseCase @Inject constructor(
             val customer = customerResult.getOrNull()
             val customerView = customer?.let { CustomerView(it) }
             return Result.success(customerView)
-        }catch (ex:Exception){
+        }catch ( nullPointerException :NullPointerException){
+            nullPointerException.printStackTrace()
+            return Result.failure(NullPointerException("erro ao retornar dados do customer"))
+        }
+        catch (ex:Exception){
             throw ex
         }
     }
@@ -97,7 +122,7 @@ class CustomerUseCase @Inject constructor(
     override suspend fun updateCustumer(idCustomer: Long): Result<Boolean> {
         try{
             val customer = findCustumerById().getOrThrow()
-            val result = custumerRepository.updateCustumer(idCustomer,customer.toDTO())
+            val result = custumerRepository.updateCustumer(idCustomer, CustomerCreateDto(customer))
             return  Result.success(result)
         }catch (e:Exception){
             e.printStackTrace()

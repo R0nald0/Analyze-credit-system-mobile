@@ -1,17 +1,14 @@
 package com.example.analyze_credit_system_mobile.view.activity.fragments
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.example.analyze_credit_system_mobile.NavigationGraphCraditArgs
-import com.example.analyze_credit_system_mobile.NavigationGraphCraditDirections
-
 import com.example.analyze_credit_system_mobile.R
 import com.example.analyze_credit_system_mobile.databinding.FragmentCreateCreditBinding
 import com.example.analyze_credit_system_mobile.domain.states.AuthenticationState
@@ -38,8 +35,12 @@ class CreateCreditFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initListenersViewModel()
-
         initBindings()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        loginViewModel.customerLogged()
     }
 
    private fun initBindings(){
@@ -56,24 +57,26 @@ class CreateCreditFragment : Fragment() {
 
     }
     private fun initListenersViewModel(){
-        loginViewModel.stateProgress.observe(viewLifecycleOwner){stateProgress->
-            if (stateProgress) {
-                binding.progressBarHorizontal.visibility = View.VISIBLE
-                binding.linearLayoutCredit.visibility =View.GONE
-            }  else{
-                binding.progressBarHorizontal.visibility = View.GONE
-                binding.linearLayoutCredit.visibility =View.VISIBLE
-            }
-
-        }
-        loginViewModel.authenticationState.observe(viewLifecycleOwner){loginViewModelAuthenticate->
-           when(loginViewModelAuthenticate){
+        loginViewModel.authenticationState.observe(viewLifecycleOwner){state ->
+           when(state){
+               is AuthenticationState.Loaded ->{
+                   binding.progressBarHorizontal.visibility = View.GONE
+                   binding.linearLayoutCredit.visibility =View.VISIBLE
+               }
+               is AuthenticationState.Loading->{
+                   binding.progressBarHorizontal.visibility = View.VISIBLE
+                   binding.linearLayoutCredit.visibility =View.GONE
+               }
               is AuthenticationState.Unlogged ->{
-                  findNavController().navigate(R.id.action_createCreditFragment_to_loginFragment)
+                  findNavController().navigate(R.id.loginFragment)
               }
                is AuthenticationState.Logged ->{
-                  customerView = loginViewModelAuthenticate.customerView
+                   customerView = state.customerView
+                   binding.linearLayoutCredit.visibility =View.VISIBLE
                    binding.txvName.text = getString(R.string.credit_create_txv_quanto_precisa,customerView.firstName)
+               }
+               is AuthenticationState.errorState->{
+                   Toast.makeText(context, state.mensageError, Toast.LENGTH_SHORT).show()
                }
                else -> {}
            }

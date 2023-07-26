@@ -1,6 +1,6 @@
-package com.example.analyze_credit_system_mobile.data.dto
+package com.example.analyze_credit_system_mobile.data.dto.response
 
-data class EURBRL (
+data class BTCBRL(
     val ask: String,
     val bid: String,
     val code: String,
@@ -12,4 +12,4 @@ data class EURBRL (
     val pctChange: String,
     val timestamp: String,
     val varBid: String
-        )
+)

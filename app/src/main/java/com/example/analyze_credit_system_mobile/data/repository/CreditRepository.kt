@@ -1,16 +1,11 @@
 package com.example.analyze_credit_system_mobile.data.repository
 
 import com.example.analyze_credit_system_mobile.data.dto.CreditCreate
-import com.example.analyze_credit_system_mobile.data.dto.CreditDTO
 import com.example.analyze_credit_system_mobile.data.dto.toCredit
 import com.example.analyze_credit_system_mobile.data.remote.CreditApi
 import com.example.analyze_credit_system_mobile.data.remote.RetrofitApiClient
-import com.example.analyze_credit_system_mobile.domain.constant.Consts
 import com.example.analyze_credit_system_mobile.domain.model.Credit
 import com.example.analyze_credit_system_mobile.domain.repository.ICreditRepositoty
-import com.example.analyze_credit_system_mobile.shared.extensions.convertDateLongToString
-import retrofit2.Response
-import java.util.Date
 import javax.inject.Inject
 
 class CreditRepository @Inject  constructor(

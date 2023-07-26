@@ -1,14 +1,13 @@
 package com.example.analyze_credit_system_mobile.view.activity.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
+import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.navigateUp
 import com.example.analyze_credit_system_mobile.R
 import com.example.analyze_credit_system_mobile.databinding.FragmentLoginBinding
 import com.example.analyze_credit_system_mobile.domain.states.AuthenticationState
@@ -43,20 +42,24 @@ class LoginFragment : Fragment() {
     }
 
     private fun initViewModels() {
-        loginViewModel.stateProgress.observe(viewLifecycleOwner){ stateProgress->
-             if (stateProgress) binding.btnProgresssLogin.setLoading()
-        }
         loginViewModel.authenticationState.observe(viewLifecycleOwner){ authenticationState ->
             when(authenticationState){
+                is AuthenticationState.Loading ->{
+                    binding.btnProgresssLogin.setLoading()
+                }
+                is AuthenticationState.Loaded->{
+                    binding.btnProgresssLogin.setNormal()
+                }
                 is AuthenticationState.InvalidAuthentication ->{
                     authenticationState.fields.forEach {campo->
                         bindInputWithLoginViewModels()[campo]?.error = getString(campo.second)
                     }
                 }
                 is AuthenticationState.Logged ->{
-                    val email = binding.edtInputEmailLogin.text.toString()
-                    val bundle = bundleOf("user" to email)
-                    findNavController().navigate(R.id.action_loginFragment_to_createCreditFragment,bundle)
+                    findNavController().navigateUp()
+                }
+                is AuthenticationState.errorState ->{
+                    Toast.makeText(context, authenticationState.mensageError, Toast.LENGTH_LONG).show()
                 }
                 else -> {}
             }
@@ -71,13 +74,10 @@ class LoginFragment : Fragment() {
        binding.txtInputEmailLogin.clearFieldsError()
        binding.txtInputPassword.clearFieldsError()
 
-
        binding.btnProgresssLogin.setOnClickListener {
-
               val email = binding.edtInputEmailLogin.text.toString()
                val password = binding.edtInputPassword.text.toString()
                loginViewModel.authentication(email, password)
-
        }
        binding.btnCadastresse.setOnClickListener {
            findNavController().navigate(R.id.action_loginFragment_to_cadastroFragment)

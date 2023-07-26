@@ -1,23 +1,24 @@
 package com.example.analyze_credit_system_mobile.view.activity.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.analyze_credit_system_mobile.R
-import com.example.analyze_credit_system_mobile.data.dto.CustomerDTO
 import com.example.analyze_credit_system_mobile.databinding.FragmentCadastroBinding
 import com.example.analyze_credit_system_mobile.domain.states.AuthenticationState
 import com.example.analyze_credit_system_mobile.domain.usecase.Impl.AutenticationUseCaseImpl
 import com.example.analyze_credit_system_mobile.shared.dialog.AlertDialogCustom
 import com.example.analyze_credit_system_mobile.shared.extensions.clearFieldsError
+import com.example.analyze_credit_system_mobile.view.model.CustomerView
 import com.example.analyze_credit_system_mobile.view.viewmodel.CadastroViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import java.math.BigDecimal
 
 @AndroidEntryPoint
 class CadastroFragment : Fragment() {
@@ -50,9 +51,11 @@ class CadastroFragment : Fragment() {
                   is AuthenticationState.FetchingDataState->{
                       if (!authInvaliForm.isActivated ){
                           alertDialog.exibirDiaolog("Carregando...")
+                          binding.btnSave.setLoading()
                       }
                       else{
                           alertDialog.fecharDialog()
+                          binding.btnSave.setNormal()
                       }
                       binding.progressZipCode.visibility =authInvaliForm.isProgressVisibility
                       binding.edtInputZipCode.isActivated = authInvaliForm.isActivated
@@ -108,8 +111,8 @@ class CadastroFragment : Fragment() {
     private fun initBindings(){
         binding.btnSave.setOnClickListener {
                      //TODO rever animacao de loading do botao salvar
-                      val customerDTO = getBindsToCustomer()
-                      cadastroViewModel.validField(customerDTO)
+                       val customerView = getBindsToCustomer()
+                      cadastroViewModel.validField(customerView)
                  }
         binding.edtInputZipCode.addTextChangedListener {
             val zipCode = binding.edtInputZipCode.unMaskedText
@@ -131,7 +134,7 @@ class CadastroFragment : Fragment() {
          AutenticationUseCaseImpl.STREET_CUSTOMER to  binding.txtInputStreet,
          AutenticationUseCaseImpl.PASSWORD_CUSTOMER to  binding.txtInputPassword
      )
-    private fun  getBindsToCustomer():CustomerDTO {
+    private fun  getBindsToCustomer(): CustomerView {
 
         val name = binding.edtInputFirstName.text.toString()
         val lastName = binding.edtInputLastName.text.toString()
@@ -142,16 +145,21 @@ class CadastroFragment : Fragment() {
         var income = binding.edtInputIncome.unMaskedText.toString()
         val password = binding.edtInputPassword.text.toString()
 
+
         if (income.isBlank()) income = "0.0"
-        return CustomerDTO(
-            fistName = name,
-            lastName = lastName,
-            email = email,
-            income = income.toBigDecimal(),
-            cpf = cpf,
+        return CustomerView(
+            firstName = name,
+            lastName= lastName,
+            cpf =cpf,
+            income =  income.toBigDecimal(),
+            street = street,
+            numberAccount = 0,
             password = password,
+            accountBalanceBlocked = BigDecimal.ZERO,
             zipCode = zipCode,
-            street = street
+            id = -1,
+            email = email,
+            accountFreeBalance = BigDecimal.ZERO,
         )
     }
     private fun clearTextInputTypeAlertErroField(){

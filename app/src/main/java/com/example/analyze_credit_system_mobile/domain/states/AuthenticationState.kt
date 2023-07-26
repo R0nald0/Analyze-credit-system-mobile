@@ -10,5 +10,7 @@ sealed class AuthenticationState{
     class  InvalidForm(val listInvalidField :MutableSet<Pair<String,Int>>) : AuthenticationState()
     class  Logged(val customerView : CustomerView) :AuthenticationState()
     class  InvalidAuthentication (val fields : List<Pair<String,Int>>) :AuthenticationState()
+
+    class errorState (val mensageError: String) :AuthenticationState()
 }
 

@@ -3,8 +3,11 @@
     <string name="main_fragment_title">Inicio</string>
 
     <string name="app_name">CréditoS</string>
+
     <!-- Strings Home Fragment -->
     <string name="home_fragment_label">Credit APP</string>
+    <string name="home_mensage_block_value">você tem R$ %1$s em análise</string>
+    <string name="home_mensage_free_value"> R$ %1$s </string>
 
     <!-- Strings cadastro Fragment -->
     <string name="cadastro_fragment_label">Cadastro</string>
@@ -43,5 +46,6 @@
     <string name="numero_de_parcela_est_invalido">Numero de parcela está inválido</string>
     <string name="data_invalido">Data inválido</string>
     <string name="valid_credit_customer_erro">Customer inexistente</string>
+
 
 </resources>

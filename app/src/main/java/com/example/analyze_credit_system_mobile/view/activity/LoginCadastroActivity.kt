@@ -1,38 +1,27 @@
 package com.example.analyze_credit_system_mobile.view.activity
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.MenuProvider
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.analyze_credit_system_mobile.R
-import com.example.analyze_credit_system_mobile.data.remote.RetrofitApiClient
 import com.example.analyze_credit_system_mobile.data.remote.CustumerApi
 import com.example.analyze_credit_system_mobile.databinding.ActivityLoginCadastroBinding
-import com.example.analyze_credit_system_mobile.domain.constant.Consts
-import com.example.analyze_credit_system_mobile.domain.model.Address
-import com.example.analyze_credit_system_mobile.domain.model.Customer
-import com.example.analyze_credit_system_mobile.domain.model.toDTO
 import com.example.analyze_credit_system_mobile.domain.repository.ICustomerRepository
+import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 
 @AndroidEntryPoint
 class LoginCadastroActivity : AppCompatActivity() {
+    private val  auth = FirebaseAuth.getInstance()
 
     private val binding by lazy {
         ActivityLoginCadastroBinding.inflate(layoutInflater)
@@ -80,6 +69,7 @@ class LoginCadastroActivity : AppCompatActivity() {
                      R.id.item_sair->{
                          Toast.makeText(this@LoginCadastroActivity, "Saindo", Toast.LENGTH_SHORT).show()
                          //findNavController().navigate(R.id.homeFragment)
+                         auth.signOut()
                          true
                      }
                      else->true

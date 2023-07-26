@@ -1,7 +1,7 @@
 package com.example.analyze_credit_system_mobile.view.activity
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.example.analyze_credit_system_mobile.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 

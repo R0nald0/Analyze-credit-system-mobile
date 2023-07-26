@@ -1,11 +1,10 @@
 package com.example.analyze_credit_system_mobile.view.activity.fragments
 
-import android.app.AlertDialog
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -50,17 +49,9 @@ class CreateCreditEndFragment : Fragment() {
               false,
               "Ok",
               null,
-              positiveAction = { findNavController().navigate(R.id.mainFragment) },
+              positiveAction = { findNavController().navigate(R.id.homeFragment) },
               nagativeAction = {}
           )
-
-        val alertDialog = AlertDialog.Builder(binding.btnProgresbarConfirm.context)
-        /*alertDialog.setMessage("Seu pedido está em Análise")
-            .setPositiveButton("ok"){ lister,tex ->
-                findNavController().popBackStack(R.id.mainFragment,false)
-            }
-            .show()
-            .create()*/
     }
 
     fun initBindings(){
@@ -76,12 +67,13 @@ class CreateCreditEndFragment : Fragment() {
         binding.txvInstallmentConference.text = "${numberOfInstallments} $resul"
 
         binding.btnProgresbarConfirm.setOnClickListener {
-            //creditViewModel.createCredit(creditArgs.creditCreateView)
+            creditViewModel.createCredit(creditArgs.creditCreateView)
             confirmData()
         }
     }
 
     private fun calculateInstallment(numberInstallment: Int,valueCredit:Double) :Double{
+        //TODO alterar fucao de local
         return  valueCredit/ numberInstallment
     }
 

@@ -1,12 +1,12 @@
 package com.example.analyze_credit_system_mobile.data.repository
 
 
-import com.example.analyze_credit_system_mobile.data.dto.CustomerDTO
-import com.example.analyze_credit_system_mobile.data.dto.toCustomer
+import com.example.analyze_credit_system_mobile.data.dto.CustomerCreateDto
+import com.example.analyze_credit_system_mobile.data.dto.response.toCustomer
 import com.example.analyze_credit_system_mobile.data.remote.service.CustomerService
 import com.example.analyze_credit_system_mobile.domain.model.Customer
-import com.example.analyze_credit_system_mobile.domain.model.toDTO
 import com.example.analyze_credit_system_mobile.domain.repository.ICustomerRepository
+import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
@@ -14,17 +14,26 @@ import javax.inject.Inject
 
 class CustomerRepository @Inject constructor(
     private val customerService: CustomerService
+
 ) :ICustomerRepository{
 
     override suspend fun createCustumer(customer: Customer): Customer? {
-        val customerDt =customer.toDTO()
          try {
-               val custumerApi = customerService.registerUser(customerDt)
-             return custumerApi.getOrThrow().toCustomer()
+             val customerDt =CustomerCreateDto(customer)
+           val custumerApi = customerService.registerUser(customerDt)
+               if (custumerApi.isSuccess){
+                   val toCustomer = custumerApi.getOrThrow().toCustomer()
+                   return toCustomer
+               }
+             return null
          }catch (firebaseAuthInvalidCredentialsException : FirebaseAuthInvalidCredentialsException){
              throw firebaseAuthInvalidCredentialsException
          }catch (emailFirebaseExeption: FirebaseAuthUserCollisionException){
               throw emailFirebaseExeption
+         }
+         catch ( nullPointerException :NullPointerException){
+             nullPointerException.printStackTrace()
+             throw nullPointerException
          }
          catch (e:Exception){
               e.printStackTrace()
@@ -39,6 +48,12 @@ class CustomerRepository @Inject constructor(
              return   Result.success(customerResult.toCustomer())
           }catch (firebaseAuthInvalidUserException: FirebaseAuthInvalidUserException){
               throw firebaseAuthInvalidUserException
+          }
+          catch ( firebaseAuthInvalidCredentialsException :FirebaseAuthInvalidCredentialsException){
+              firebaseAuthInvalidCredentialsException.printStackTrace()
+              throw firebaseAuthInvalidCredentialsException
+          }catch (firebaseException: FirebaseException){
+              throw firebaseException
           }
           catch (ex :Exception){
               throw ex
@@ -57,7 +72,11 @@ class CustomerRepository @Inject constructor(
                       }
               }
                 return Result.failure(Exception("customer não encontrado"))
-        }catch (exeption:Exception){
+        }catch ( nullPointerException :NullPointerException){
+            nullPointerException.printStackTrace()
+            throw nullPointerException
+        }
+        catch (exeption:Exception){
             throw exeption
         }
     }
@@ -84,7 +103,7 @@ class CustomerRepository @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override suspend fun updateCustumer(idCustomer: Long, customerDTO: CustomerDTO): Boolean {
+    override suspend fun updateCustumer(idCustomer: Long, customerDTO: CustomerCreateDto): Boolean {
         TODO("Not yet implemented")
     }
     override suspend fun logout():Boolean{

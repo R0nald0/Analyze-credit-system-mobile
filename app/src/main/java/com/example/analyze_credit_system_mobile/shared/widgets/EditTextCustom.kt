@@ -1,8 +1,6 @@
 package com.example.analyze_credit_system_mobile.shared.widgets
 
 import android.content.Context
-import android.opengl.Visibility
-import android.text.InputType
 import android.util.AttributeSet
 import android.util.Log
 import android.view.LayoutInflater

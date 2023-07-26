@@ -13,7 +13,6 @@ import com.example.analyze_credit_system_mobile.domain.usecase.Impl.CustomerUseC
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ActivityComponent
 import dagger.hilt.components.SingletonComponent
 
 @Module

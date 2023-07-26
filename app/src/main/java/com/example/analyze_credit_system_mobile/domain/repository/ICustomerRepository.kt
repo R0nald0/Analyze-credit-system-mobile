@@ -1,6 +1,6 @@
 package com.example.analyze_credit_system_mobile.domain.repository
 
-import com.example.analyze_credit_system_mobile.data.dto.CustomerDTO
+import com.example.analyze_credit_system_mobile.data.dto.CustomerCreateDto
 import com.example.analyze_credit_system_mobile.domain.model.Customer
 
 interface ICustomerRepository {
@@ -11,7 +11,7 @@ interface ICustomerRepository {
     suspend fun findCustumerById():Result<Customer?>
     suspend fun findCustumerByEmail(email: String):Customer
     suspend fun deleteCustumer(customer: Customer):Boolean
-    suspend fun updateCustumer(idCustomer:Long, customerDTO: CustomerDTO):Boolean
+    suspend fun updateCustumer(idCustomer:Long, customerDTO: CustomerCreateDto):Boolean
     suspend fun logout():Boolean
 
 }
