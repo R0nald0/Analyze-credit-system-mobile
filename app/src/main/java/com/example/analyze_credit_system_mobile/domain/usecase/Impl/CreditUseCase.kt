@@ -27,9 +27,9 @@ class CreditUseCase @Inject constructor(
          }
     }
 
-    override suspend fun getAllCredit(): Result<List<Credit>>{
+    override suspend fun getAllCreditByCustomer(customerId:Long): Result<List<Credit>>{
         try {
-            val listCredit = creditRepository.getAllCredit()
+            val listCredit = creditRepository.getAllCredit(customerId)
              listCredit.let {
                  return Result.success(it)
              }
@@ -49,7 +49,7 @@ class CreditUseCase @Inject constructor(
             }
        }catch (e:Exception){
            e.printStackTrace()
-           return  Result.failure(Throwable("erro buscar credito",e))
+           return  Result.failure(Exception("erro buscar credito",e))
        }
     }
 

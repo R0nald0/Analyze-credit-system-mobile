@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
@@ -13,9 +14,9 @@ import com.example.analyze_credit_system_mobile.R
 import com.example.analyze_credit_system_mobile.databinding.FragmentCadastroBinding
 import com.example.analyze_credit_system_mobile.domain.states.AuthenticationState
 import com.example.analyze_credit_system_mobile.domain.usecase.Impl.AutenticationUseCaseImpl
-import com.example.analyze_credit_system_mobile.shared.dialog.AlertDialogCustom
 import com.example.analyze_credit_system_mobile.shared.extensions.clearFieldsError
 import com.example.analyze_credit_system_mobile.view.model.CustomerView
+import com.example.analyze_credit_system_mobile.view.shared.dialog.AlertDialogCustom
 import com.example.analyze_credit_system_mobile.view.viewmodel.CadastroViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.math.BigDecimal
@@ -41,29 +42,12 @@ class CadastroFragment : Fragment() {
         iniViewModelObserver()
         initBindings()
         clearTextInputTypeAlertErroField()
-
     }
 
     private fun iniViewModelObserver() {
 
         cadastroViewModel.authenticationState.observe(viewLifecycleOwner){authInvaliForm->
               when(authInvaliForm){
-                  is AuthenticationState.FetchingDataState->{
-                      if (!authInvaliForm.isActivated ){
-                          alertDialog.exibirDiaolog("Carregando...")
-                          binding.btnSave.setLoading()
-                      }
-                      else{
-                          alertDialog.fecharDialog()
-                          binding.btnSave.setNormal()
-                      }
-                      binding.progressZipCode.visibility =authInvaliForm.isProgressVisibility
-                      binding.edtInputZipCode.isActivated = authInvaliForm.isActivated
-                      binding.edtInputZipCode.isClickable = authInvaliForm.isActivated
-                      binding.txtInputZipCode.isActivated =authInvaliForm.isActivated
-                      binding.txtInputZipCode.isClickable =authInvaliForm.isActivated
-
-                  }
                  is AuthenticationState.InvalidForm ->{
                       if (authInvaliForm.listInvalidField.isNotEmpty()){
                           authInvaliForm.listInvalidField.forEach { pair->
@@ -72,12 +56,28 @@ class CadastroFragment : Fragment() {
                       }
                  }
                  is AuthenticationState.Loading ->{
-                     binding.btnSave.setLoading()
-                     alertDialog.exibirDiaolog("Carregando...")
+                     binding.apply {
+                         btnSave.setLoading()
+                         progressZipCode.visibility = View.VISIBLE
+                         edtInputZipCode.isActivated =false
+                         edtInputZipCode.isClickable =false
+                         alertDialog.exibirDiaolog("Carregando...")
+                         txtInputStreet.visibility =View.GONE
+                     }
                  }
                   is AuthenticationState.Loaded ->{
-                      binding.btnSave.setNormal()
+                      binding.apply {
+                          progressZipCode.visibility = View.GONE
+                          btnSave.setNormal()
+                          edtInputZipCode.isActivated =true
+                          edtInputZipCode.isClickable =true
+                      }
                       alertDialog.fecharDialog()
+
+                  }
+                  is AuthenticationState.errorState -> {
+                      Toast.makeText(context, "erro: ${authInvaliForm.mensageError}", Toast.LENGTH_LONG).show()
+                      binding.txtInputZipCode.error = getString(R.string.cep_inexistente_erro)
                   }
                   else -> {}
               }
@@ -87,19 +87,23 @@ class CadastroFragment : Fragment() {
                if (addressResult.isSuccess){
                    binding.txtInputZipCode.clearFieldsError()
                    val address = addressResult.getOrThrow()
-                   binding.edtInputStreet.setText(address.street)
+                   binding.txtInputStreet.visibility =View.VISIBLE
+                   val loadAnimation = AnimationUtils.loadAnimation(context, R.anim.enter_anime)
+                   binding.txtInputStreet.startAnimation(loadAnimation)
+                   binding.txtInputStreet.setText(address.street)
                }else{
                    val err  = addressResult.exceptionOrNull()
-                   binding.txtInputZipCode.error = getString(R.string.cep_inexistente_erro)
-                   Toast.makeText(context, "Erro -${err?.message}", Toast.LENGTH_SHORT).show()
+
+                  /* Toast.makeText(context, " ${err?.message}", Toast.LENGTH_SHORT).show()*/
                }
         }
 
         cadastroViewModel.resulCustomer.observe(viewLifecycleOwner){ resultCustomer->
              if(resultCustomer.isSuccess){
                  val customerCreated = resultCustomer.getOrThrow()
-                 Toast.makeText(this.context, "criado cliente ${customerCreated.firstName} ${customerCreated.lastName} }", Toast.LENGTH_SHORT).show()
-                 findNavController().navigate(R.id.action_cadastroFragment_to_loginFragment)
+                 Toast.makeText(this.context, "criado cliente ${customerCreated.firstName} ${customerCreated.lastName} ", Toast.LENGTH_SHORT).show()
+                 cadastroViewModel.delsogar()
+                 findNavController().navigateUp()
              }else{
                  resultCustomer.getOrElse {erro ->
                      Toast.makeText(activity?.applicationContext, erro.message, Toast.LENGTH_SHORT).show()
@@ -109,6 +113,9 @@ class CadastroFragment : Fragment() {
     }
 
     private fun initBindings(){
+
+        binding.txtInputStreet.visibility =View.GONE
+
         binding.btnSave.setOnClickListener {
                      //TODO rever animacao de loading do botao salvar
                        val customerView = getBindsToCustomer()
@@ -117,7 +124,7 @@ class CadastroFragment : Fragment() {
         binding.edtInputZipCode.addTextChangedListener {
             val zipCode = binding.edtInputZipCode.unMaskedText
             if (zipCode?.length == 8) {
-                binding.edtInputStreet.setText("")
+                binding.txtInputStreet.setText("")
                 cadastroViewModel.findAddress(zipCode)
             }
 
@@ -131,7 +138,6 @@ class CadastroFragment : Fragment() {
          AutenticationUseCaseImpl.EMAIL_CUSTOMER to  binding.txtInputEmail,
          AutenticationUseCaseImpl.ZIPCODE_CUSTOMER to  binding.txtInputZipCode,
          AutenticationUseCaseImpl.ZIPCODE_CUSTOMER_INEXISTENTE to binding.txtInputZipCode,
-         AutenticationUseCaseImpl.STREET_CUSTOMER to  binding.txtInputStreet,
          AutenticationUseCaseImpl.PASSWORD_CUSTOMER to  binding.txtInputPassword
      )
     private fun  getBindsToCustomer(): CustomerView {
@@ -141,10 +147,9 @@ class CadastroFragment : Fragment() {
         val email = binding.edtInputEmail.text.toString()
         val cpf = binding.edtInputCpf.unMaskedText.toString()
         val zipCode = binding.edtInputZipCode.unMaskedText.toString()
-        val street = binding.edtInputStreet.text.toString()
+        val street = binding.txtInputStreet.text.toString()
         var income = binding.edtInputIncome.unMaskedText.toString()
         val password = binding.edtInputPassword.text.toString()
-
 
         if (income.isBlank()) income = "0.0"
         return CustomerView(
@@ -187,10 +192,7 @@ class CadastroFragment : Fragment() {
           binding.txtInputZipCode.clearFieldsError()
 
       }
-      binding.edtInputStreet.addTextChangedListener {
-          binding.txtInputStreet.clearFieldsError()
 
-      }
       binding.edtInputPassword.addTextChangedListener {
           binding.txtInputPassword.clearFieldsError()
 

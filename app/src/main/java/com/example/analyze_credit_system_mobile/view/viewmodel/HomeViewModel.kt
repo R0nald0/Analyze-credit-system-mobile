@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.analyze_credit_system_mobile.data.dto.response.AccountMovimentView
-import com.example.analyze_credit_system_mobile.domain.usecase.AccountMovimentUseCase
+import com.example.analyze_credit_system_mobile.domain.usecase.Impl.AccountMovimentUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

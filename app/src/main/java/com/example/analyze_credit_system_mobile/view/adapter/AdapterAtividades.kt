@@ -1,4 +1,4 @@
-package com.example.analyze_credit_system_mobile.domain.adapter
+package com.example.analyze_credit_system_mobile.view.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -14,6 +14,7 @@ class AdapterAtividades : RecyclerView.Adapter<AdapterAtividades.AtividadesViewH
        val listOrder  = list.sortedByDescending {
               it.dateMoviment
           }
+
          listAtividade = listOrder
         notifyDataSetChanged()
     }

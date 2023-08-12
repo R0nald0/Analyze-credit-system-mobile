@@ -23,9 +23,7 @@ class CadastroViewModel @Inject constructor(
     private  var customerUseCase: ICustomerUseCase,
     private var autenticationUseCase: IAutenticationUseCase
 ): ViewModel() {
-    private val _itemInvalidFieldList = MutableLiveData<AuthenticationState.InvalidForm>()
-    val itemInvalidFieldList : LiveData<AuthenticationState.InvalidForm>
-        get() = _itemInvalidFieldList
+
 
     private val _resulCustomer = MutableLiveData<Result<Customer>>()
     val resulCustomer : LiveData<Result<Customer>>
@@ -35,20 +33,27 @@ class CadastroViewModel @Inject constructor(
     val addressLiveData: LiveData<Result<Address>>
         get () = _addressLiveData
 
-  private  val _stateProgressLiveDate = MutableLiveData<AuthenticationState.FetchingDataState>()
-
-
   private val _autenticationState = MutableLiveData<AuthenticationState>()
   val   authenticationState:LiveData<AuthenticationState>
       get()= _autenticationState
     init {
-       _autenticationState.value = AuthenticationState.FetchingDataState(8,true)
+        _autenticationState.value = AuthenticationState.Loaded
     }
     fun findAddress(zipCode: String){
          viewModelScope.launch {
-             _autenticationState.value = AuthenticationState.FetchingDataState(0,false)
-             _addressLiveData.postValue(autenticationUseCase.getAddress(zipCode))
-             _autenticationState.value = AuthenticationState.FetchingDataState(8,true)
+             _autenticationState.value = AuthenticationState.Loading
+             val addressResult = autenticationUseCase.getAddress(zipCode)
+             if (addressResult.isSuccess){
+                 _autenticationState.value = AuthenticationState.Loaded
+                 _addressLiveData.postValue(addressResult)
+                 return@launch
+             }
+             _autenticationState.value = AuthenticationState.Loaded
+               addressResult.getOrElse {errorMensage->
+                   _autenticationState.value =AuthenticationState.errorState("${errorMensage.message}")
+               }
+
+
          }
    }
     fun validField(customerView: CustomerView){
@@ -72,5 +77,11 @@ class CadastroViewModel @Inject constructor(
             _autenticationState.value =AuthenticationState.Loaded
         }
 
+    }
+    fun delsogar(){
+        viewModelScope.launch {
+            customerUseCase.logout()
+            _autenticationState.value =AuthenticationState.Unlogged
+        }
     }
 }

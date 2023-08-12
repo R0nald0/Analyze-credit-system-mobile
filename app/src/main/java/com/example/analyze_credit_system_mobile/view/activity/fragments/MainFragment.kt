@@ -11,9 +11,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.analyze_credit_system_mobile.R
 import com.example.analyze_credit_system_mobile.databinding.FragmentMainBinding
-import com.example.analyze_credit_system_mobile.domain.adapter.MoedaAdapter
-import com.example.analyze_credit_system_mobile.domain.adapter.NoticeAdapter
 import com.example.analyze_credit_system_mobile.domain.model.Notice
+import com.example.analyze_credit_system_mobile.view.adapter.MoedaAdapter
+import com.example.analyze_credit_system_mobile.view.adapter.NoticeAdapter
 import com.example.analyze_credit_system_mobile.view.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import org.imaginativeworld.whynotimagecarousel.model.CarouselItem

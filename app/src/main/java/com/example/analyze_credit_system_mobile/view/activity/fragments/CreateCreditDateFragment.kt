@@ -13,10 +13,10 @@ import androidx.navigation.fragment.navArgs
 import com.example.analyze_credit_system_mobile.R
 import com.example.analyze_credit_system_mobile.databinding.FragmentCreateCreditDateBinding
 import com.example.analyze_credit_system_mobile.domain.states.StateCredit
-import com.example.analyze_credit_system_mobile.shared.dialog.AlertDialogCustom
 import com.example.analyze_credit_system_mobile.shared.extensions.convertDateLongToString
 import com.example.analyze_credit_system_mobile.shared.extensions.convertDateStringToLong
 import com.example.analyze_credit_system_mobile.view.model.CreditCreateView
+import com.example.analyze_credit_system_mobile.view.shared.dialog.AlertDialogCustom
 import com.example.analyze_credit_system_mobile.view.viewmodel.CreateCreditViewModel
 import java.util.Calendar
 import java.util.Date

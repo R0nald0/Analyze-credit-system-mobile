@@ -38,21 +38,22 @@ class CreditRepository @Inject  constructor(
         }
     }
 
-    override suspend fun getAllCredit(): List<Credit> {try{
-        val response = serviceCredit.getAllCredit()
-        if (response.isSuccessful){
-            val listCredit= response.body()
-            val creditList  = listCredit?.map {creditDTO ->
-                   creditDTO.toCredit()
+    override suspend fun getAllCredit(customerId:Long): List<Credit> {
+        try{
+            val response = serviceCredit.findAllCreditByCustomer(customerId)
+            if (response.isSuccessful){
+                val listCredit= response.body()
+                val creditList  = listCredit?.map {creditDTO ->
+                       creditDTO.toCredit()
             }
-            if (creditList != null) return creditList
-            else  return listOf()
+            return if (creditList != null) creditList
+            else listOf()
         }else{
             return listOf()
         }
     }catch (e:Exception){
-        e.printStackTrace()
-        return throw java.lang.RuntimeException("falha ao buscar dados")
+         e.printStackTrace()
+         throw e
     }
     }
 
@@ -85,7 +86,7 @@ class CreditRepository @Inject  constructor(
         }
     }
 
-    override fun updateCredit(idCredit: Long, credit: Credit): Boolean {
+    override suspend fun updateCredit(idCredit: Long, credit: Credit): Boolean {
         try {
             val response = serviceCredit.updateCredit(idCredit,CreditCreate(credit))
             if (response.isSuccessful){

@@ -1,5 +1,9 @@
 package com.example.analyze_credit_system_mobile.domain.enums
 
-enum class Status {
-   IN_PROGRESS,APPROVED,REJECT
+import com.example.analyze_credit_system_mobile.R
+
+enum class Status(val state: String,val color : Int) {
+   IN_PROGRESS("Em Análise", color = R.color.blue),
+   APPROVED("Aprovado",R.color.myGreen),
+   REJECT("Rejeitado",R.color.red)
 }

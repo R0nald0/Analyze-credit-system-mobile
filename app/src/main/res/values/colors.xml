@@ -23,6 +23,8 @@
     <color name="backgroundhomecolor">#1b3b2c</color>
     <color name="statusecolor">#19211c</color>
     <color name="titleNoticeColor">#12582C</color>
+    <color name="red">#FF1A1A</color>
+    <color name="blue">#9CFA05</color>
     <color name="tranparent">#0012582C</color>
 
 

@@ -137,26 +137,18 @@
                 android:id="@+id/progressZipCode"
                 />
 
-            <com.google.android.material.textfield.TextInputLayout
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/txt_input_street"
-                style="@style/TextStyleInput"
+                style="@style/Widget.MaterialComponents.TextView"
+                android:hint="Rua.."
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:boxStrokeColor="@color/gray">
+                android:padding="16dp"
+                android:paddingBottom="20dp"
+                android:textSize="16dp"
+                >
 
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edt_input_street"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="top"
-                    android:layout_marginTop="50dp"
-                    android:editable="false"
-                    android:elegantTextHeight="false"
-                    android:gravity="start|top"
-                    android:hint="Rua..."
-                    android:paddingTop="35dp" />
-            </com.google.android.material.textfield.TextInputLayout>
+            </com.google.android.material.textview.MaterialTextView>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/txt_input_password"
@@ -180,7 +172,7 @@
 
         </LinearLayout>
 
-        <com.example.analyze_credit_system_mobile.shared.widgets.ProgresseButton
+        <com.example.analyze_credit_system_mobile.view.shared.widgets.ProgresseButton
             android:id="@+id/btn_save"
             style="@style/ButtonStyle"
             android:layout_width="320dp"

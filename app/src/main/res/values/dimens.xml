@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+     <dimen name="text_Cards_title">10.sp</dimen>
+
     <dimen name="dimens_img_perfil">60dp</dimen>
-    <dimen name="noticeTitleSize">17dp</dimen>
-    <dimen name="size_txt_creat_dat">20dp</dimen>
+    <dimen name="noticeTitleSize">17sp</dimen>
+    <dimen name="size_txt_creat_dat">20sp</dimen>
     <dimen name="txv_confirm_data">19sp</dimen>
     <dimen name="dime_txt_valores_end_page">18dp</dimen>
 
     <!--fragemtn_home-->
-    <dimen name="name_user_home">17dp</dimen>
-    <dimen name="acoount_number_user">17dp</dimen>
+    <dimen name="name_user_home">17sp</dimen>
+    <dimen name="acoount_number_user">17sp</dimen>
 </resources>

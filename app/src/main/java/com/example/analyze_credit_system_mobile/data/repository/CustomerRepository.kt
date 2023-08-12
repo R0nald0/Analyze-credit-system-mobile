@@ -10,6 +10,7 @@ import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
+import java.net.SocketTimeoutException
 import javax.inject.Inject
 
 class CustomerRepository @Inject constructor(
@@ -76,6 +77,10 @@ class CustomerRepository @Inject constructor(
             nullPointerException.printStackTrace()
             throw nullPointerException
         }
+        catch ( socketTimeoutException : SocketTimeoutException){
+            socketTimeoutException.printStackTrace()
+            throw socketTimeoutException
+        }
         catch (exeption:Exception){
             throw exeption
         }
@@ -89,7 +94,11 @@ class CustomerRepository @Inject constructor(
                     return Result.success(toCustomer)
                 }
                 return Result.failure(Exception(currentuser.exceptionOrNull()?.message))
-        }catch (ex:Exception){
+        }catch ( socketTimeoutException : SocketTimeoutException){
+            socketTimeoutException.printStackTrace()
+            throw socketTimeoutException
+        }
+        catch (ex:Exception){
             throw ex
         }
 

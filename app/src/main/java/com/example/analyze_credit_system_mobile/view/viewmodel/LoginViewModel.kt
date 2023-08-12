@@ -7,21 +7,23 @@ import androidx.lifecycle.viewModelScope
 import com.example.analyze_credit_system_mobile.R
 import com.example.analyze_credit_system_mobile.domain.states.AuthenticationState
 import com.example.analyze_credit_system_mobile.domain.usecase.ICustomerUseCase
+import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel  @Inject constructor(
-    private val customerUseCase: ICustomerUseCase
+    private val customerUseCase: ICustomerUseCase,
 ) : ViewModel() {
 
+    val auth = FirebaseAuth.getInstance()
     private val _authenticationStateEvent = MutableLiveData<AuthenticationState>()
     val authenticationState : LiveData<AuthenticationState>
        get() = _authenticationStateEvent
 
+
     init {
-        _authenticationStateEvent.value =AuthenticationState.Unlogged
         customerLogged()
     }
 
@@ -29,31 +31,30 @@ class LoginViewModel  @Inject constructor(
         _authenticationStateEvent.value =AuthenticationState.Loading
         viewModelScope.launch {
             val resultAuth = customerUseCase.custmerAuth()
-            val customerView = resultAuth.getOrNull()
-              if (customerView != null){
-                  _authenticationStateEvent.value =AuthenticationState.Loaded
-                   _authenticationStateEvent.value =AuthenticationState.Logged(customerView)
+
+             if (resultAuth.isSuccess){
+                 _authenticationStateEvent.value =AuthenticationState.Loaded
+                   _authenticationStateEvent.value =AuthenticationState.Logged(resultAuth.getOrThrow())
               }else{
-                  _authenticationStateEvent.value =AuthenticationState.Loaded
+                 _authenticationStateEvent.value =AuthenticationState.Loaded
                   _authenticationStateEvent.value =AuthenticationState.Unlogged
               }
+
         }
     }
     fun authentication(email: String,password: String){
+        _authenticationStateEvent.value =AuthenticationState.Loading
          if (validForm(email,password)){
-             _authenticationStateEvent.value =AuthenticationState.Loading
              viewModelScope.launch {
                 val result =  customerUseCase.login(email, password)
-
-                 if (result.isSuccess){
-                     val customerView = result.getOrThrow()
-                    _authenticationStateEvent.value = AuthenticationState.Logged(customerView)
+                 _authenticationStateEvent.value =AuthenticationState.Loaded
+                if (result.isSuccess){
+                    _authenticationStateEvent.value =AuthenticationState.Logged(result.getOrThrow())
                 }else{
                      result.getOrElse {erroMensage->
                          _authenticationStateEvent.value = AuthenticationState.errorState(erroMensage.message!!)
                      }
                 }
-                 _authenticationStateEvent.value =AuthenticationState.Loaded
              }
 
          }
@@ -72,6 +73,7 @@ class LoginViewModel  @Inject constructor(
 
     fun delsogar(){
         viewModelScope.launch {
+            customerUseCase.logout()
             _authenticationStateEvent.value =AuthenticationState.Unlogged
         }
     }

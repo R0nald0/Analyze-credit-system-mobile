@@ -5,17 +5,19 @@ import com.example.analyze_credit_system_mobile.data.remote.CustumerApi
 import com.example.analyze_credit_system_mobile.data.remote.RetrofitApiClient
 import com.example.analyze_credit_system_mobile.data.remote.firabase.MyFirebaseAuthentication
 import com.google.firebase.FirebaseException
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import retrofit2.Response
+import java.net.SocketTimeoutException
 import javax.inject.Inject
 
 class CustomerService  @Inject constructor(
       private val myFirebaseAuth : MyFirebaseAuthentication,
       private val customerApi: CustumerApi
 ) {
-
+    val auth = FirebaseAuth.getInstance()
     suspend fun registerUser(customerDTO: CustomerCreateDto): Result<CustomerViewDTO> {
         try {
             val authCustomer =  myFirebaseAuth.registerCostumer(customerDTO.email,customerDTO.password)
@@ -49,7 +51,7 @@ class CustomerService  @Inject constructor(
 
     suspend fun loginCustomer(email:String , password:String):Result<CustomerViewDTO>{
         try {
-           val authCustomer =myFirebaseAuth.loginCustomer(email,password)
+            val authCustomer =myFirebaseAuth.loginCustomer(email,password)
             val email  = authCustomer.user?.email
             if (email != null){
             findCustomerByEmail(email)?.let { customerViewDTO->
@@ -71,6 +73,9 @@ class CustomerService  @Inject constructor(
         catch ( nullPointerException :NullPointerException){
             nullPointerException.printStackTrace()
             throw nullPointerException
+        }catch ( socketTimeoutException : SocketTimeoutException){
+            socketTimeoutException.printStackTrace()
+            throw socketTimeoutException
         }
         catch (firebaseException: FirebaseException){
             throw firebaseException
@@ -95,6 +100,9 @@ class CustomerService  @Inject constructor(
         catch ( nullPointerException :NullPointerException){
             nullPointerException.printStackTrace()
             throw nullPointerException
+        }catch ( socketTimeoutException : SocketTimeoutException){
+            socketTimeoutException.printStackTrace()
+            throw socketTimeoutException
         }
     }
     suspend fun findCustomerByEmail(email: String): CustomerViewDTO?{
@@ -106,6 +114,10 @@ class CustomerService  @Inject constructor(
                    return customerDto
                }
                return null
+           }
+           catch ( socketTimeoutException : SocketTimeoutException){
+               socketTimeoutException.printStackTrace()
+               throw socketTimeoutException
            }catch (ex:Exception){
                throw ex
            }

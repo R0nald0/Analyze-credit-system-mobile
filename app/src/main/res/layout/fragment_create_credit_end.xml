@@ -109,7 +109,7 @@
                 android:textSize="@dimen/dime_txt_valores_end_page" />
         </LinearLayout>
 
-        <com.example.analyze_credit_system_mobile.shared.widgets.ProgresseButton
+        <com.example.analyze_credit_system_mobile.view.shared.widgets.ProgresseButton
             android:id="@+id/btn_progresbar_confirm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

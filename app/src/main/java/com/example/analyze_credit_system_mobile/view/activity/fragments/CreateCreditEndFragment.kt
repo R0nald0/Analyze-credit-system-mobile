@@ -10,8 +10,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.analyze_credit_system_mobile.R
 import com.example.analyze_credit_system_mobile.databinding.FragmentCreateCreditEndBinding
-import com.example.analyze_credit_system_mobile.shared.dialog.AlertDialogCustom
 import com.example.analyze_credit_system_mobile.shared.extensions.convertDateLongToString
+import com.example.analyze_credit_system_mobile.view.shared.dialog.AlertDialogCustom
 import com.example.analyze_credit_system_mobile.view.viewmodel.CreateCreditViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Date
@@ -49,7 +49,7 @@ class CreateCreditEndFragment : Fragment() {
               false,
               "Ok",
               null,
-              positiveAction = { findNavController().navigate(R.id.homeFragment) },
+              positiveAction = { findNavController().navigate(R.id.mainFragment) },
               nagativeAction = {}
           )
     }

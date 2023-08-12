@@ -11,12 +11,12 @@ import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
+import java.net.SocketTimeoutException
 import javax.inject.Inject
 
 class CustomerUseCase @Inject constructor(
     private val custumerRepository: ICustomerRepository,
 ): ICustomerUseCase {
-
     override suspend fun createCustumer(customer: Customer): Result<Customer> {
          try {
              val customer = custumerRepository.createCustumer(customer)
@@ -39,8 +39,6 @@ class CustomerUseCase @Inject constructor(
              return Result.failure(Exception("erro ao cadastrar,dados inválidos",e))
          }
     }
-
-
     override suspend fun login(email:String , password:String): Result<CustomerView> {
           try {
                val resultCustomerLoged  =custumerRepository.loginCustomer(email, password)
@@ -78,26 +76,36 @@ class CustomerUseCase @Inject constructor(
                  return Result.failure(Throwable("Identificador inválido"))
              }
         }
+        catch ( socketTimeoutException : SocketTimeoutException){
+            socketTimeoutException.printStackTrace()
+            return Result.failure(SocketTimeoutException("falha ao conectar no banco"))
+        }
         catch (e:Exception){
             e.printStackTrace()
             return Result.failure(Throwable("erro ao buscar custumer",e ))
         }
     }
-    override suspend fun custmerAuth(): Result<CustomerView?> {
+    override suspend fun custmerAuth(): Result<CustomerView> {
         try {
             val customerResult = custumerRepository.currentUser()
-            val customer = customerResult.getOrNull()
+            val customer = customerResult.getOrThrow()
             val customerView = customer?.let { CustomerView(it) }
-            return Result.success(customerView)
+            if (customerView != null){
+                return Result.success(customerView)
+            }
+            return Result.failure(Throwable("customer null"))
         }catch ( nullPointerException :NullPointerException){
             nullPointerException.printStackTrace()
             return Result.failure(NullPointerException("erro ao retornar dados do customer"))
+        }catch ( socketTimeoutException : SocketTimeoutException){
+            socketTimeoutException.printStackTrace()
+            return Result.failure(SocketTimeoutException("falha ao conectar no banco"))
         }
         catch (ex:Exception){
-            throw ex
+            return Result.failure(SocketTimeoutException("erro generico"))
         }
     }
-     suspend fun findCustumerByEmail(email: String): Result<Customer> {
+    override suspend fun findCustumerByEmail(email: String): Result<Customer> {
          try {
              if (email.isNotBlank() && email.contains("@") && email.endsWith(".com")){
                     val customer = custumerRepository.findCustumerByEmail(email)
@@ -106,6 +114,9 @@ class CustomerUseCase @Inject constructor(
              return Result.failure(Exception("no customers found with this email"))
          }catch (customerException:Exception){
              throw customerException
+         }
+         catch (ex:Exception){
+             return Result.failure(SocketTimeoutException("erro generico"))
          }
     }
 
@@ -130,7 +141,7 @@ class CustomerUseCase @Inject constructor(
         }
     }
 
-    suspend fun logout():Boolean{
+    override suspend fun logout():Boolean{
         return  custumerRepository.logout()
     }
 

@@ -54,7 +54,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/calendarView" />
 
-        <com.example.analyze_credit_system_mobile.shared.widgets.ProgresseButton
+        <com.example.analyze_credit_system_mobile.view.shared.widgets.ProgresseButton
             android:id="@+id/progresseButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

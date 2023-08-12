@@ -23,6 +23,7 @@ class LoginFragment : Fragment() {
     }
 
     private val loginViewModel by activityViewModels<LoginViewModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -38,11 +39,10 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initViewModels()
         initBidings()
-
     }
 
     private fun initViewModels() {
-        loginViewModel.authenticationState.observe(viewLifecycleOwner){ authenticationState ->
+     loginViewModel.authenticationState.observe(viewLifecycleOwner){ authenticationState ->
             when(authenticationState){
                 is AuthenticationState.Loading ->{
                     binding.btnProgresssLogin.setLoading()
@@ -77,7 +77,9 @@ class LoginFragment : Fragment() {
        binding.btnProgresssLogin.setOnClickListener {
               val email = binding.edtInputEmailLogin.text.toString()
                val password = binding.edtInputPassword.text.toString()
-               loginViewModel.authentication(email, password)
+              loginViewModel.authentication(email, password)
+
+
        }
        binding.btnCadastresse.setOnClickListener {
            findNavController().navigate(R.id.action_loginFragment_to_cadastroFragment)

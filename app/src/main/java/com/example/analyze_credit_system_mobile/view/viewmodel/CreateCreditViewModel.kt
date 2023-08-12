@@ -9,6 +9,7 @@ import com.example.analyze_credit_system_mobile.domain.usecase.ICreditUseCase
 import com.example.analyze_credit_system_mobile.domain.usecase.Impl.CustomerUseCase
 import com.example.analyze_credit_system_mobile.domain.usecase.Impl.ValidateCredit
 import com.example.analyze_credit_system_mobile.view.model.CreditCreateView
+import com.example.analyze_credit_system_mobile.view.model.CreditExhibitionView
 import com.example.analyze_credit_system_mobile.view.model.toCredit
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -28,6 +29,11 @@ class CreateCreditViewModel @Inject constructor(
     private val _stateCreditLiveData = MutableLiveData<StateCredit>()
     val stateCreditLiveData : LiveData<StateCredit>
         get() =  _stateCreditLiveData
+
+    private val _listCredit =MutableLiveData<List<CreditExhibitionView>>()
+     val listCredit :LiveData<List<CreditExhibitionView>>
+         get() = _listCredit
+
     fun createCredit(creditCreateView : CreditCreateView){
          val credit = creditCreateView.toCredit()
         viewModelScope.launch {
@@ -45,7 +51,7 @@ class CreateCreditViewModel @Inject constructor(
             _stateCreditLiveData.value = StateCredit.Loaded
         }
     }
-     fun validCredit(creditCreateView: CreditCreateView){
+    fun validCredit(creditCreateView: CreditCreateView){
          viewModelScope.launch {
              _stateCreditLiveData.value =StateCredit.Loading
               val custumerById = customerUseCase.findCustumerById()
@@ -76,6 +82,25 @@ class CreateCreditViewModel @Inject constructor(
     }
     fun getLimitsDate( field :Int , amountTime: Int) :Long{
          return  creditUseCase.getLimitsDate(field,amountTime)
+    }
+    fun getAllOrderCreditFromCustomer(customerId :Long){
+         viewModelScope.launch {
+             val allCreditResult = creditUseCase.getAllCreditByCustomer(customerId)
+
+             if (allCreditResult.isSuccess){
+                 val creditList = allCreditResult.getOrThrow()
+                   val listCreditExhibition = creditList.map {credit->
+                        CreditExhibitionView(credit)
+                    }
+                  _listCredit.postValue(listCreditExhibition)
+             }
+             else{
+                allCreditResult.getOrElse {
+                     _stateCreditLiveData.postValue(StateCredit.Error("${it.message}"))
+                 }
+             }
+
+         }
     }
 
 }

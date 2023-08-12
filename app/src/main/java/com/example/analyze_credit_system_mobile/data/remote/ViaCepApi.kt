@@ -7,6 +7,8 @@ import retrofit2.http.Path
 
 interface ViaCepApi {
 
-    @GET("{zipCode}/json/")
+ /*   @GET("{zipCode}/json/")
+    suspend fun getAddress(@Path("zipCode") zipCode:String):Response<AddressDto> */
+    @GET("{zipCode}/json")
     suspend fun getAddress(@Path("zipCode") zipCode:String):Response<AddressDto>
 }

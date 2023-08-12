@@ -8,6 +8,7 @@ import com.example.analyze_credit_system_mobile.domain.model.Address
 import com.example.analyze_credit_system_mobile.domain.states.AuthenticationState
 import com.example.analyze_credit_system_mobile.domain.usecase.IAutenticationUseCase
 import java.math.BigDecimal
+import java.net.SocketTimeoutException
 import javax.inject.Inject
 
 class AutenticationUseCaseImpl @Inject constructor(
@@ -46,17 +47,15 @@ class AutenticationUseCaseImpl @Inject constructor(
     override suspend fun getAddress(zipCode:String):Result<Address>{
         try {
            val result = addressRespository.getAddress(zipCode)
-            if (result.isSuccess){
-                return result
-            }
-             else{
-                return Result.failure(Exception("cep inexistente"))
-             }
-
-        } catch (nullpointer: NullPointerException) {
-             return Result.failure(nullpointer)
+            return result
+        }
+        catch ( sockteTimeOut  : SocketTimeoutException){
+             return  Result.failure(SocketTimeoutException("Falha no tempo de espera da conexao,tente novamente"))
+        }
+        catch (nullpointer: NullPointerException) {
+             return Result.failure(NullPointerException("Cep inexistente"))
         } catch (execptionAddress: Exception) {
-            return Result.failure(execptionAddress)
+            return Result.failure(Exception("erro genérico"))
         }
     }
 
@@ -69,7 +68,6 @@ class AutenticationUseCaseImpl @Inject constructor(
         val EMAIL_CUSTOMER = "EMAIL_CUSTOMER_KEY" to  R.string.erro_email_field
         val ZIPCODE_CUSTOMER = "ZIPCODE_CUSTOMER_KEY" to  R.string.erro_cep_field
         val ZIPCODE_CUSTOMER_INEXISTENTE = "ZIPCODE_CUSTOMER_KEY" to  R.string.cep_inexistente_erro
-        val STREET_CUSTOMER = "STREET_CUSTOMER_KEY" to  R.string.erro_street_field
         val PASSWORD_CUSTOMER = "PASSWORD_CUSTOMER_KEY" to  R.string.erro_password_field
     }
 }

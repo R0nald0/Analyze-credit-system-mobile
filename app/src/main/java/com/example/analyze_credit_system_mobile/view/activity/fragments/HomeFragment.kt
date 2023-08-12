@@ -4,21 +4,50 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.ViewCompositionStrategy
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.analyze_credit_system_mobile.R
 import com.example.analyze_credit_system_mobile.databinding.FragmentHomeBinding
-import com.example.analyze_credit_system_mobile.domain.adapter.AdapterAtividades
 import com.example.analyze_credit_system_mobile.domain.states.AuthenticationState
+import com.example.analyze_credit_system_mobile.shared.extensions.formatCurrency
+import com.example.analyze_credit_system_mobile.view.adapter.PageViewListAdapter
 import com.example.analyze_credit_system_mobile.view.model.CustomerView
+import com.example.analyze_credit_system_mobile.view.shared.widgets.components.AppCard
+import com.example.analyze_credit_system_mobile.view.shared.widgets.components.cardSaldo
 import com.example.analyze_credit_system_mobile.view.viewmodel.HomeViewModel
 import com.example.analyze_credit_system_mobile.view.viewmodel.LoginViewModel
+import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.Locale
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -29,7 +58,8 @@ class HomeFragment : Fragment() {
     }
     private lateinit var customerView : CustomerView
 
-    private lateinit var  adapetAtividades : AdapterAtividades
+    private lateinit var viewPagerAdapter: PageViewListAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -48,16 +78,11 @@ class HomeFragment : Fragment() {
         binding.imgNotification.setOnClickListener {
             loginViewModel.delsogar()
         }
-        binding.rcvAtividades.apply {
-            adapter =adapetAtividades
-            layoutManager = LinearLayoutManager(context.applicationContext,LinearLayoutManager.VERTICAL,false)
-            addItemDecoration(DividerItemDecoration(context.applicationContext,LinearLayoutManager.HORIZONTAL))
-
-        }
     }
 
-    fun initAdapter(){
-        adapetAtividades = AdapterAtividades()
+    fun initAdapter( ){
+        viewPagerAdapter = PageViewListAdapter(this.childFragmentManager,this.lifecycle)
+        binding.viewPagerList.adapter = viewPagerAdapter
     }
 
     override fun onStart() {
@@ -68,14 +93,14 @@ class HomeFragment : Fragment() {
         loginViewModel.authenticationState.observe(this.viewLifecycleOwner){authenticateState ->
                when(authenticateState){
                    is  AuthenticationState.Logged ->{
-
                        customerView = authenticateState.customerView
+
+                       configTabLayout()
                        val name = "${customerView.firstName} ${customerView.lastName}"
                        binding.txvNameUser.setText(name)
-                       binding.txvSaldoValor.setText(getString(R.string.home_mensage_free_value,customerView.accountFreeBalance.toString()))
-                       binding.txvSaldoBloqueado.setText(getString(R.string.home_mensage_block_value,customerView.accountBalanceBlocked.toString()))
                        homeViewModel.getAllMovimentsCustomer(customerView.id)
                        binding.txvContaUserNumber.setText(customerView.numberAccount.toString())
+                       getComposeView(customerView)
                    }
                    is AuthenticationState.Unlogged -> {
                        findNavController().navigate(R.id.loginFragment)
@@ -83,13 +108,81 @@ class HomeFragment : Fragment() {
                    else -> {}
                }
         }
-        homeViewModel.listMoviments.observe(this.viewLifecycleOwner){listMoviment->
-             if (listMoviment.isNullOrEmpty()){
-                 Toast.makeText(context,"No moviments", Toast.LENGTH_SHORT).show()
-             }else{
-                 adapetAtividades.getListAtividade(listMoviment)
-             }
+    }
+
+
+  fun getComposeView(customer: CustomerView){
+        binding.idComposeView.apply {
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+           setContent {
+               mainApp(customer)
+           }
         }
     }
+
+    @Composable
+    fun mainApp(customer: CustomerView){
+
+            AppCard(
+                modifier = Modifier.background(Color.Transparent),
+                content = {
+                    Column {
+                        var isVisible by remember { mutableStateOf(false) }
+                        val angulo by animateFloatAsState(targetValue = if(isVisible) 180F else 0F)
+
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 10.dp)
+                                ,
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(text = "Saldo", fontSize = 18.sp , color = Color.White)
+                            IconButton(
+                                onClick = {
+                                isVisible = !isVisible
+                            }) {
+                                Icon(
+                                    modifier = Modifier.rotate(angulo).size(30.dp),
+                                    painter = painterResource(id = R.drawable.ic_arrow_down_24),
+                                    contentDescription = "arrow_down",
+                                    tint = Color.White
+                                )
+                            }
+                        }
+
+                       AnimatedVisibility(visible = isVisible) {
+                           cardSaldo(
+                               modifier = Modifier.fillMaxWidth(),
+                               textContent = getString(R.string.home_mensage_free_value,customer.accountFreeBalance
+                                   .toDouble()
+                                   .formatCurrency(Locale.forLanguageTag("pt-BR"))),
+                               lowText =  getString(R.string.home_mensage_block_value,customer.accountBalanceBlocked
+                                   .toDouble()
+                                   .formatCurrency(Locale.forLanguageTag("pt-BR"))),
+                               colorContent = Color.White
+                           )
+                       }
+                        Spacer(
+                            Modifier
+                                .height(3.dp)
+                                .background(Color.Red))
+                    }
+                }
+            )
+
+    }
+
+    fun configTabLayout(){
+       TabLayoutMediator(binding.tabLayout,binding.viewPagerList){ tab,position ->
+            when(position){
+                0 ->tab.text ="Ultimas Movimentações"
+                1 ->tab.text ="Pedidos Empréstimos"
+                else -> tab.text ="Ultimas Movimentações"
+            }
+        }.attach()
+    }
+
 
 }

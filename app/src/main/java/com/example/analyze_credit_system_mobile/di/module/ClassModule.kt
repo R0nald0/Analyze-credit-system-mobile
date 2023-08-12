@@ -14,7 +14,7 @@ import com.example.analyze_credit_system_mobile.data.repository.AccountMovimentR
 import com.example.analyze_credit_system_mobile.data.repository.AddressRespository
 import com.example.analyze_credit_system_mobile.data.repository.CustomerRepository
 import com.example.analyze_credit_system_mobile.domain.constant.Consts
-import com.example.analyze_credit_system_mobile.domain.usecase.AccountMovimentUseCase
+import com.example.analyze_credit_system_mobile.domain.usecase.Impl.AccountMovimentUseCase
 import com.example.analyze_credit_system_mobile.domain.usecase.Impl.ValidateCredit
 import com.google.firebase.auth.FirebaseAuth
 import dagger.Module
@@ -26,7 +26,7 @@ import dagger.hilt.components.SingletonComponent
 @InstallIn(SingletonComponent::class)
 class ClassModule {
     @Provides
-    fun provideAccountMovimentUsecase(accountMovimentRepository: AccountMovimentRepository):AccountMovimentUseCase{
+    fun provideAccountMovimentUsecase(accountMovimentRepository: AccountMovimentRepository): AccountMovimentUseCase {
         return AccountMovimentUseCase(accountMovimentRepository)
     }
     @Provides
@@ -83,4 +83,5 @@ class ClassModule {
     fun provideApiAccountMovimentation(): AccountMovimentsApi {
         return RetrofitApiClient.createApi(AccountMovimentsApi::class.java,Consts.BASE_URL_CREDIT_API)
     }
+
 }

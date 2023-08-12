@@ -8,22 +8,22 @@ import java.util.UUID
 
 interface CreditApi {
     @GET()
-    fun getAllCredit() : Response<List<CreditDTO>>
+   suspend fun getAllCredit() : Response<List<CreditDTO>>
     @GET("credit/credits?")
-    fun findAllCreditByCustomer(@Query("customerId") customerId:Long):Response<List<CreditDTO>>
+  suspend  fun findAllCreditByCustomer(@Query("customerId") customerId:Long):Response<List<CreditDTO>>
 
     @GET("/credit/{creditCode}?")
-    fun findByCreditCode(@Path("creditCode") creditId: UUID , @Query("customerId") customerId:Long):Response<List<CreditDTO>>
+ suspend    fun findByCreditCode(@Path("creditCode") creditId: UUID , @Query("customerId") customerId:Long):Response<List<CreditDTO>>
 
     @POST("credit/save")
     suspend fun createCredit(@Body creditCredit: CreditCreate) : Response<CreditDTO>
 
     @GET("{creditId}")
-    fun findCreditById(@Path("creditId") creditId :Long ) : Response<CreditDTO>
+    suspend   fun findCreditById(@Path("creditId") creditId :Long ) : Response<CreditDTO>
 
     @PATCH()
-    fun updateCredit(@Query("creditId") creditId : Long, @Body creditCredit: CreditCreate): Response<CreditDTO>
+    suspend  fun updateCredit(@Query("creditId") creditId : Long, @Body creditCredit: CreditCreate): Response<CreditDTO>
 
     @DELETE("{CreditId}")
-    fun deleteCredit(@Path("creditId")crediId:Long):Response<Boolean>
+    suspend fun deleteCredit(@Path("creditId")crediId:Long):Response<Boolean>
 }

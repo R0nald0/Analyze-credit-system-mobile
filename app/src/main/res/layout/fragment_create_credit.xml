@@ -61,7 +61,7 @@
             android:textSize="25sp"
             app:mask="###.###,##" />
 
-        <com.example.analyze_credit_system_mobile.shared.widgets.ProgresseButton
+        <com.example.analyze_credit_system_mobile.view.shared.widgets.ProgresseButton
             android:id="@+id/btn_next"
             android:layout_width="match_parent"
             android:layout_height="48dp"

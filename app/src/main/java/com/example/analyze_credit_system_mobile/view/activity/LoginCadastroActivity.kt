@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.MenuProvider
 import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
@@ -38,6 +39,7 @@ class LoginCadastroActivity : AppCompatActivity() {
         initNavHostfragment()
         configBottomView()
         menuToolbar()
+
     }
 
     /*override fun onSupportNavigateUp(): Boolean {
@@ -52,6 +54,7 @@ class LoginCadastroActivity : AppCompatActivity() {
         appbar =  AppBarConfiguration(setOf(R.id.homeFragment,R.id.createCreditFragment,R.id.mainFragment,R.id.loginFragment))
       // setupActionBarWithNavController(navController,appbar)
        binding.toolbar.setupWithNavController(navController,appbar)
+
     }
     private fun configBottomView(){
         binding.bottomNavigation.apply {
@@ -72,6 +75,12 @@ class LoginCadastroActivity : AppCompatActivity() {
                          auth.signOut()
                          true
                      }
+                  R.id.item_sair->{
+                       findNavController(R.id.creditListFragment).navigate(R.id.creditListFragment)
+                      //findNavController().navigate(R.id.homeFragment)
+                      auth.signOut()
+                      true
+                  }
                      else->true
                  }
             }

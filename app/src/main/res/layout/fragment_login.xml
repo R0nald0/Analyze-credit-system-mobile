@@ -35,7 +35,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Email.."
-                    android:inputType="text" />
+                    android:inputType="text"
+                    android:text="kenob@gmail.com" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -48,8 +49,9 @@
                     android:id="@+id/edtInputPassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:hint="Senha..."
                     android:inputType="textPassword"
-                    android:hint="Senha..." />
+                    android:text="qwert123" />
             </com.google.android.material.textfield.TextInputLayout>
 
         </LinearLayout>
@@ -68,7 +70,7 @@
             app:layout_constraintTop_toBottomOf="@+id/btn_progresss_login" />
 
 
-        <com.example.analyze_credit_system_mobile.shared.widgets.ProgresseButton
+        <com.example.analyze_credit_system_mobile.view.shared.widgets.ProgresseButton
             android:id="@+id/btn_progresss_login"
             android:layout_width="match_parent"
             android:layout_height="48dp"

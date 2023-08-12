@@ -5,4 +5,9 @@
         android:id="@+id/item_sair"
         android:icon="@drawable/exit_to_app_24"
         android:title="Sair" />
+    <item
+        android:id="@+id/creditListFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="pedidos" />
 </menu>

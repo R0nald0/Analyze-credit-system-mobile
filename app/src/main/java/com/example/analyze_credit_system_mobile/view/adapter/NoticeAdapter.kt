@@ -1,4 +1,4 @@
-package com.example.analyze_credit_system_mobile.domain.adapter
+package com.example.analyze_credit_system_mobile.view.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

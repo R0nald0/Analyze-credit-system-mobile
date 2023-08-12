@@ -126,4 +126,9 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             />
     </navigation>
+    <fragment
+        android:id="@+id/creditListFragment"
+        android:name="com.example.analyze_credit_system_mobile.view.activity.fragments.tbafragments.CreditListFragment"
+        android:label="fragment_credit_list"
+        tools:layout="@layout/fragment_credit_list" />
 </navigation>
