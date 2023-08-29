@@ -37,6 +37,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.analyze_credit_system_mobile.R
 import com.example.analyze_credit_system_mobile.databinding.FragmentHomeBinding
+import com.example.analyze_credit_system_mobile.domain.enums.TitulosMovimentacao
 import com.example.analyze_credit_system_mobile.domain.states.AuthenticationState
 import com.example.analyze_credit_system_mobile.shared.extensions.formatCurrency
 import com.example.analyze_credit_system_mobile.view.adapter.PageViewListAdapter
@@ -77,6 +78,19 @@ class HomeFragment : Fragment() {
     private fun initBindings() {
         binding.imgNotification.setOnClickListener {
             loginViewModel.delsogar()
+        }
+
+        binding.btnPix.setOnClickListener {
+            val args = HomeFragmentDirections.actionHomeFragmentToPaymentActivity(customerView,TitulosMovimentacao.PIX.name)
+            findNavController().navigate(args)
+        }
+        binding.btnBoleto.setOnClickListener {
+            val args = HomeFragmentDirections.actionHomeFragmentToPaymentActivity(customerView,TitulosMovimentacao.PAGAMENTO_BOLETO.name)
+            findNavController().navigate(args)
+        }
+        binding.button.setOnClickListener {
+            val args = HomeFragmentDirections.actionHomeFragmentToPaymentActivity(customerView,TitulosMovimentacao.TED.name)
+            findNavController().navigate(args)
         }
     }
 
@@ -129,7 +143,6 @@ class HomeFragment : Fragment() {
                     Column {
                         var isVisible by remember { mutableStateOf(false) }
                         val angulo by animateFloatAsState(targetValue = if(isVisible) 180F else 0F)
-
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -164,10 +177,7 @@ class HomeFragment : Fragment() {
                                colorContent = Color.White
                            )
                        }
-                        Spacer(
-                            Modifier
-                                .height(3.dp)
-                                .background(Color.Red))
+                        Spacer(Modifier.height(3.dp).background(Color.Red))
                     }
                 }
             )

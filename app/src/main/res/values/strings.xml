@@ -46,6 +46,7 @@
     <string name="numero_de_parcela_est_invalido">Numero de parcela está inválido</string>
     <string name="data_invalido">Data inválido</string>
     <string name="valid_credit_customer_erro">Customer inexistente</string>
+    <string name="title_activity_payment">PaymentActivity</string>
 
 
 </resources>

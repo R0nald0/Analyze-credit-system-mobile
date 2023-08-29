@@ -51,6 +51,9 @@
             android:name="name_user"
             android:defaultValue="No user"
             app:nullable="true" />
+        <action
+            android:id="@+id/action_homeFragment_to_paymentActivity"
+            app:destination="@id/paymentActivity" />
 
     </fragment>
     <fragment
@@ -131,4 +134,15 @@
         android:name="com.example.analyze_credit_system_mobile.view.activity.fragments.tbafragments.CreditListFragment"
         android:label="fragment_credit_list"
         tools:layout="@layout/fragment_credit_list" />
+    <activity
+        android:id="@+id/paymentActivity"
+        android:name="com.example.analyze_credit_system_mobile.view.activity.PaymentActivity"
+        android:label="PaymentActivity" >
+        <argument
+            android:name="customerView"
+            app:argType="com.example.analyze_credit_system_mobile.view.model.CustomerView" />
+        <argument
+            android:name="typePaymentTitle"
+            app:argType="string" />
+    </activity>
 </navigation>

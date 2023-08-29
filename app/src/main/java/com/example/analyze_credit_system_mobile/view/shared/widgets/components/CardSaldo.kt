@@ -10,7 +10,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -19,6 +21,7 @@ fun cardSaldo(
     modifier :Modifier,
     colorContent : Color = Color.White,
     textContent :String = "",
+    fontSize : TextUnit = 45.sp,
     lowText:String = "",
 ){
     Column(
@@ -28,12 +31,11 @@ fun cardSaldo(
             .fillMaxWidth()
             ,
     ) {
-            Column(verticalArrangement = Arrangement.SpaceEvenly) {
-                Text(text = textContent ,fontSize = 45.sp,color = colorContent, fontWeight = FontWeight.W700)
-                Text(text = lowText,fontSize = 14.sp ,color = colorContent)
 
+            Column(verticalArrangement = Arrangement.Center) {
+                Text(text = textContent ,fontSize = fontSize,color = colorContent, fontWeight = FontWeight.W700, overflow = TextOverflow.Ellipsis)
+                Text(text = lowText,fontSize = 14.sp ,color = colorContent,overflow = TextOverflow.Ellipsis)
             }
-
     }
 }
 
