@@ -10,6 +10,7 @@ interface ICustomerRepository {
 
     suspend fun findCustumerById():Result<Customer?>
     suspend fun findCustumerByEmail(email: String):Customer
+    suspend fun findCustumerByAccountNumber(accountNumber: Long):Result<Customer>
     suspend fun deleteCustumer(customer: Customer):Boolean
     suspend fun updateCustumer(idCustomer:Long, customerDTO: CustomerCreateDto):Boolean
     suspend fun logout():Boolean

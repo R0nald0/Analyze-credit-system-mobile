@@ -16,13 +16,15 @@ interface CustumerApi  {
   @POST("customers/save")
  suspend  fun createCustomer(@Body customerDTO:CustomerCreateDto) : Response<CustomerViewDTO>
 
- @GET("customers/")
+ @GET("customers/findemail")
  suspend fun findCustomerByEmail(@Query("email")  email:String) :Response<CustomerViewDTO>
 
+ @GET("customers/findaccountnumber?")
+ suspend  fun findCustomerByAccountNumber(@Query("accountNumber") accountNumber:Long):Response<CustomerViewDTO>
   @GET("customers/{customerId}")
- suspend  fun findCustumerById(@Path("customerId") customerId :Long ) :Response<CustomerViewDTO>
+ suspend  fun findCustomerById(@Path("customerId") customerId :Long ) :Response<CustomerViewDTO>
 
-  @PATCH("customers/?")
+  @PATCH("customers?")
   suspend fun updateCustomer(@Query("customerId") custumerId : Long,@Body customerDTO: CustomerCreateDto):Response<Boolean>
 
   @DELETE("customers/{customerId}")

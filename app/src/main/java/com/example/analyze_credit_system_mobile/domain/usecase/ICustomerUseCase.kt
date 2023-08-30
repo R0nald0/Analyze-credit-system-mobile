@@ -7,6 +7,7 @@ interface ICustomerUseCase {
     suspend fun login(email: String ,password :String) :Result<CustomerView>
     suspend fun createCustumer(customer: Customer): Result<Customer>
     suspend fun findCustumerByEmail(email: String): Result<Customer>
+    suspend fun findCustumerByAccountNumber(accountNumber: Long): Result<Customer>
     suspend fun custmerAuth():Result<CustomerView>
     suspend fun findCustumerById(): Result<Customer>
     suspend fun deleteCustumer(customer: Customer): Result<Boolean>

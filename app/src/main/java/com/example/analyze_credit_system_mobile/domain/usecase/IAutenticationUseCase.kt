@@ -16,4 +16,6 @@ interface IAutenticationUseCase {
                   password:String)
 
     suspend fun getAddress(zipCode:String):Result<Address>
+
+
 }

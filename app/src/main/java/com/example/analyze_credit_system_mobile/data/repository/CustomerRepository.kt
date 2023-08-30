@@ -108,6 +108,22 @@ class CustomerRepository @Inject constructor(
         TODO("Not yet implemented")
     }
 
+    override suspend fun findCustumerByAccountNumber(accountNumber: Long): Result<Customer> {
+        try {
+            val customer = customerService.findByAccountNumber(accountNumber)
+                 .getOrThrow()
+                 .toCustomer()
+
+            return Result.success(customer)
+        }catch (nullPointerExeption :NullPointerException){
+            throw nullPointerExeption
+        }
+        catch (exception : Exception){
+            exception.printStackTrace()
+            throw exception
+        }
+    }
+
     override suspend fun deleteCustumer(customer: Customer): Boolean {
         TODO("Not yet implemented")
     }

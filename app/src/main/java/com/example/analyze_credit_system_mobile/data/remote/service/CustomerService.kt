@@ -123,6 +123,22 @@ class CustomerService  @Inject constructor(
            }
     }
 
+    suspend fun  findByAccountNumber(accouuntNumber :Long):Result<CustomerViewDTO>{
+         try {
+             val customerViewDTOResponse =
+                 customerApi.findCustomerByAccountNumber(accouuntNumber)
+             val consultApi = RetrofitApiClient.consultApi(customerViewDTOResponse)
+             val customerViewDTO = consultApi.body()
+             return Result.success(customerViewDTO!!)
+
+         }catch (nullPointerExeption :NullPointerException){
+             throw nullPointerExeption
+         }
+         catch (execption : Exception){
+            execption.printStackTrace()
+             throw execption
+         }
+    }
     suspend fun registerCustomerOnApi(customerDTO: CustomerCreateDto):Result<CustomerViewDTO>{
         try {
             val customerViewDTOResponse =  callApiMethod(customerDTO)
@@ -133,7 +149,7 @@ class CustomerService  @Inject constructor(
                     }
                     return Result.failure(Throwable("erro customer não foi salvo :is null"))
                 }else{
-                    return Result.failure(Throwable("erro na api status code ${customerViewDTOResponse.code()}"))
+                    return Result.failure(Throwable("erro na api status code ${customerViewDTOResponse.code()} - message ${customerViewDTOResponse.message()}"))
                 }
         }catch (e:Exception){
             e.printStackTrace()

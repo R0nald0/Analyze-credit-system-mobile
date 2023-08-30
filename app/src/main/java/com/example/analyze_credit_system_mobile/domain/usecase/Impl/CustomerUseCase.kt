@@ -42,8 +42,11 @@ class CustomerUseCase @Inject constructor(
     override suspend fun login(email:String , password:String): Result<CustomerView> {
           try {
                val resultCustomerLoged  =custumerRepository.loginCustomer(email, password)
-               val costomerResul = resultCustomerLoged.getOrThrow()
-                return  Result.success(CustomerView(costomerResul))
+               if(resultCustomerLoged.isSuccess){
+                   val costomerResul = resultCustomerLoged.getOrThrow()
+                   return  Result.success(CustomerView(costomerResul))
+               }
+              return  Result.failure(resultCustomerLoged.exceptionOrNull()!!)
 
           }catch (firebaseAuthInvalidUserException: FirebaseAuthInvalidUserException){
               return Result.failure(FirebaseAuthInvalidUserException(
@@ -118,6 +121,20 @@ class CustomerUseCase @Inject constructor(
          catch (ex:Exception){
              return Result.failure(SocketTimeoutException("erro generico"))
          }
+    }
+
+    override suspend fun findCustumerByAccountNumber(accountNumber: Long): Result<Customer>  {
+            try {
+                val byAccountNumber =
+                    custumerRepository.findCustumerByAccountNumber(accountNumber)
+                    return  byAccountNumber
+            }catch (nullPointerExeption :NullPointerException){
+                return Result.failure(NullPointerException("chave do destinátario inválida"))
+            }
+            catch (execption:Exception){
+                  execption.printStackTrace()
+                 return Result.failure(Exception("${execption.message}"))
+            }
     }
 
     override suspend fun deleteCustumer(customer: Customer): Result<Boolean> {
