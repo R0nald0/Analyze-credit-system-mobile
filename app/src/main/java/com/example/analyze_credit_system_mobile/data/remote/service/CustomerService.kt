@@ -129,8 +129,11 @@ class CustomerService  @Inject constructor(
                  customerApi.findCustomerByAccountNumber(accouuntNumber)
              val consultApi = RetrofitApiClient.consultApi(customerViewDTOResponse)
              val customerViewDTO = consultApi.body()
-             return Result.success(customerViewDTO!!)
+             if (customerViewDTO != null){
+                 return Result.success(customerViewDTO)
+             }
 
+             return Result.failure(Exception("Customer não encontrado: StatusCode : ${consultApi.code()}"))
          }catch (nullPointerExeption :NullPointerException){
              throw nullPointerExeption
          }

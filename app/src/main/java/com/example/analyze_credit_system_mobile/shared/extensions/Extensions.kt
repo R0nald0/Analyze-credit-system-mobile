@@ -1,6 +1,9 @@
 package com.example.analyze_credit_system_mobile.shared.extensions
 
+import android.content.Context
+import android.widget.Toast
 import com.google.android.material.textfield.TextInputLayout
+import java.math.BigDecimal
 import java.text.NumberFormat
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -12,6 +15,10 @@ fun TextInputLayout.clearFieldsError(){
         this.isErrorEnabled = false
 }
 fun Double.formatCurrency(locale: Locale = Locale.getDefault()): String {
+        return NumberFormat.getCurrencyInstance().format(this)
+}
+
+fun BigDecimal.formatCurrency(locale: Locale = Locale.getDefault()): String {
         return NumberFormat.getCurrencyInstance().format(this)
 }
 
@@ -37,4 +44,7 @@ fun Date.convertDateLongToString(dataLong: Long):String?{
         }
 
         return null
+}
+fun Context.toastAlert(mensage:String){
+        Toast.makeText(this, mensage, Toast.LENGTH_SHORT).show()
 }

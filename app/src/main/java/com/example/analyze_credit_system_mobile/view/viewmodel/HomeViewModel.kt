@@ -41,7 +41,7 @@ class HomeViewModel @Inject constructor(
              viewModelScope.launch {
                  val byAccountNumber =
                      customerUseCase.findCustumerByAccountNumber(accountNumber)
-                 _recipientData.postValue(byAccountNumber)
+                  _recipientData.postValue(byAccountNumber)
              }
     }
 

@@ -22,6 +22,15 @@ class ValidateCredit {
         return  StateCredit.InvalidCreditfields(mutableSetOf())
     }
 
+    fun validAccountNumber(accountNumber: String):Set<String>{
+        val erros = mutableSetOf<String>()
+
+        if (accountNumber.isEmpty()) erros.add("campo não pode ser vazio")
+        if (accountNumber.length != 6 ) erros.add("Número da conta precisa  pussuir 6 dígitos")
+
+        return erros
+    }
+
     companion object{
         val INVALID_CREDIT_VALUE ="CREDIT_VALUE" to R.string.credito_invalido
         val INVALID_NUMBER_OF_INSTALLMENT ="NUMBER_OF_INSTALLMENT" to R.string.numero_de_parcela_est_invalido
