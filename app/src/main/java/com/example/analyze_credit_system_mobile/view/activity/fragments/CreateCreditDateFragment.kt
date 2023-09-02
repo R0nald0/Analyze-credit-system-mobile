@@ -15,6 +15,7 @@ import com.example.analyze_credit_system_mobile.databinding.FragmentCreateCredit
 import com.example.analyze_credit_system_mobile.domain.states.StateCredit
 import com.example.analyze_credit_system_mobile.shared.extensions.convertDateLongToString
 import com.example.analyze_credit_system_mobile.shared.extensions.convertDateStringToLong
+import com.example.analyze_credit_system_mobile.shared.extensions.formatCurrency
 import com.example.analyze_credit_system_mobile.view.model.CreditCreateView
 import com.example.analyze_credit_system_mobile.view.shared.dialog.AlertDialogCustom
 import com.example.analyze_credit_system_mobile.view.viewmodel.CreateCreditViewModel
@@ -52,6 +53,8 @@ class CreateCreditDateFragment : Fragment() {
     }
 
     fun initBinds(){
+
+        //Configuracao data
         val dateFirstInstallment = creditViewModel.getLimitsDate(Calendar.DATE,20)
         var ActualDate =Date().convertDateLongToString(dateFirstInstallment)!!
 
@@ -66,9 +69,9 @@ class CreateCreditDateFragment : Fragment() {
         }
 
         binding.txvDataSelected.text = ActualDate
-        binding.txvCoutValueInstallment.text = String.format("R$ %.4s por mês",args.creditValue)
-        binding.progresseButton.setOnClickListener {
+        binding.txvCoutValueInstallment.text ="x R${args.creditValue.toBigDecimal().formatCurrency()} por mês"
 
+        binding.progresseButton.setOnClickListener {
             val creditValue = args.creditValue
             val numberOfInstallment = binding.edtNumberInstallment.text.toString()
             val date = Date().convertDateStringToLong(ActualDate)
@@ -89,10 +92,22 @@ class CreateCreditDateFragment : Fragment() {
         binding.edtNumberInstallment.addTextChangedListener {
             val number = binding.edtNumberInstallment.text.toString()
              if (number.isNotBlank()) {
-                 val  valueInstallment= creditViewModel.getInstallments(number,args.creditValue.toDouble())
-                 binding.txvCoutValueInstallment.text= valueInstallment
+                 val validateInstallments = creditViewModel.validateInstallments(number)
+
+                 if (validateInstallments != null){
+                     binding.edtNumberInstallment.error = validateInstallments
+                     binding.progresseButton.isClickable = false
+                  }
+                 else{
+                     binding.progresseButton.isClickable = true
+                     val valueInstallment= creditViewModel.getInstallments(number,args.creditValue.toDouble())
+                     binding.txvCoutValueInstallment.text= "x R$valueInstallment por mês"
+                 }
              }
-             else binding.edtNumberInstallment.error ="numero de parcelas não pode ser vazio"
+             else {
+                 binding.edtNumberInstallment.error = "numero de parcelas não pode ser vazio"
+                 binding.txvCoutValueInstallment.text = "x R${args.creditValue} por mês"
+             }
         }
     }
 

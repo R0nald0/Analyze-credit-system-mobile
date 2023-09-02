@@ -30,6 +30,12 @@ class ValidateCredit {
 
         return erros
     }
+    fun validateAmountPerInstalmment(installment:Int):String?{
+          if (installment < 1) return "Minimo de 1 Parcela permitido"
+           if (installment > 48) return "Máximo de 48 Parcelas permitido"
+
+        return null
+    }
 
     companion object{
         val INVALID_CREDIT_VALUE ="CREDIT_VALUE" to R.string.credito_invalido

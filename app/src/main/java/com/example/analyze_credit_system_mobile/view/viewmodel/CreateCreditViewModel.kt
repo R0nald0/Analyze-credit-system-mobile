@@ -8,11 +8,13 @@ import com.example.analyze_credit_system_mobile.domain.states.StateCredit
 import com.example.analyze_credit_system_mobile.domain.usecase.ICreditUseCase
 import com.example.analyze_credit_system_mobile.domain.usecase.Impl.CustomerUseCase
 import com.example.analyze_credit_system_mobile.domain.usecase.Impl.ValidateCredit
+import com.example.analyze_credit_system_mobile.shared.extensions.formatCurrency
 import com.example.analyze_credit_system_mobile.view.model.CreditCreateView
 import com.example.analyze_credit_system_mobile.view.model.CreditExhibitionView
 import com.example.analyze_credit_system_mobile.view.model.toCredit
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.math.BigDecimal
 import javax.inject.Inject
 
 
@@ -71,14 +73,19 @@ class CreateCreditViewModel @Inject constructor(
              _stateCreditLiveData.value =StateCredit.Loaded
          }
     }
+
+    fun validateInstallments(numberOfInstallment: String):String?{
+        val validateAmountPerInstalmment =
+            validateCredit.validateAmountPerInstalmment(numberOfInstallment.toInt())
+        if (validateAmountPerInstalmment != null){
+            return validateAmountPerInstalmment
+        }
+        return null
+    }
     fun getInstallments(numberOfInstallment: String,creditValue:Double):String{
-            val installment = numberOfInstallment.toInt()
-            if (installment > 0){
-                val totalValueInstallment = creditUseCase.calculateInstallment(installment,creditValue)
-                val resul = String.format("x R$ %.4s por mês",totalValueInstallment)
-                return resul
-            }
-        return "parcela não pode ser menor 1"
+        val installment = numberOfInstallment.toInt()
+            val totalValueInstallment = creditUseCase.calculateInstallment(installment,creditValue)
+            return totalValueInstallment.formatCurrency()
     }
     fun getLimitsDate( field :Int , amountTime: Int) :Long{
          return  creditUseCase.getLimitsDate(field,amountTime)
@@ -101,6 +108,10 @@ class CreateCreditViewModel @Inject constructor(
              }
 
          }
+    }
+
+     fun calculateInstallment(numberInstallment: Int,valueCredit:Double) :Double{
+        return  creditUseCase.calculateInstallment(numberInstallment,valueCredit)
     }
 
 }

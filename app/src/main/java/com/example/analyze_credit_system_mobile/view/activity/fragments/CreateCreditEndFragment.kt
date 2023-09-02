@@ -11,6 +11,7 @@ import androidx.navigation.fragment.navArgs
 import com.example.analyze_credit_system_mobile.R
 import com.example.analyze_credit_system_mobile.databinding.FragmentCreateCreditEndBinding
 import com.example.analyze_credit_system_mobile.shared.extensions.convertDateLongToString
+import com.example.analyze_credit_system_mobile.shared.extensions.formatCurrency
 import com.example.analyze_credit_system_mobile.view.shared.dialog.AlertDialogCustom
 import com.example.analyze_credit_system_mobile.view.viewmodel.CreateCreditViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -58,8 +59,8 @@ class CreateCreditEndFragment : Fragment() {
         val numberOfInstallments = creditArgs.creditCreateView.numberOfInstallments
         val valueCreditFinal = creditArgs.creditCreateView.creditValue
 
-        val resumeCredit = calculateInstallment( numberOfInstallments,valueCreditFinal.toDouble())
-        val resul = String.format("x R$ %.4s",resumeCredit)
+        val resumeCredit =creditViewModel.calculateInstallment( numberOfInstallments,valueCreditFinal.toDouble())
+        val resul = String.format("x R$ %.2f",resumeCredit)
         val date = Date().convertDateLongToString(creditArgs.creditCreateView.dayFistInstallment)
 
         binding.txvValorCreditConfirm.text = "R$ ${valueCreditFinal}"
@@ -72,10 +73,7 @@ class CreateCreditEndFragment : Fragment() {
         }
     }
 
-    private fun calculateInstallment(numberInstallment: Int,valueCredit:Double) :Double{
-        //TODO alterar fucao de local
-        return  valueCredit/ numberInstallment
-    }
+
 
 
 }

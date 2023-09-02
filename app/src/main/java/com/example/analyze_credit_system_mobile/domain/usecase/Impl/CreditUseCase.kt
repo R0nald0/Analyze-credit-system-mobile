@@ -1,5 +1,6 @@
 package com.example.analyze_credit_system_mobile.domain.usecase.Impl
 
+import android.util.Log
 import com.example.analyze_credit_system_mobile.domain.model.Credit
 import com.example.analyze_credit_system_mobile.domain.repository.ICreditRepositoty
 import com.example.analyze_credit_system_mobile.domain.usecase.ICreditUseCase
@@ -74,7 +75,13 @@ class CreditUseCase @Inject constructor(
          }
     }
      override fun calculateInstallment(numberInstallment: Int,valueCredit:Double) :Double{
-        return  valueCredit/ numberInstallment
+       try {
+           return  valueCredit/ numberInstallment
+       }catch (exception:Exception){
+           exception.printStackTrace()
+           Log.i("INFO_", "${exception.message} ")
+           return 0.0
+       }
     }
      override fun getLimitsDate(field :Int, amountTime: Int) :Long {
         val dataMinima = Calendar.getInstance()
