@@ -4,6 +4,7 @@ import android.util.Log
 import com.example.analyze_credit_system_mobile.domain.model.Credit
 import com.example.analyze_credit_system_mobile.domain.repository.ICreditRepositoty
 import com.example.analyze_credit_system_mobile.domain.usecase.ICreditUseCase
+import java.math.BigDecimal
 import java.util.Calendar
 import javax.inject.Inject
 
@@ -74,13 +75,13 @@ class CreditUseCase @Inject constructor(
              return Result.failure(Throwable("erro ao atualizar ",e))
          }
     }
-     override fun calculateInstallment(numberInstallment: Int,valueCredit:Double) :Double{
+     override fun calculateInstallment(numberInstallment: Int,valueCredit:BigDecimal) :BigDecimal{
        try {
-           return  valueCredit/ numberInstallment
+           return  valueCredit.divide(numberInstallment.toBigDecimal())
        }catch (exception:Exception){
            exception.printStackTrace()
            Log.i("INFO_", "${exception.message} ")
-           return 0.0
+           return BigDecimal(0.0)
        }
     }
      override fun getLimitsDate(field :Int, amountTime: Int) :Long {

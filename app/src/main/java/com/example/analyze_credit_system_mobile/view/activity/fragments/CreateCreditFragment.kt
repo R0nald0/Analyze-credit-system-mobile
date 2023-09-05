@@ -12,6 +12,7 @@ import com.example.analyze_credit_system_mobile.R
 import com.example.analyze_credit_system_mobile.databinding.FragmentCreateCreditBinding
 import com.example.analyze_credit_system_mobile.domain.states.AuthenticationState
 import com.example.analyze_credit_system_mobile.view.model.CustomerView
+import com.example.analyze_credit_system_mobile.view.shared.utils.MyWatcher
 import com.example.analyze_credit_system_mobile.view.viewmodel.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -41,16 +42,21 @@ class CreateCreditFragment : Fragment() {
     }
 
    private fun initBindings(){
+       val watcher = MyWatcher(binding.edtCreditValue)
+       binding.edtCreditValue.addTextChangedListener(watcher)
+
        binding.btnNext.setOnClickListener {
-           //TODO corrigir exibição do valor
-           val creditValue = binding.edtCreditValue.text.toString()
-           if (creditValue.isEmpty()){
+           val unMsk = watcher.unmsk()
+           if (unMsk.isEmpty()) {
                binding.edtCreditValue.error = "Valor inválido"
-           }else{
-               val args = CreateCreditFragmentDirections.actionCreateCreditFragmentToNavigationGraph(customerView,creditValue)
+           } else {
+               val args =
+                   CreateCreditFragmentDirections.actionCreateCreditFragmentToNavigationGraph(
+                       customerView,
+                       unMsk
+                   )
                findNavController().navigate(args)
            }
-
        }
 
     }

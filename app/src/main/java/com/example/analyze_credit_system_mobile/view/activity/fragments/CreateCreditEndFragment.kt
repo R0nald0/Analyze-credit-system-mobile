@@ -16,6 +16,7 @@ import com.example.analyze_credit_system_mobile.view.shared.dialog.AlertDialogCu
 import com.example.analyze_credit_system_mobile.view.viewmodel.CreateCreditViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Date
+import java.util.Locale
 
 @AndroidEntryPoint
 class CreateCreditEndFragment : Fragment() {
@@ -59,11 +60,11 @@ class CreateCreditEndFragment : Fragment() {
         val numberOfInstallments = creditArgs.creditCreateView.numberOfInstallments
         val valueCreditFinal = creditArgs.creditCreateView.creditValue
 
-        val resumeCredit =creditViewModel.calculateInstallment( numberOfInstallments,valueCreditFinal.toDouble())
-        val resul = String.format("x R$ %.2f",resumeCredit)
+        val amountCreditPerInstallment =creditViewModel.calculateInstallment( numberOfInstallments,valueCreditFinal)
         val date = Date().convertDateLongToString(creditArgs.creditCreateView.dayFistInstallment)
+        val resul = "X ${amountCreditPerInstallment.formatCurrency(Locale("pt","BR"))}"
 
-        binding.txvValorCreditConfirm.text = "R$ ${valueCreditFinal}"
+        binding.txvValorCreditConfirm.text = valueCreditFinal.formatCurrency(Locale("Pt","BR"))
         binding.txvDateCreditConfirm.text = date
         binding.txvInstallmentConference.text = "${numberOfInstallments} $resul"
 

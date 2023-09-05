@@ -15,11 +15,11 @@ fun TextInputLayout.clearFieldsError(){
         this.isErrorEnabled = false
 }
 fun Double.formatCurrency(locale: Locale = Locale.getDefault()): String {
-        return NumberFormat.getCurrencyInstance().format(this)
+        return NumberFormat.getCurrencyInstance(locale).format(this)
 }
 
 fun BigDecimal.formatCurrency(locale: Locale = Locale.getDefault()): String {
-        return NumberFormat.getCurrencyInstance().format(this)
+        return NumberFormat.getCurrencyInstance(locale).format(this)
 }
 
 fun Date.convertDateStringToLong( dataString: String):Long?{

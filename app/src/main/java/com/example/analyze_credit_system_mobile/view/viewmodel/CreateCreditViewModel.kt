@@ -82,7 +82,7 @@ class CreateCreditViewModel @Inject constructor(
         }
         return null
     }
-    fun getInstallments(numberOfInstallment: String,creditValue:Double):String{
+    fun getInstallments(numberOfInstallment: String,creditValue:BigDecimal):String{
         val installment = numberOfInstallment.toInt()
             val totalValueInstallment = creditUseCase.calculateInstallment(installment,creditValue)
             return totalValueInstallment.formatCurrency()
@@ -110,7 +110,7 @@ class CreateCreditViewModel @Inject constructor(
          }
     }
 
-     fun calculateInstallment(numberInstallment: Int,valueCredit:Double) :Double{
+     fun calculateInstallment(numberInstallment: Int,valueCredit:BigDecimal) :BigDecimal{
         return  creditUseCase.calculateInstallment(numberInstallment,valueCredit)
     }
 

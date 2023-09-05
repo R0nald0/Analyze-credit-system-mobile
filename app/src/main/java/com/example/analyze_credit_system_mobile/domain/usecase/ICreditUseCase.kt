@@ -1,6 +1,7 @@
 package com.example.analyze_credit_system_mobile.domain.usecase
 
 import com.example.analyze_credit_system_mobile.domain.model.Credit
+import java.math.BigDecimal
 
 interface ICreditUseCase {
 
@@ -9,7 +10,7 @@ interface ICreditUseCase {
    suspend fun findCreditById(idCredit:Long):Result<Credit>
     suspend fun deleteCredit(Credit: Credit):Result<Boolean>
    suspend  fun updateCredit(idCredit:Long):Result<Boolean>
-   fun  calculateInstallment(numberInstallment: Int,valueCredit:Double) :Double
+   fun  calculateInstallment(numberInstallment: Int,valueCredit:BigDecimal) :BigDecimal
     fun getLimitsDate( field :Int , amountTime: Int) :Long
 
 
