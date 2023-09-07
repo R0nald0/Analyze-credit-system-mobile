@@ -169,11 +169,9 @@ class HomeFragment : Fragment() {
                            cardSaldo(
                                modifier = Modifier.fillMaxWidth(),
                                textContent = getString(R.string.home_mensage_free_value,customer.accountFreeBalance
-                                   .toDouble()
-                                   .formatCurrency(Locale.forLanguageTag("pt-BR"))),
+                                   .formatCurrency()),
                                lowText =  getString(R.string.home_mensage_block_value,customer.accountBalanceBlocked
-                                   .toDouble()
-                                   .formatCurrency(Locale.forLanguageTag("pt-BR"))),
+                                   .formatCurrency()),
                                colorContent = Color.White
                            )
                        }

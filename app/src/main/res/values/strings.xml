@@ -6,8 +6,8 @@
 
     <!-- Strings Home Fragment -->
     <string name="home_fragment_label">Credit APP</string>
-    <string name="home_mensage_block_value">você tem R%1$s em análise</string>
-    <string name="home_mensage_free_value"> R%1$s </string>
+    <string name="home_mensage_block_value">você tem %1$s em análise</string>
+    <string name="home_mensage_free_value"> %1$s </string>
 
     <!-- Strings cadastro Fragment -->
     <string name="cadastro_fragment_label">Cadastro</string>

@@ -68,7 +68,6 @@ class CreditListAdapter :RecyclerView.Adapter<CreditListAdapter.CreditListAdapte
 @Composable
 fun allCreditList(creditByCustomer : CreditExhibitionView?){
     if (creditByCustomer != null){
-        Log.i("INFO_", "${creditByCustomer.status.state}")
         AppCard(
             modifier = Modifier.padding(8.dp)
         ) {

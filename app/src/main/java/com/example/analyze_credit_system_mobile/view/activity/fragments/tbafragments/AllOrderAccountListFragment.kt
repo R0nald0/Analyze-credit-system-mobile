@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.analyze_credit_system_mobile.databinding.FragmentCreditListBinding
+import com.example.analyze_credit_system_mobile.databinding.FragmentAllOrderAccountListBinding
 import com.example.analyze_credit_system_mobile.domain.states.AuthenticationState
 import com.example.analyze_credit_system_mobile.domain.states.StateCredit
 import com.example.analyze_credit_system_mobile.view.adapter.CreditListAdapter
@@ -18,9 +18,9 @@ import com.example.analyze_credit_system_mobile.view.viewmodel.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class CreditListFragment : Fragment() {
+class AllOrderAccountListFragment : Fragment() {
     private val binding by lazy {
-        FragmentCreditListBinding.inflate(layoutInflater)
+        FragmentAllOrderAccountListBinding.inflate(layoutInflater)
     }
     private val creditViewModel by viewModels<CreateCreditViewModel>()
     private val loginViewModel by activityViewModels<LoginViewModel>()
@@ -76,7 +76,6 @@ class CreditListFragment : Fragment() {
                 }
                 else -> {}
             }
-
         }
 
         loginViewModel.authenticationState.observe(viewLifecycleOwner){stateCustomer->

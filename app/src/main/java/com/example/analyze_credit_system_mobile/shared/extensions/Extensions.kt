@@ -18,7 +18,7 @@ fun Double.formatCurrency(locale: Locale = Locale.getDefault()): String {
         return NumberFormat.getCurrencyInstance(locale).format(this)
 }
 
-fun BigDecimal.formatCurrency(locale: Locale = Locale.getDefault()): String {
+fun BigDecimal.formatCurrency(locale: Locale = Locale("pt","BR")): String {
         return NumberFormat.getCurrencyInstance(locale).format(this)
 }
 

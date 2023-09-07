@@ -101,7 +101,7 @@ class CreateCreditDateFragment : Fragment() {
                  else{
                      binding.progresseButton.isClickable = true
                      val valueInstallment= creditViewModel.getInstallments(number,args.creditValue.toBigDecimal())
-                     binding.txvCoutValueInstallment.text= "x R$valueInstallment por mês"
+                     binding.txvCoutValueInstallment.text= "x $valueInstallment por mês"
                  }
              }
              else {

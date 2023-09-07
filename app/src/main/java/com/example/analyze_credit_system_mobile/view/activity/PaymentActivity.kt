@@ -15,10 +15,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.ErrorOutline
 import androidx.compose.material.icons.filled.PersonSearch
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ElevatedButton
@@ -62,6 +65,7 @@ import com.example.analyze_credit_system_mobile.view.shared.widgets.components.A
 import com.example.analyze_credit_system_mobile.view.shared.widgets.components.cardSaldo
 import com.example.analyze_credit_system_mobile.view.viewmodel.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.Locale
 
 
 @AndroidEntryPoint
@@ -103,8 +107,9 @@ fun PixInterFace(args :PaymentActivityArgs , modifier: Modifier = Modifier) {
         }
 
         var accountNumber by remember {
-            mutableStateOf("815855")
+            mutableStateOf("")
         }
+
         var isValid by remember {
             mutableStateOf(false)
         }
@@ -136,10 +141,11 @@ fun PixInterFace(args :PaymentActivityArgs , modifier: Modifier = Modifier) {
                 supportingText = {if (isValid) Text(text = errorText, fontWeight = FontWeight.Bold) else null},
                 trailingIcon ={
                              if (isValid) Icon(
-                                 painter = painterResource(id = R.drawable.exclamation),
+                                 imageVector = Icons.Filled.ErrorOutline,
                                  contentDescription = "",
                                  tint = Color.Red
                              )
+
                              else null
                 } ,
                 onValueChange ={
@@ -172,7 +178,9 @@ fun PixInterFace(args :PaymentActivityArgs , modifier: Modifier = Modifier) {
         if (resultLiveRecipientData != null) {
             if (resultLiveRecipientData!!.isSuccess){
                 val recipientData = resultLiveRecipientData!!.getOrThrow()
-                Column (horizontalAlignment = Alignment.CenterHorizontally){
+                Column (
+                    modifier= modifier.verticalScroll(rememberScrollState()),
+                    horizontalAlignment = Alignment.CenterHorizontally){
                     AppCard(modifier = modifier,
                         color = Color.LightGray
                     ) {
@@ -362,7 +370,7 @@ fun AreaCustomerData(args:PaymentActivityArgs, modifier: Modifier){
      )
 
        //Spacer(modifier = modifier.height(20.dp))
-       if (isVisible) saldo ="R${args.customerView.accountFreeBalance.formatCurrency()}"
+       if (isVisible) saldo = args.customerView.accountFreeBalance.formatCurrency()
        else  saldo ="Saldo"
        Row(
            modifier = modifier.padding(horizontal = 16.dp),

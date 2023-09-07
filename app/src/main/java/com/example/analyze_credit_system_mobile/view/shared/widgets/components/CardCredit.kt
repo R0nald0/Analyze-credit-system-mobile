@@ -33,7 +33,7 @@ fun cardCredit(
            .fillMaxWidth()
            .padding(8.dp)
    ) {
-        val currency = valueCredit.toDouble().formatCurrency()
+        val currency = valueCredit.formatCurrency()
         val title =12.sp
          val paddingHorizontal = 10.dp
          val textContentSize = 14.sp
@@ -66,7 +66,7 @@ fun cardCredit(
        )
        Text(
            modifier = modifier.padding(horizontal = paddingHorizontal),
-           text = "R$currency",
+           text = currency,
            fontSize = 20.sp,
            color = MaterialTheme.colors.onPrimary
        )

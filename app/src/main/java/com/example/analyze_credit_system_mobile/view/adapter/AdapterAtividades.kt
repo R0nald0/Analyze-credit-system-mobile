@@ -26,7 +26,7 @@ class AdapterAtividades : RecyclerView.Adapter<AdapterAtividades.AtividadesViewH
      }
         fun bind(item :AccountMovimentView){
              binding.txvNomeAtividade.text = item.type.name
-             binding.txvValorAtividade.text ="R${item.movimentValue.formatCurrency()}"
+             binding.txvValorAtividade.text = item.movimentValue.formatCurrency()
              binding.txvData.text = item.dateMoviment
         }
     }

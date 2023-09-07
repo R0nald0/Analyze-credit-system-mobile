@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -14,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.analyze_credit_system_mobile.R
 import com.example.analyze_credit_system_mobile.databinding.FragmentLastMovimentsBinding
 import com.example.analyze_credit_system_mobile.domain.states.AuthenticationState
+import com.example.analyze_credit_system_mobile.shared.extensions.toastAlert
 import com.example.analyze_credit_system_mobile.view.adapter.AdapterAtividades
 import com.example.analyze_credit_system_mobile.view.model.CustomerView
 import com.example.analyze_credit_system_mobile.view.viewmodel.HomeViewModel
@@ -68,7 +68,7 @@ class LastMovimentsFragment() : Fragment() {
     fun initObservers(){
         homeViewModel.listMoviments.observe(this.viewLifecycleOwner){listMoviment->
             if (listMoviment.isNullOrEmpty()){
-                Toast.makeText(context,"No moviments", Toast.LENGTH_SHORT).show()
+                context?.toastAlert("No moviments")
             }else{
                 adapetAtividades.getListAtividade(listMoviment)
             }

@@ -16,6 +16,7 @@ import com.example.analyze_credit_system_mobile.R
 import com.example.analyze_credit_system_mobile.data.remote.CustumerApi
 import com.example.analyze_credit_system_mobile.databinding.ActivityLoginCadastroBinding
 import com.example.analyze_credit_system_mobile.domain.repository.ICustomerRepository
+import com.example.analyze_credit_system_mobile.shared.extensions.toastAlert
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -70,17 +71,11 @@ class LoginCadastroActivity : AppCompatActivity() {
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
               return  when(menuItem.itemId){
                      R.id.item_sair->{
-                         Toast.makeText(this@LoginCadastroActivity, "Saindo", Toast.LENGTH_SHORT).show()
-                         //findNavController().navigate(R.id.homeFragment)
+                         applicationContext.toastAlert("Saindo")
+                         navController.navigate(R.id.mainFragment)
                          auth.signOut()
                          true
                      }
-                  R.id.item_sair->{
-                       findNavController(R.id.creditListFragment).navigate(R.id.creditListFragment)
-                      //findNavController().navigate(R.id.homeFragment)
-                      auth.signOut()
-                      true
-                  }
                      else->true
                  }
             }

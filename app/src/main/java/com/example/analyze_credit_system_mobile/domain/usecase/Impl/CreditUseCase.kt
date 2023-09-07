@@ -5,6 +5,7 @@ import com.example.analyze_credit_system_mobile.domain.model.Credit
 import com.example.analyze_credit_system_mobile.domain.repository.ICreditRepositoty
 import com.example.analyze_credit_system_mobile.domain.usecase.ICreditUseCase
 import java.math.BigDecimal
+import java.math.RoundingMode
 import java.util.Calendar
 import javax.inject.Inject
 
@@ -77,11 +78,15 @@ class CreditUseCase @Inject constructor(
     }
      override fun calculateInstallment(numberInstallment: Int,valueCredit:BigDecimal) :BigDecimal{
        try {
-           return  valueCredit.divide(numberInstallment.toBigDecimal())
+           val resl = valueCredit.divide(numberInstallment.toBigDecimal(),RoundingMode.HALF_EVEN)
+           return  resl
+       }catch (arithmeticException : ArithmeticException){
+           Log.i("INFO_", "${arithmeticException.message} ")
+           return BigDecimal(0.00)
        }catch (exception:Exception){
            exception.printStackTrace()
            Log.i("INFO_", "${exception.message} ")
-           return BigDecimal(0.0)
+           return BigDecimal(0.00)
        }
     }
      override fun getLimitsDate(field :Int, amountTime: Int) :Long {
