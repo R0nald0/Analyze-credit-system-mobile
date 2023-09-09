@@ -70,6 +70,7 @@ dependencies {
     def hilt_version ="2.44"
     def ev_version = "1.0.4"
     def nav_version = "2.5.3"
+    def lottieVersion = "6.1.0"
 
 
     // ViewModel
@@ -97,6 +98,7 @@ dependencies {
 
     //MaskValidation
     implementation("io.github.vicmikhailau:MaskedEditText:4.0.7")
+
     // Circle Indicator (To fix the xml preview "Missing classes" error)
     implementation 'me.relex:circleindicator:2.1.6'
     implementation 'org.imaginativeworld.whynotimagecarousel:whynotimagecarousel:2.1.0'
@@ -133,6 +135,8 @@ dependencies {
     implementation 'androidx.compose.ui:ui-tooling-preview'
     debugImplementation 'androidx.compose.ui:ui-tooling'
 
+    //Lottie  https://github.com/airbnb/lottie-android
+    implementation "com.airbnb.android:lottie:$lottieVersion"
 
     // UI Tests
     androidTestImplementation 'androidx.compose.ui:ui-test-junit4'

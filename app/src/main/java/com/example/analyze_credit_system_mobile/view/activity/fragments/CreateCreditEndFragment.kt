@@ -47,7 +47,7 @@ class CreateCreditEndFragment : Fragment() {
 
     private fun confirmData(){
           alertDialogCustom.exibirDiaolog(
-              "Seu pedido está em Análise",
+              getString(R.string.alert_mensage_pedido_analise),
               false,
               "Ok",
               null,

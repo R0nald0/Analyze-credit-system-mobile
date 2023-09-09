@@ -16,6 +16,7 @@ import com.example.analyze_credit_system_mobile.domain.states.StateCredit
 import com.example.analyze_credit_system_mobile.shared.extensions.convertDateLongToString
 import com.example.analyze_credit_system_mobile.shared.extensions.convertDateStringToLong
 import com.example.analyze_credit_system_mobile.shared.extensions.formatCurrency
+import com.example.analyze_credit_system_mobile.shared.extensions.toastAlert
 import com.example.analyze_credit_system_mobile.view.model.CreditCreateView
 import com.example.analyze_credit_system_mobile.view.shared.dialog.AlertDialogCustom
 import com.example.analyze_credit_system_mobile.view.viewmodel.CreateCreditViewModel
@@ -85,7 +86,7 @@ class CreateCreditDateFragment : Fragment() {
                 )
                 creditViewModel.validCredit(creditCreateView)
             }else{
-                Toast.makeText(this.context, "preencha os dados corretamente", Toast.LENGTH_SHORT).show()
+                context?.toastAlert("preencha os dados corretamente")
             }
         }
 
@@ -122,15 +123,14 @@ class CreateCreditDateFragment : Fragment() {
                     findNavController().navigate(action)
                 }
                 is StateCredit.InvalidCreditfields->{
-                    Toast.makeText(context?.applicationContext, "Erro nos campos", Toast.LENGTH_SHORT).show()
+                    context?.toastAlert("Erro nos campos")
                 }
                 is StateCredit.Loading->{
                     alertDialog.exibirDiaolog(null)
-                    Toast.makeText(context?.applicationContext, "Carregando....", Toast.LENGTH_SHORT).show()
                     binding.progresseButton.setLoading()
                 }
                 is StateCredit.Loaded ->{
-                    Toast.makeText(context?.applicationContext, "Carregado", Toast.LENGTH_SHORT).show()
+
                     binding.progresseButton.setNormal()
                     alertDialog.fecharDialog()
                 }
@@ -147,7 +147,7 @@ class CreateCreditDateFragment : Fragment() {
                 Toast.makeText(this.context, it.getOrThrow(), Toast.LENGTH_LONG).show()
             }else{
                 it.getOrElse { falha ->
-                    Toast.makeText(this.context, falha.message, Toast.LENGTH_LONG).show()
+                    context?.toastAlert("${falha.message}")
                     findNavController().popBackStack()
                 }
 

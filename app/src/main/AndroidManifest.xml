@@ -22,12 +22,8 @@
             android:theme="@style/Theme.Analyzecreditsystemmobile" />
         <activity
             android:name=".view.activity.MainActivity"
-            android:exported="false"
-            android:parentActivityName=".view.activity.MainActivity" />
-        <activity
-            android:name=".view.activity.LoginCadastroActivity"
             android:exported="true"
-            android:theme="@style/Theme.LoginCadastroTheme">
+            android:theme="@style/Theme.MainTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

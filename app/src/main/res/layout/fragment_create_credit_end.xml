@@ -44,7 +44,7 @@
                 android:id="@+id/textView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Valor do Cédito" />
+                android:text="Valor do Crédito" />
 
             <TextView
                 android:id="@+id/txv_valor_credit_confirm"
@@ -71,7 +71,7 @@
                 android:id="@+id/textView6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Data Primeira Parcela" />
+                android:text="Data Primeira  Parcela" />
 
             <TextView
                 android:id="@+id/txv_date_credit_confirm"

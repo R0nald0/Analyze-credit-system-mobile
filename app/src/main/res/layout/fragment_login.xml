@@ -11,18 +11,30 @@
         android:layout_height="match_parent"
         tools:context=".view.activity.fragments.LoginFragment">
 
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lottie_login"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:layout_marginTop="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/animation_login" />
+
         <LinearLayout
             android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="8dp"
             android:gravity="center"
             android:orientation="vertical"
             android:padding="12dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/lottie_login">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/txtInputEmailLogin"
@@ -56,29 +68,30 @@
 
         </LinearLayout>
 
+
         <TextView
             android:id="@+id/btn_cadastresse"
             style="@style/TextAppearance.AppCompat.Medium"
             android:layout_width="0dp"
             android:layout_height="26dp"
-            android:layout_marginTop="16dp"
-            android:gravity="center"
             android:background="?android:selectableItemBackground"
+            android:gravity="center"
             android:text="Cadastre-se"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_progresss_login" />
-
+            app:layout_constraintTop_toBottomOf="@+id/btn_progresss_login"
+            app:layout_constraintVertical_bias="0.16" />
 
         <com.example.analyze_credit_system_mobile.view.shared.widgets.ProgresseButton
             android:id="@+id/btn_progresss_login"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout"
             app:title="@string/login"
