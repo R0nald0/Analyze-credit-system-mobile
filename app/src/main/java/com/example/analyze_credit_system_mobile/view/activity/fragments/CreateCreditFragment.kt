@@ -45,7 +45,7 @@ class CreateCreditFragment : Fragment() {
        val watcher = MyWatcher(binding.edtCreditValue)
        binding.edtCreditValue.addTextChangedListener(watcher)
 
-       binding.btnNext.setOnClickListener {
+        binding.btnNext.setOnClickListener {
            val unMsk = watcher.unmsk()
            if (unMsk.isEmpty()) {
                binding.edtCreditValue.error = "Valor inválido"

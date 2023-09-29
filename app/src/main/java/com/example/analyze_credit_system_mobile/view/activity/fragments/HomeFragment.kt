@@ -108,13 +108,22 @@ class HomeFragment : Fragment() {
                when(authenticateState){
                    is  AuthenticationState.Logged ->{
                        customerView = authenticateState.customerView
-
                        configTabLayout()
                        val name = "${customerView.firstName} ${customerView.lastName}"
-                       binding.txvNameUser.setText(name)
+                       binding.txvNameUser.text = name
                        homeViewModel.getAllMovimentsCustomer(customerView.id)
-                       binding.txvContaUserNumber.setText(customerView.numberAccount.toString())
+                       binding.txvContaUserNumber.text = "Conta: ${ customerView.numberAccount.toString() }"
                        getComposeView(customerView)
+                   }
+                   is AuthenticationState.Loaded->{
+                       binding.homeConstraint.visibility = View.VISIBLE
+                       binding.homeProgressBar.visibility = View.GONE
+                   }
+                   is  AuthenticationState.Loading ->{
+                       binding.apply {
+                            homeConstraint.visibility = View.GONE
+                            homeProgressBar.visibility = View.VISIBLE
+                       }
                    }
                    is AuthenticationState.Unlogged -> {
                        findNavController().navigate(R.id.loginFragment)
@@ -136,7 +145,6 @@ class HomeFragment : Fragment() {
 
     @Composable
     fun mainApp(customer: CustomerView){
-
             AppCard(
                 modifier = Modifier.background(Color.Transparent),
                 content = {
@@ -157,7 +165,9 @@ class HomeFragment : Fragment() {
                                 isVisible = !isVisible
                             }) {
                                 Icon(
-                                    modifier = Modifier.rotate(angulo).size(30.dp),
+                                    modifier = Modifier
+                                        .rotate(angulo)
+                                        .size(30.dp),
                                     painter = painterResource(id = R.drawable.ic_arrow_down_24),
                                     contentDescription = "arrow_down",
                                     tint = Color.White
@@ -175,7 +185,10 @@ class HomeFragment : Fragment() {
                                colorContent = Color.White
                            )
                        }
-                        Spacer(Modifier.height(3.dp).background(Color.Red))
+                        Spacer(
+                            Modifier
+                                .height(3.dp)
+                                .background(Color.Red))
                     }
                 }
             )

@@ -17,6 +17,7 @@ import com.example.analyze_credit_system_mobile.domain.constant.Consts
 import com.example.analyze_credit_system_mobile.domain.usecase.Impl.AccountMovimentUseCase
 import com.example.analyze_credit_system_mobile.domain.usecase.Impl.ValidateCredit
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -57,6 +58,11 @@ class ClassModule {
     @Provides
     fun provideFiewbaseAuthentication():FirebaseAuth{
          return FirebaseAuth.getInstance()
+    }
+
+    @Provides
+    fun provideFirebaseFireStore():FirebaseFirestore{
+        return FirebaseFirestore.getInstance()
     }
    @Provides
     fun provideCurrencyService( cotacaoApi : CotacaoApi): CurrencyService {

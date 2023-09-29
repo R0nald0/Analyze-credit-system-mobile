@@ -102,10 +102,11 @@ class CustomerUseCase @Inject constructor(
             return Result.failure(NullPointerException("erro ao retornar dados do customer"))
         }catch ( socketTimeoutException : SocketTimeoutException){
             socketTimeoutException.printStackTrace()
-            return Result.failure(SocketTimeoutException("falha ao conectar no banco"))
+            return Result.failure(SocketTimeoutException("Não conseguimos conectar no servidor"));
         }
         catch (ex:Exception){
-            return Result.failure(SocketTimeoutException("erro generico"))
+            ex.printStackTrace()
+            return Result.failure(Exception("nenhum usuario logado"))
         }
     }
     override suspend fun findCustumerByEmail(email: String): Result<Customer> {
@@ -143,7 +144,7 @@ class CustomerUseCase @Inject constructor(
             return  Result.success(result)
         }catch (e:Exception){
             e.printStackTrace()
-            return Result.failure(Throwable("erro when delete customer",e))
+            return Result.failure(Throwable("error when delete customer",e))
         }
     }
 

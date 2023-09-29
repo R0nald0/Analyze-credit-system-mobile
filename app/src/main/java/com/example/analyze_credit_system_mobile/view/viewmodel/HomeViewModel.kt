@@ -53,7 +53,6 @@ class HomeViewModel @Inject constructor(
             emptySet<String>()
         }
         return validAccountNumberErros
-
     }
 
 }

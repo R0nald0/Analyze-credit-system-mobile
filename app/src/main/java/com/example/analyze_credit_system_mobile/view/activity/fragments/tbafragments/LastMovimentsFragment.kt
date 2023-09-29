@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.analyze_credit_system_mobile.R
 import com.example.analyze_credit_system_mobile.databinding.FragmentLastMovimentsBinding
+import com.example.analyze_credit_system_mobile.domain.enums.TitulosMovimentacao
+import com.example.analyze_credit_system_mobile.domain.model.AccountMovement
 import com.example.analyze_credit_system_mobile.domain.states.AuthenticationState
 import com.example.analyze_credit_system_mobile.shared.extensions.toastAlert
 import com.example.analyze_credit_system_mobile.view.adapter.AdapterAtividades
@@ -68,9 +70,17 @@ class LastMovimentsFragment() : Fragment() {
     fun initObservers(){
         homeViewModel.listMoviments.observe(this.viewLifecycleOwner){listMoviment->
             if (listMoviment.isNullOrEmpty()){
-                context?.toastAlert("No moviments")
+                 binding.apply {
+                     rcvAtividades.visibility =View.GONE
+                    layoutNoMoviments.visibility= View.VISIBLE
+                  }
+
             }else{
                 adapetAtividades.getListAtividade(listMoviment)
+                binding.apply {
+                    rcvAtividades.visibility =View.VISIBLE
+                    layoutNoMoviments.visibility= View.GONE
+                }
             }
         }
         loginViewModel.authenticationState.observe(this.viewLifecycleOwner){authenticateState ->

@@ -1,7 +1,8 @@
 <resources>
+
+
     <!-- Strings Main Fragment -->
     <string name="main_fragment_title">Inicio</string>
-
     <string name="app_name">CréditoS</string>
 
     <!-- Strings Home Fragment -->

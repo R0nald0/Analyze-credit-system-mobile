@@ -36,8 +36,11 @@ class LoginViewModel  @Inject constructor(
                  _authenticationStateEvent.value =AuthenticationState.Loaded
                    _authenticationStateEvent.value =AuthenticationState.Logged(resultAuth.getOrThrow())
               }else{
-                 _authenticationStateEvent.value =AuthenticationState.Loaded
+                  _authenticationStateEvent.value =AuthenticationState.Loaded
                   _authenticationStateEvent.value =AuthenticationState.Unlogged
+                  resultAuth.getOrElse {error->
+                      _authenticationStateEvent.postValue(AuthenticationState.errorState("${error.message}"))
+                  }
               }
 
         }
@@ -51,7 +54,9 @@ class LoginViewModel  @Inject constructor(
                 if (result.isSuccess){
                     _authenticationStateEvent.value =AuthenticationState.Logged(result.getOrThrow())
                 }else{
+
                      result.getOrElse {erroMensage->
+
                          _authenticationStateEvent.value = AuthenticationState.errorState(erroMensage.message!!)
                      }
                 }

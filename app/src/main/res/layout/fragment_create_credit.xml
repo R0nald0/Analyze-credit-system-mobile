@@ -66,27 +66,30 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:text="@string/credit_create_txv_quanto_precisa"
-                android:textSize="24sp" />
-
+                android:textSize="@dimen/text_h1" />
 
             <EditText
                 android:id="@+id/edt_credit_value"
+                style="@style/CustomEditStyle"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:autofillHints="R$ 0,00"
                 android:gravity="center|fill_horizontal"
+                android:hint=" R$ 5.000,00"
                 android:inputType="numberDecimal"
                 android:maxLines="1"
                 android:textAlignment="center"
-                android:textSize="25sp" />
+                android:textSize="@dimen/text_primary" />
 
             <com.example.analyze_credit_system_mobile.view.shared.widgets.ProgresseButton
                 android:id="@+id/btn_next"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_marginTop="20dp"
+                android:layout_marginBottom="@dimen/bottom_margin_button_to_down"
                 app:title="@string/credit_create_txt_btn_proximo_passo"
                 app:title_loading_state="verificando.." />
         </LinearLayout>

@@ -18,15 +18,29 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
+            android:layout_marginTop="356dp"
             android:layout_marginEnd="32dp"
             android:indeterminate="true"
-            android:visibility="gone"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/txv_carregando"
+            style="@style/TextSecundary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="Carregando..."
+            android:textSize="@dimen/text_secundary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.5" />
+            app:layout_constraintTop_toBottomOf="@+id/home_Progress_Bar"
+            app:layout_constraintVertical_bias="0.32999998" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/home_constraint"
@@ -34,7 +48,7 @@
             android:layout_height="match_parent"
             android:background="@color/backgroundhomecolor"
             android:backgroundTint="@color/backgroundhomecolor"
-            android:visibility="visible"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -42,7 +56,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.5">
 
-          <LinearLayout
+            <LinearLayout
                 android:id="@+id/linearLayout2"
                 android:layout_width="0dp"
                 android:layout_height="100dp"
@@ -60,7 +74,7 @@
                     android:src="@drawable/perfil_imagem"
                     app:shapeAppearanceOverlay="@style/ImagemRounded" />
 
-               <LinearLayout
+                <LinearLayout
                     android:layout_width="287dp"
                     android:layout_height="match_parent"
                     android:gravity="center|start"
@@ -82,9 +96,8 @@
                         android:id="@+id/txv_conta_user_number"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/white"
                         android:text="009099"
-                        />
+                        android:textColor="@color/white" />
                 </LinearLayout>
 
                 <ImageButton
@@ -153,7 +166,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/button"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/btn_boleto"
-                app:layout_constraintTop_toBottomOf="@+id/textView2"/>
+                app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
             <Button
                 android:id="@+id/btn_boleto"

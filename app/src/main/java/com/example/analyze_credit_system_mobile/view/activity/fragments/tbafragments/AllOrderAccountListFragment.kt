@@ -65,8 +65,20 @@ class AllOrderAccountListFragment : Fragment() {
 
     fun initObserver(){
         creditViewModel.listCredit.observe(viewLifecycleOwner){creditList->
-            if(creditList.isEmpty())creditListAdapter.getAllOderCreditCustomer(listOf())
-            else creditListAdapter.getAllOderCreditCustomer(creditList)
+            if(creditList.isEmpty()) {
+                creditListAdapter.getAllOderCreditCustomer(listOf())
+                binding.apply {
+                    linearLayoutAllmovimentsEmpty.visibility =  View.VISIBLE
+                    rcvCrediList.visibility =View.GONE
+                }
+            }
+            else {
+                creditListAdapter.getAllOderCreditCustomer(creditList)
+                binding.apply {
+                    linearLayoutAllmovimentsEmpty.visibility =  View.GONE
+                    rcvCrediList.visibility =View.VISIBLE
+                }
+            }
         }
 
         creditViewModel.stateCreditLiveData.observe(viewLifecycleOwner){ state->

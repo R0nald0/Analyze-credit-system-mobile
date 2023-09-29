@@ -4,12 +4,14 @@ import com.example.analyze_credit_system_mobile.data.dto.CreditCreate
 import com.example.analyze_credit_system_mobile.data.dto.toCredit
 import com.example.analyze_credit_system_mobile.data.remote.CreditApi
 import com.example.analyze_credit_system_mobile.data.remote.RetrofitApiClient
+import com.example.analyze_credit_system_mobile.data.remote.firabase.MyFireStore
 import com.example.analyze_credit_system_mobile.domain.model.Credit
 import com.example.analyze_credit_system_mobile.domain.repository.ICreditRepositoty
 import javax.inject.Inject
 
 class CreditRepository @Inject  constructor(
-    private val serviceCredit: CreditApi
+    private val serviceCredit: CreditApi,
+    private val fireStore :MyFireStore
 ) :ICreditRepositoty {
     override suspend fun createCredit(credit: Credit): Result<Credit> {
         try {
@@ -22,7 +24,7 @@ class CreditRepository @Inject  constructor(
 
                 val creditDTO = response.body()
                 if (creditDTO !=null){
-
+                    fireStore.saveCredit(creditDTO)
                     return Result.success(creditDTO.toCredit())
                 }else{
                     return Result.failure(Exception("dados nulo ${creditDTO}"))

@@ -10,10 +10,10 @@ interface CreditApi {
     @GET()
    suspend fun getAllCredit() : Response<List<CreditDTO>>
     @GET("credit/credits?")
-  suspend  fun findAllCreditByCustomer(@Query("customerId") customerId:Long):Response<List<CreditDTO>>
+   suspend  fun findAllCreditByCustomer(@Query("customerId") customerId:Long):Response<List<CreditDTO>>
 
     @GET("/credit/{creditCode}?")
- suspend    fun findByCreditCode(@Path("creditCode") creditId: UUID , @Query("customerId") customerId:Long):Response<List<CreditDTO>>
+  suspend   fun findByCreditCode(@Path("creditCode") creditId: UUID , @Query("customerId") customerId:Long):Response<List<CreditDTO>>
 
     @POST("credit/save")
     suspend fun createCredit(@Body creditCredit: CreditCreate) : Response<CreditDTO>

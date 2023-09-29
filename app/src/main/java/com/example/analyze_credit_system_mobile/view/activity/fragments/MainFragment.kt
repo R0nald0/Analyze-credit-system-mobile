@@ -23,6 +23,7 @@ class MainFragment : Fragment() {
     private val binding by lazy{
         FragmentMainBinding.inflate(layoutInflater)
     }
+
     private val mainViewModel by viewModels<MainViewModel>()
     private lateinit var noticeAdapter: NoticeAdapter
     private lateinit var moedaAdapter: MoedaAdapter

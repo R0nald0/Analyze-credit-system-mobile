@@ -93,8 +93,6 @@ class CadastroFragment : Fragment() {
                    binding.txtInputStreet.setText(address.street)
                }else{
                    val err  = addressResult.exceptionOrNull()
-
-                  /* Toast.makeText(context, " ${err?.message}", Toast.LENGTH_SHORT).show()*/
                }
         }
 
@@ -117,7 +115,7 @@ class CadastroFragment : Fragment() {
         binding.txtInputStreet.visibility =View.GONE
 
         binding.btnSave.setOnClickListener {
-                     //TODO rever animacao de loading do botao salvar
+
                        val customerView = getBindsToCustomer()
                       cadastroViewModel.validField(customerView)
                  }

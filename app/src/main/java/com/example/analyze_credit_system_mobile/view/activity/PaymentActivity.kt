@@ -349,7 +349,7 @@ fun AreaCustomerData(args:PaymentActivityArgs, modifier: Modifier){
          title = {   Text(
              text = args.typePaymentTitle,
              style = MaterialTheme.typography.titleLarge,
-             color = Color.Black,
+             color = Color.White,
              fontWeight = FontWeight.SemiBold
          )},
          colors = TopAppBarDefaults.mediumTopAppBarColors(
@@ -363,7 +363,8 @@ fun AreaCustomerData(args:PaymentActivityArgs, modifier: Modifier){
              }) {
                  Icon(
                      imageVector = Icons.Filled.ArrowBack,
-                     contentDescription = "Back button"
+                     contentDescription = "Back button",
+                     tint = Color.White
                  )
              }
          },
@@ -380,7 +381,7 @@ fun AreaCustomerData(args:PaymentActivityArgs, modifier: Modifier){
                modifier = modifier.fillMaxWidth(0.4F),
                textContent = saldo ,
                fontSize = 26.sp,
-               colorContent = Color.Black
+               colorContent = Color.White
            )
 
            IconButton(onClick = {
@@ -390,7 +391,10 @@ fun AreaCustomerData(args:PaymentActivityArgs, modifier: Modifier){
                    modifier= modifier
                        .rotate(angulo)
                        .size(30.dp),
-                   painter = painterResource(id = R.drawable.ic_arrow_down_24), contentDescription = "", tint = Color.Black)
+                   painter = painterResource(
+                       id = R.drawable.ic_arrow_down_24),
+                   contentDescription = "",
+                   tint = Color.White)
            }
        }
 

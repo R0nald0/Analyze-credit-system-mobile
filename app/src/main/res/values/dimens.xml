@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="text_primary">22sp</dimen>
+    <dimen name="text_secundary">18sp</dimen>
+    <dimen name="text_terciary">16sp</dimen>
+    <dimen name="text_quarciary">14sp</dimen>
+
      <dimen name="text_Cards_title">10.sp</dimen>
 
     <dimen name="dimens_img_perfil">60dp</dimen>
@@ -11,4 +16,6 @@
     <!--fragemtn_home-->
     <dimen name="name_user_home">17sp</dimen>
     <dimen name="acoount_number_user">17sp</dimen>
+    <dimen name="bottom_margin_button_to_down">60dp</dimen>
+    <dimen name="text_h1">24sp</dimen>
 </resources>
