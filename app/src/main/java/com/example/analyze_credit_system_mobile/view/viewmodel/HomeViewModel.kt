@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.analyze_credit_system_mobile.data.dto.response.AccountMovimentView
 import com.example.analyze_credit_system_mobile.domain.model.Customer
 import com.example.analyze_credit_system_mobile.domain.usecase.ICustomerUseCase
+import com.example.analyze_credit_system_mobile.domain.usecase.IFindCustomerUseCase
 import com.example.analyze_credit_system_mobile.domain.usecase.Impl.AccountMovimentUseCase
 import com.example.analyze_credit_system_mobile.domain.usecase.Impl.ValidateCredit
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,8 +17,8 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val accountMovimentUseCase: AccountMovimentUseCase,
-    private val customerUseCase: ICustomerUseCase,
-    private val validateCredit: ValidateCredit
+    private val validateCredit: ValidateCredit,
+    private val fIndCustomer: IFindCustomerUseCase
 ) : ViewModel() {
     private val _listMoviments = MutableLiveData<List<AccountMovimentView>>()
     val  listMoviments :LiveData<List<AccountMovimentView>>
@@ -27,9 +28,6 @@ class HomeViewModel @Inject constructor(
     val recipientData : LiveData<Result<Customer>>
         get() = _recipientData
 
-
-    init {
-    }
     fun getAllMovimentsCustomer(idCustomer:Long){
        viewModelScope.launch {
             val resultMoviments =accountMovimentUseCase.getAccountMovimentsCustomer(idCustomer)
@@ -40,7 +38,7 @@ class HomeViewModel @Inject constructor(
     fun findCustomerByEmail(accountNumber: Long){
              viewModelScope.launch {
                  val byAccountNumber =
-                     customerUseCase.findCustumerByAccountNumber(accountNumber)
+                     fIndCustomer.findCustumerByAccountNumber(accountNumber)
                   _recipientData.postValue(byAccountNumber)
              }
     }

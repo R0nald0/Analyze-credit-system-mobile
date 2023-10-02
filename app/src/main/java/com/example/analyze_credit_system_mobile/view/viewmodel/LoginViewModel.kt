@@ -17,7 +17,6 @@ class LoginViewModel  @Inject constructor(
     private val customerUseCase: ICustomerUseCase,
 ) : ViewModel() {
 
-    val auth = FirebaseAuth.getInstance()
     private val _authenticationStateEvent = MutableLiveData<AuthenticationState>()
     val authenticationState : LiveData<AuthenticationState>
        get() = _authenticationStateEvent
@@ -76,7 +75,7 @@ class LoginViewModel  @Inject constructor(
         return true
     }
 
-    fun delsogar(){
+    fun logout(){
         viewModelScope.launch {
             customerUseCase.logout()
             _authenticationStateEvent.value =AuthenticationState.Unlogged
