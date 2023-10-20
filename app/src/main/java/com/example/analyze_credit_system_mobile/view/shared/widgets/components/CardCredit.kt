@@ -15,8 +15,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.analyze_credit_system_mobile.domain.enums.Status
-import com.example.analyze_credit_system_mobile.shared.extensions.formatCurrency
+import com.example.analyze_credit_system_mobile.view.enums.Status
+import com.example.analyze_credit_system_mobile.view.shared.widgets.extension.formatCurrency
 import java.math.BigDecimal
 
 @Composable
@@ -25,7 +25,7 @@ fun cardCredit(
     identifierCredit:String ="&%$%&*()¨()424324234112weqed1312",
     valueCredit:BigDecimal = "100.00".toBigDecimal(),
     numberInstallment : Int = 0,
-    status : Status =Status.IN_PROGRESS,
+    status : Status = Status.IN_PROGRESS,
     dayFirstInstallment : String = "2/10/1992"
 ){
    Column(

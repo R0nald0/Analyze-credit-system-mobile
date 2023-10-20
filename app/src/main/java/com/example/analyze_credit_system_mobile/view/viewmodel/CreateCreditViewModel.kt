@@ -6,17 +6,16 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.analyze_credit_system_mobile.domain.states.StateCredit
 import com.example.analyze_credit_system_mobile.domain.usecase.ICreditUseCase
+import com.example.analyze_credit_system_mobile.domain.usecase.IFindCustomerUseCase
 import com.example.analyze_credit_system_mobile.domain.usecase.Impl.CustomerUseCase
 import com.example.analyze_credit_system_mobile.domain.usecase.Impl.ValidateCredit
-import com.example.analyze_credit_system_mobile.shared.extensions.formatCurrency
+import com.example.analyze_credit_system_mobile.view.shared.widgets.extension.formatCurrency
 import com.example.analyze_credit_system_mobile.view.model.CreditCreateView
 import com.example.analyze_credit_system_mobile.view.model.CreditExhibitionView
 import com.example.analyze_credit_system_mobile.view.model.toCredit
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
-import java.math.RoundingMode
-import java.util.Locale
 import javax.inject.Inject
 
 
@@ -24,7 +23,7 @@ import javax.inject.Inject
 class CreateCreditViewModel @Inject constructor(
     private val creditUseCase: ICreditUseCase,
     private val validateCredit: ValidateCredit,
-    private val customerUseCase: CustomerUseCase
+    private val findCustomerUseCase : IFindCustomerUseCase
 ) : ViewModel() {
     private val _resultCreatCredit = MutableLiveData<Result<String>>()
      val resultCreatCredit : LiveData<Result<String>>
@@ -58,7 +57,7 @@ class CreateCreditViewModel @Inject constructor(
     fun validCredit(creditCreateView: CreditCreateView){
          viewModelScope.launch {
              _stateCreditLiveData.value =StateCredit.Loading
-              val custumerById = customerUseCase.findCustumerById()
+              val custumerById = findCustomerUseCase.findCustumerById()
 
               if (custumerById.isSuccess){
                   val invalidCreditfields  = validateCredit.validCredit(creditCreateView.creditValue, creditCreateView.numberOfInstallments, creditCreateView.dayFistInstallment,

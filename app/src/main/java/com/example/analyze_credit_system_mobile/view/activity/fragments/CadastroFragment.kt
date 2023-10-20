@@ -14,9 +14,10 @@ import com.example.analyze_credit_system_mobile.R
 import com.example.analyze_credit_system_mobile.databinding.FragmentCadastroBinding
 import com.example.analyze_credit_system_mobile.domain.states.AuthenticationState
 import com.example.analyze_credit_system_mobile.domain.usecase.Impl.AutenticationUseCaseImpl
-import com.example.analyze_credit_system_mobile.shared.extensions.clearFieldsError
+import com.example.analyze_credit_system_mobile.view.shared.widgets.extension.clearFieldsError
 import com.example.analyze_credit_system_mobile.view.model.CustomerView
 import com.example.analyze_credit_system_mobile.view.shared.dialog.AlertDialogCustom
+import com.example.analyze_credit_system_mobile.view.shared.widgets.extension.hideKeyboard
 import com.example.analyze_credit_system_mobile.view.viewmodel.CadastroViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.math.BigDecimal
@@ -111,13 +112,15 @@ class CadastroFragment : Fragment() {
     }
 
     private fun initBindings(){
-
+        binding.includeLbar.imageBtnBack.setOnClickListener {
+            findNavController().navigate(R.id.loginFragment)
+        }
         binding.txtInputStreet.visibility =View.GONE
 
         binding.btnSave.setOnClickListener {
-
                        val customerView = getBindsToCustomer()
-                      cadastroViewModel.validField(customerView)
+                       cadastroViewModel.validField(customerView)
+                       it.hideKeyboard()
                  }
         binding.edtInputZipCode.addTextChangedListener {
             val zipCode = binding.edtInputZipCode.unMaskedText

@@ -1,192 +1,210 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true"
-        tools:context=".view.activity.fragments.CadastroFragment">
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/contraintLayout"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    tools:context=".view.activity.fragments.CadastroFragment">
 
-        <LinearLayout
-            android:id="@+id/linearLayout"
+    <include
+        android:id="@+id/include_lbar"
+        layout="@layout/toolbar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_gravity="bottom"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:orientation="vertical"
-            android:padding="12dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_height="500dp">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/txt_input_first_name"
-                style="@style/TextStyleInput"
-                android:layout_width="match_parent"
+
+            <LinearLayout
+                android:id="@+id/llinputs"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:startIconDrawable="@drawable/account_circle_24"
-                app:startIconTint="#00BFA5">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edt_input_first_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Nome.."
-                    android:lines="1"
-                    android:maxLines="1"
-                    android:text="Obi-Wan" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/txt_input_last_name"
-                style="@style/TextStyleInput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edt_input_last_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Sobrenome.."
-                    android:lines="1"
-                    android:maxLines="1"
-                    android:text="Kenobi" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/txt_input_cpf"
-                style="@style/TextStyleInput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <com.vicmikhailau.maskededittext.MaskedEditText
-                    android:id="@+id/edt_input_cpf"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="CPF"
-                    android:inputType="number"
-                    android:maxLines="1"
-                    android:text="85799923545"
-                    app:mask="###.###.###-##" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/txt_input_income"
-                style="@style/TextStyleInput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:startIconDrawable="@drawable/baseline_attach_money_24"
-                app:startIconTint="#00BFA5">
-
-                <com.vicmikhailau.maskededittext.MaskedEditText
-                    android:id="@+id/edt_input_income"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Renda.. "
-                    android:inputType="numberDecimal"
-                    android:maxLines="1"
-                    android:text="5000"
-                    app:mask="#.###,##" />
-
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/txt_input_email"
-                style="@style/TextStyleInput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:startIconDrawable="@drawable/baseline_email_24"
-                app:startIconTint="#00BFA5">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edt_input_email"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Email..."
-                    android:lines="1"
-                    android:maxLines="1"
-                    android:text="kenob@gmail.com" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/txt_input_zip_code"
-                style="@style/TextStyleInput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:startIconDrawable="@drawable/baseline_location_on_24"
-                app:startIconTint="#00BFA5">
-
-                <com.vicmikhailau.maskededittext.MaskedEditText
-                    android:id="@+id/edt_input_zip_code"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Cep"
-                    android:inputType="number"
-                    android:maxLines="1"
-                    app:mask="#####-###" />
-            </com.google.android.material.textfield.TextInputLayout>
-            <ProgressBar
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/progressZipCode"
-                />
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/txt_input_street"
-                style="@style/Widget.MaterialComponents.TextView"
-                android:hint="Rua.."
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:orientation="vertical"
                 android:padding="16dp"
-                android:paddingBottom="20dp"
-                android:textSize="16dp"
-                >
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="MissingConstraints">
 
-            </com.google.android.material.textview.MaterialTextView>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/txt_input_first_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="start"
+                    android:layout_marginBottom="@dimen/space_small_margin"
+                    app:startIconDrawable="@drawable/account_circle_24"
+                    app:startIconTint="#00BFA5">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/txt_input_password"
-                style="@style/TextStyleInput"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:startIconDrawable="@drawable/baseline_password_24"
-                app:startIconTint="#00BFA5">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edt_input_first_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Nome.."
+                        android:lines="1"
+                        android:maxLines="1"
+                        android:text="Obi-wan" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edt_input_password"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/txt_input_last_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edt_input_last_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Sobrenome.."
+                        android:lines="1"
+                        android:maxLines="1"
+                        android:text="Kenobi" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/txt_input_cpf"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="start|center_horizontal"
-                    android:hint="Senha..."
-                    android:inputType="textPassword"
-                    android:lines="1"
-                    android:maxLines="0"
-                    android:text="qwert123" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_marginTop="@dimen/space_small_margin"
+                    android:layout_marginBottom="@dimen/space_small_margin">
 
-        </LinearLayout>
+                    <com.vicmikhailau.maskededittext.MaskedEditText
+                        android:id="@+id/edt_input_cpf"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="CPF"
+                        android:inputType="number"
+                        android:maxLines="1"
+                        android:text="85799923545"
+                        app:mask="###.###.###-##" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-        <com.example.analyze_credit_system_mobile.view.shared.widgets.ProgresseButton
-            android:id="@+id/btn_save"
-            style="@style/ButtonStyle"
-            android:layout_width="320dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="60dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-            app:title="@string/cadastro_fragment_btn"
-            app:title_loading_state="verificando..." />
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/txt_input_income"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:startIconDrawable="@drawable/baseline_attach_money_24"
+                    app:startIconTint="#00BFA5">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                    <com.vicmikhailau.maskededittext.MaskedEditText
+                        android:id="@+id/edt_input_income"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Renda.. "
+                        android:inputType="numberDecimal"
+                        android:maxLines="1"
+                        android:text="50000"
+                        app:mask="#.###,##" />
 
 
-</ScrollView>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/txt_input_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_small_margin"
+                    android:layout_marginBottom="@dimen/space_small_margin"
+                    app:startIconDrawable="@drawable/baseline_email_24"
+                    app:startIconTint="#00BFA5">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edt_input_email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Email..."
+                        android:lines="1"
+                        android:maxLines="1"
+                        android:text="kenobi@gmail.com" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/txt_input_zip_code"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:startIconDrawable="@drawable/baseline_location_on_24"
+                    app:startIconTint="#00BFA5">
+
+                    <com.vicmikhailau.maskededittext.MaskedEditText
+                        android:id="@+id/edt_input_zip_code"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Cep"
+                        android:inputType="number"
+                        android:maxLines="1"
+                        app:mask="#####-###" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <ProgressBar
+                    android:id="@+id/progressZipCode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/txt_input_street"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Rua.."
+                    android:padding="16dp"
+                    android:paddingBottom="20dp"
+                    android:textSize="16dp">
+
+                </com.google.android.material.textview.MaterialTextView>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/txt_input_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_small_margin"
+                    android:layout_marginBottom="@dimen/space_small_margin"
+                    app:startIconDrawable="@drawable/baseline_password_24"
+                    app:startIconTint="#00BFA5">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edt_input_password"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="start|center_horizontal"
+                        android:hint="Senha..."
+                        android:inputType="textPassword"
+                        android:lines="1"
+                        android:maxLines="0"
+                        android:text="qwert123" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+
+            <com.example.analyze_credit_system_mobile.view.shared.widgets.ProgresseButton
+                android:id="@+id/btn_save"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginBottom="65dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/llinputs"
+                app:layout_constraintVertical_bias="0.37"
+                app:title="@string/cadastro_fragment_btn"
+                app:title_loading_state="verificando..."
+                tools:ignore="MissingConstraints" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+</LinearLayout>
 

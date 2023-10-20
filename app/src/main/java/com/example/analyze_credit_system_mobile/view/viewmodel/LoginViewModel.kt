@@ -32,16 +32,14 @@ class LoginViewModel  @Inject constructor(
             val resultAuth = customerUseCase.custmerAuth()
 
              if (resultAuth.isSuccess){
-                 _authenticationStateEvent.value =AuthenticationState.Loaded
-                   _authenticationStateEvent.value =AuthenticationState.Logged(resultAuth.getOrThrow())
+                 _authenticationStateEvent.value =AuthenticationState.Logged(resultAuth.getOrThrow())
               }else{
-                  _authenticationStateEvent.value =AuthenticationState.Loaded
-                  _authenticationStateEvent.value =AuthenticationState.Unlogged
-                  resultAuth.getOrElse {error->
-                      _authenticationStateEvent.postValue(AuthenticationState.errorState("${error.message}"))
-                  }
-              }
 
+                  _authenticationStateEvent.value =AuthenticationState.Unlogged
+//                  resultAuth.getOrElse {error->
+//                      _authenticationStateEvent.postValue(AuthenticationState.errorState("${error.message}"))
+//                  }
+              }
         }
     }
     fun authentication(email: String,password: String){
@@ -55,7 +53,6 @@ class LoginViewModel  @Inject constructor(
                 }else{
 
                      result.getOrElse {erroMensage->
-
                          _authenticationStateEvent.value = AuthenticationState.errorState(erroMensage.message!!)
                      }
                 }

@@ -1,5 +1,6 @@
 package com.example.analyze_credit_system_mobile.view.activity.fragments
 
+import android.app.Activity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,10 +14,10 @@ import androidx.navigation.fragment.navArgs
 import com.example.analyze_credit_system_mobile.R
 import com.example.analyze_credit_system_mobile.databinding.FragmentCreateCreditDateBinding
 import com.example.analyze_credit_system_mobile.domain.states.StateCredit
-import com.example.analyze_credit_system_mobile.shared.extensions.convertDateLongToString
-import com.example.analyze_credit_system_mobile.shared.extensions.convertDateStringToLong
-import com.example.analyze_credit_system_mobile.shared.extensions.formatCurrency
-import com.example.analyze_credit_system_mobile.shared.extensions.toastAlert
+import com.example.analyze_credit_system_mobile.view.shared.widgets.extension.convertDateLongToString
+import com.example.analyze_credit_system_mobile.view.shared.widgets.extension.convertDateStringToLong
+import com.example.analyze_credit_system_mobile.view.shared.widgets.extension.formatCurrency
+import com.example.analyze_credit_system_mobile.view.shared.widgets.extension.toastAlert
 import com.example.analyze_credit_system_mobile.view.model.CreditCreateView
 import com.example.analyze_credit_system_mobile.view.shared.dialog.AlertDialogCustom
 import com.example.analyze_credit_system_mobile.view.viewmodel.CreateCreditViewModel
@@ -51,9 +52,13 @@ class CreateCreditDateFragment : Fragment() {
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
     }
 
     fun initBinds(){
+        binding.includeDateToolbar.imageBtnBack.setOnClickListener {
+            findNavController().popBackStack()
+        }
 
         //Configuracao data
         val dateFirstInstallment = creditViewModel.getLimitsDate(Calendar.DATE,20)
@@ -70,7 +75,7 @@ class CreateCreditDateFragment : Fragment() {
         }
 
         binding.txvDataSelected.text = ActualDate
-        binding.txvCoutValueInstallment.text ="x R${args.creditValue.toBigDecimal().formatCurrency()} por mês"
+        binding.txvCoutValueInstallment.text ="x ${args.creditValue.toBigDecimal().formatCurrency()} por mês"
 
         binding.progresseButton.setOnClickListener {
             val creditValue = args.creditValue

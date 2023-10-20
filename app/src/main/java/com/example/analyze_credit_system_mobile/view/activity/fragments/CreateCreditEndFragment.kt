@@ -10,8 +10,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.analyze_credit_system_mobile.R
 import com.example.analyze_credit_system_mobile.databinding.FragmentCreateCreditEndBinding
-import com.example.analyze_credit_system_mobile.shared.extensions.convertDateLongToString
-import com.example.analyze_credit_system_mobile.shared.extensions.formatCurrency
+import com.example.analyze_credit_system_mobile.view.shared.widgets.extension.convertDateLongToString
+import com.example.analyze_credit_system_mobile.view.shared.widgets.extension.formatCurrency
 import com.example.analyze_credit_system_mobile.view.shared.dialog.AlertDialogCustom
 import com.example.analyze_credit_system_mobile.view.viewmodel.CreateCreditViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -57,8 +57,12 @@ class CreateCreditEndFragment : Fragment() {
     }
 
     fun initBindings(){
+        binding.includeConfirmToolbar.imageBtnBack.setOnClickListener {
+            findNavController().popBackStack()
+        }
         val numberOfInstallments = creditArgs.creditCreateView.numberOfInstallments
         val valueCreditFinal = creditArgs.creditCreateView.creditValue
+
 
         val amountCreditPerInstallment =creditViewModel.calculateInstallment( numberOfInstallments,valueCreditFinal)
         val date = Date().convertDateLongToString(creditArgs.creditCreateView.dayFistInstallment)

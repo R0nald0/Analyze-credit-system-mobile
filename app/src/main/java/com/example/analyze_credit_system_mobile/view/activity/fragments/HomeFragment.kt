@@ -37,9 +37,9 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.analyze_credit_system_mobile.R
 import com.example.analyze_credit_system_mobile.databinding.FragmentHomeBinding
-import com.example.analyze_credit_system_mobile.domain.enums.TitulosMovimentacao
+import com.example.analyze_credit_system_mobile.view.enums.TitulosMovimentacao
 import com.example.analyze_credit_system_mobile.domain.states.AuthenticationState
-import com.example.analyze_credit_system_mobile.shared.extensions.formatCurrency
+import com.example.analyze_credit_system_mobile.view.shared.widgets.extension.formatCurrency
 import com.example.analyze_credit_system_mobile.view.adapter.PageViewListAdapter
 import com.example.analyze_credit_system_mobile.view.model.CustomerView
 import com.example.analyze_credit_system_mobile.view.shared.widgets.components.AppCard
@@ -48,7 +48,6 @@ import com.example.analyze_credit_system_mobile.view.viewmodel.HomeViewModel
 import com.example.analyze_credit_system_mobile.view.viewmodel.LoginViewModel
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.Locale
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -77,19 +76,22 @@ class HomeFragment : Fragment() {
 
     private fun initBindings() {
         binding.imgNotification.setOnClickListener {
-            loginViewModel.delsogar()
+            loginViewModel.logout()
         }
 
         binding.btnPix.setOnClickListener {
-            val args = HomeFragmentDirections.actionHomeFragmentToPaymentActivity(customerView,TitulosMovimentacao.PIX.name)
+            val args = HomeFragmentDirections.actionHomeFragmentToPaymentActivity(customerView,
+                TitulosMovimentacao.PIX)
             findNavController().navigate(args)
         }
         binding.btnBoleto.setOnClickListener {
-            val args = HomeFragmentDirections.actionHomeFragmentToPaymentActivity(customerView,TitulosMovimentacao.PAGAMENTO_BOLETO.name)
+            val args = HomeFragmentDirections.actionHomeFragmentToPaymentActivity(customerView,
+                TitulosMovimentacao.PAGAMENTO_BOLETO)
             findNavController().navigate(args)
         }
         binding.button.setOnClickListener {
-            val args = HomeFragmentDirections.actionHomeFragmentToPaymentActivity(customerView,TitulosMovimentacao.TED.name)
+            val args = HomeFragmentDirections.actionHomeFragmentToPaymentActivity(customerView,
+                TitulosMovimentacao.TED)
             findNavController().navigate(args)
         }
     }
@@ -109,6 +111,7 @@ class HomeFragment : Fragment() {
                    is  AuthenticationState.Logged ->{
                        customerView = authenticateState.customerView
                        configTabLayout()
+                       binding.homeConstraint.visibility = View.VISIBLE
                        val name = "${customerView.firstName} ${customerView.lastName}"
                        binding.txvNameUser.text = name
                        homeViewModel.getAllMovimentsCustomer(customerView.id)
@@ -116,13 +119,15 @@ class HomeFragment : Fragment() {
                        getComposeView(customerView)
                    }
                    is AuthenticationState.Loaded->{
-                       binding.homeConstraint.visibility = View.VISIBLE
-                       binding.homeProgressBar.visibility = View.GONE
+                       binding.shimmer.stopShimmerAnimation()
+                       binding.shimmer.visibility =View.GONE
+
                    }
                    is  AuthenticationState.Loading ->{
                        binding.apply {
-                            homeConstraint.visibility = View.GONE
-                            homeProgressBar.visibility = View.VISIBLE
+                           homeConstraint.visibility = View.GONE
+                           shimmer.startShimmerAnimation()
+                           shimmer.visibility =View.VISIBLE
                        }
                    }
                    is AuthenticationState.Unlogged -> {

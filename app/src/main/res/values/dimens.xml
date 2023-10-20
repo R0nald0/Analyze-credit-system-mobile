@@ -18,4 +18,6 @@
     <dimen name="acoount_number_user">17sp</dimen>
     <dimen name="bottom_margin_button_to_down">60dp</dimen>
     <dimen name="text_h1">24sp</dimen>
+    <dimen name="margin_normal">16dp</dimen>
+    <dimen name="space_small_margin">8dp</dimen>
 </resources>

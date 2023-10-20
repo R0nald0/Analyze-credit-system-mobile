@@ -1,7 +1,7 @@
 package com.example.analyze_credit_system_mobile.data.dto
 
 import com.example.analyze_credit_system_mobile.domain.model.Credit
-import com.example.analyze_credit_system_mobile.shared.extensions.convertDateLongToString
+import com.example.analyze_credit_system_mobile.view.shared.widgets.extension.convertDateLongToString
 import java.math.BigDecimal
 import java.util.Date
 

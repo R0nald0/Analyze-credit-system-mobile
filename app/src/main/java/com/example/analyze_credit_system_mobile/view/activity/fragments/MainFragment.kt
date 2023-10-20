@@ -44,9 +44,6 @@ class MainFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-     /*   val connectoin  = context?.getSystemService(Context.CONNECTIVITY_SERVICE)  as ConnectivityManager
-      val adapter =  connectoin.isActiveNetworkMetered*/
-
         mainViewModel.getCurrencyMoedas()
     }
 

@@ -1,10 +1,14 @@
-package com.example.analyze_credit_system_mobile.view.shared
+package com.example.analyze_credit_system_mobile.view.shared.widgets.extension
 
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
+import android.inputmethodservice.InputMethodService
 import android.os.Bundle
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat
 import androidx.navigation.NavDeepLinkBuilder
 
 fun Context.createNavigationPending(destination:Int,navGraph :Int ,args : Bundle?):PendingIntent{
@@ -29,4 +33,13 @@ fun Context.createNotification(
         .setContentText(contentText)
         .setPriority(NotificationCompat.PRIORITY_HIGH)
         .setAutoCancel(true)
+}
+
+
+fun View.hideKeyboard(){
+     val inputMehod = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+     if (inputMehod.isAcceptingText){
+         inputMehod.hideSoftInputFromWindow(windowToken,0)
+     }
+
 }

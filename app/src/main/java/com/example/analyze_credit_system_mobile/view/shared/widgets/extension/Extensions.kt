@@ -1,4 +1,4 @@
-package com.example.analyze_credit_system_mobile.shared.extensions
+package com.example.analyze_credit_system_mobile.view.shared.widgets.extension
 
 import android.content.Context
 import android.widget.Toast
