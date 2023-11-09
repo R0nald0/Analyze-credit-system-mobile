@@ -1,7 +1,8 @@
 <resources>
+
+
     <!-- Strings Main Fragment -->
     <string name="main_fragment_title">Inicio</string>
-
     <string name="app_name">CréditoS</string>
 
     <!-- Strings Home Fragment -->
@@ -47,6 +48,7 @@
     <string name="data_invalido">Data inválido</string>
     <string name="valid_credit_customer_erro">Customer inexistente</string>
     <string name="title_activity_payment">PaymentActivity</string>
+    <string name="alert_mensage_pedido_analise">Seu pedido está em Análise</string>
 
 
 </resources>

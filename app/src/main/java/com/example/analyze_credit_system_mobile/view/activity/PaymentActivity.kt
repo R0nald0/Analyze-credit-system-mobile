@@ -55,9 +55,9 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.navArgs
 import com.example.analyze_credit_system_mobile.R
-import com.example.analyze_credit_system_mobile.domain.enums.TitulosMovimentacao
-import com.example.analyze_credit_system_mobile.shared.extensions.formatCurrency
-import com.example.analyze_credit_system_mobile.shared.extensions.toastAlert
+import com.example.analyze_credit_system_mobile.view.enums.TitulosMovimentacao
+import com.example.analyze_credit_system_mobile.view.shared.widgets.extension.formatCurrency
+import com.example.analyze_credit_system_mobile.view.shared.widgets.extension.toastAlert
 import com.example.analyze_credit_system_mobile.view.activity.ui.theme.AnalyzecreditsystemmobileTheme
 import com.example.analyze_credit_system_mobile.view.activity.ui.theme.GreeLight
 import com.example.analyze_credit_system_mobile.view.activity.ui.theme.GreenAPP
@@ -65,7 +65,6 @@ import com.example.analyze_credit_system_mobile.view.shared.widgets.components.A
 import com.example.analyze_credit_system_mobile.view.shared.widgets.components.cardSaldo
 import com.example.analyze_credit_system_mobile.view.viewmodel.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.Locale
 
 
 @AndroidEntryPoint
@@ -82,9 +81,10 @@ class PaymentActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     when(args.typePaymentTitle){
-                        TitulosMovimentacao.PIX.name->PixInterFace(args)
-                        TitulosMovimentacao.TED.name-> TedInterFace(args = args)
-                        TitulosMovimentacao.PAGAMENTO_BOLETO.name ->BoletoInterface(args)
+                       TitulosMovimentacao.PIX ->PixInterFace(args)
+                        TitulosMovimentacao.TED-> TedInterFace(args = args)
+                        TitulosMovimentacao.PAGAMENTO_BOLETO ->BoletoInterface(args)
+                        else -> {}
                     }
 
                 }
@@ -96,7 +96,6 @@ class PaymentActivity : ComponentActivity() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PixInterFace(args :PaymentActivityArgs , modifier: Modifier = Modifier) {
-
 
     Column (
         horizontalAlignment = Alignment.CenterHorizontally
@@ -347,9 +346,9 @@ fun AreaCustomerData(args:PaymentActivityArgs, modifier: Modifier){
 
      CenterAlignedTopAppBar(
          title = {   Text(
-             text = args.typePaymentTitle,
+             text = args.typePaymentTitle.type,
              style = MaterialTheme.typography.titleLarge,
-             color = Color.Black,
+             color = Color.White,
              fontWeight = FontWeight.SemiBold
          )},
          colors = TopAppBarDefaults.mediumTopAppBarColors(
@@ -363,7 +362,8 @@ fun AreaCustomerData(args:PaymentActivityArgs, modifier: Modifier){
              }) {
                  Icon(
                      imageVector = Icons.Filled.ArrowBack,
-                     contentDescription = "Back button"
+                     contentDescription = "Back button",
+                     tint = Color.White
                  )
              }
          },
@@ -380,7 +380,7 @@ fun AreaCustomerData(args:PaymentActivityArgs, modifier: Modifier){
                modifier = modifier.fillMaxWidth(0.4F),
                textContent = saldo ,
                fontSize = 26.sp,
-               colorContent = Color.Black
+               colorContent = Color.White
            )
 
            IconButton(onClick = {
@@ -390,7 +390,10 @@ fun AreaCustomerData(args:PaymentActivityArgs, modifier: Modifier){
                    modifier= modifier
                        .rotate(angulo)
                        .size(30.dp),
-                   painter = painterResource(id = R.drawable.ic_arrow_down_24), contentDescription = "", tint = Color.Black)
+                   painter = painterResource(
+                       id = R.drawable.ic_arrow_down_24),
+                   contentDescription = "",
+                   tint = Color.White)
            }
        }
 

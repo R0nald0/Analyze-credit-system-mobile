@@ -37,9 +37,9 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.analyze_credit_system_mobile.R
 import com.example.analyze_credit_system_mobile.databinding.FragmentHomeBinding
-import com.example.analyze_credit_system_mobile.domain.enums.TitulosMovimentacao
+import com.example.analyze_credit_system_mobile.view.enums.TitulosMovimentacao
 import com.example.analyze_credit_system_mobile.domain.states.AuthenticationState
-import com.example.analyze_credit_system_mobile.shared.extensions.formatCurrency
+import com.example.analyze_credit_system_mobile.view.shared.widgets.extension.formatCurrency
 import com.example.analyze_credit_system_mobile.view.adapter.PageViewListAdapter
 import com.example.analyze_credit_system_mobile.view.model.CustomerView
 import com.example.analyze_credit_system_mobile.view.shared.widgets.components.AppCard
@@ -48,7 +48,6 @@ import com.example.analyze_credit_system_mobile.view.viewmodel.HomeViewModel
 import com.example.analyze_credit_system_mobile.view.viewmodel.LoginViewModel
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.Locale
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -77,19 +76,22 @@ class HomeFragment : Fragment() {
 
     private fun initBindings() {
         binding.imgNotification.setOnClickListener {
-            loginViewModel.delsogar()
+            loginViewModel.logout()
         }
 
         binding.btnPix.setOnClickListener {
-            val args = HomeFragmentDirections.actionHomeFragmentToPaymentActivity(customerView,TitulosMovimentacao.PIX.name)
+            val args = HomeFragmentDirections.actionHomeFragmentToPaymentActivity(customerView,
+                TitulosMovimentacao.PIX)
             findNavController().navigate(args)
         }
         binding.btnBoleto.setOnClickListener {
-            val args = HomeFragmentDirections.actionHomeFragmentToPaymentActivity(customerView,TitulosMovimentacao.PAGAMENTO_BOLETO.name)
+            val args = HomeFragmentDirections.actionHomeFragmentToPaymentActivity(customerView,
+                TitulosMovimentacao.PAGAMENTO_BOLETO)
             findNavController().navigate(args)
         }
         binding.button.setOnClickListener {
-            val args = HomeFragmentDirections.actionHomeFragmentToPaymentActivity(customerView,TitulosMovimentacao.TED.name)
+            val args = HomeFragmentDirections.actionHomeFragmentToPaymentActivity(customerView,
+                TitulosMovimentacao.TED)
             findNavController().navigate(args)
         }
     }
@@ -108,13 +110,25 @@ class HomeFragment : Fragment() {
                when(authenticateState){
                    is  AuthenticationState.Logged ->{
                        customerView = authenticateState.customerView
-
                        configTabLayout()
+                       binding.homeConstraint.visibility = View.VISIBLE
                        val name = "${customerView.firstName} ${customerView.lastName}"
-                       binding.txvNameUser.setText(name)
+                       binding.txvNameUser.text = name
                        homeViewModel.getAllMovimentsCustomer(customerView.id)
-                       binding.txvContaUserNumber.setText(customerView.numberAccount.toString())
+                       binding.txvContaUserNumber.text = "Conta: ${ customerView.numberAccount.toString() }"
                        getComposeView(customerView)
+                   }
+                   is AuthenticationState.Loaded->{
+                       binding.shimmer.stopShimmerAnimation()
+                       binding.shimmer.visibility =View.GONE
+
+                   }
+                   is  AuthenticationState.Loading ->{
+                       binding.apply {
+                           homeConstraint.visibility = View.GONE
+                           shimmer.startShimmerAnimation()
+                           shimmer.visibility =View.VISIBLE
+                       }
                    }
                    is AuthenticationState.Unlogged -> {
                        findNavController().navigate(R.id.loginFragment)
@@ -136,7 +150,6 @@ class HomeFragment : Fragment() {
 
     @Composable
     fun mainApp(customer: CustomerView){
-
             AppCard(
                 modifier = Modifier.background(Color.Transparent),
                 content = {
@@ -157,7 +170,9 @@ class HomeFragment : Fragment() {
                                 isVisible = !isVisible
                             }) {
                                 Icon(
-                                    modifier = Modifier.rotate(angulo).size(30.dp),
+                                    modifier = Modifier
+                                        .rotate(angulo)
+                                        .size(30.dp),
                                     painter = painterResource(id = R.drawable.ic_arrow_down_24),
                                     contentDescription = "arrow_down",
                                     tint = Color.White
@@ -175,7 +190,10 @@ class HomeFragment : Fragment() {
                                colorContent = Color.White
                            )
                        }
-                        Spacer(Modifier.height(3.dp).background(Color.Red))
+                        Spacer(
+                            Modifier
+                                .height(3.dp)
+                                .background(Color.Red))
                     }
                 }
             )

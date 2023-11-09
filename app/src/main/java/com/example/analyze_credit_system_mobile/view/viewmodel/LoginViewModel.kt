@@ -17,7 +17,6 @@ class LoginViewModel  @Inject constructor(
     private val customerUseCase: ICustomerUseCase,
 ) : ViewModel() {
 
-    val auth = FirebaseAuth.getInstance()
     private val _authenticationStateEvent = MutableLiveData<AuthenticationState>()
     val authenticationState : LiveData<AuthenticationState>
        get() = _authenticationStateEvent
@@ -33,13 +32,14 @@ class LoginViewModel  @Inject constructor(
             val resultAuth = customerUseCase.custmerAuth()
 
              if (resultAuth.isSuccess){
-                 _authenticationStateEvent.value =AuthenticationState.Loaded
-                   _authenticationStateEvent.value =AuthenticationState.Logged(resultAuth.getOrThrow())
+                 _authenticationStateEvent.value =AuthenticationState.Logged(resultAuth.getOrThrow())
               }else{
-                 _authenticationStateEvent.value =AuthenticationState.Loaded
-                  _authenticationStateEvent.value =AuthenticationState.Unlogged
-              }
 
+                  _authenticationStateEvent.value =AuthenticationState.Unlogged
+//                  resultAuth.getOrElse {error->
+//                      _authenticationStateEvent.postValue(AuthenticationState.errorState("${error.message}"))
+//                  }
+              }
         }
     }
     fun authentication(email: String,password: String){
@@ -51,6 +51,7 @@ class LoginViewModel  @Inject constructor(
                 if (result.isSuccess){
                     _authenticationStateEvent.value =AuthenticationState.Logged(result.getOrThrow())
                 }else{
+
                      result.getOrElse {erroMensage->
                          _authenticationStateEvent.value = AuthenticationState.errorState(erroMensage.message!!)
                      }
@@ -71,7 +72,7 @@ class LoginViewModel  @Inject constructor(
         return true
     }
 
-    fun delsogar(){
+    fun logout(){
         viewModelScope.launch {
             customerUseCase.logout()
             _authenticationStateEvent.value =AuthenticationState.Unlogged

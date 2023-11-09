@@ -1,4 +1,4 @@
-package com.example.analyze_credit_system_mobile.domain.enums
+package com.example.analyze_credit_system_mobile.view.enums
 
 import com.example.analyze_credit_system_mobile.R
 

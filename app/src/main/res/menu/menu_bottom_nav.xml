@@ -8,7 +8,7 @@
         android:icon="@drawable/attach_money_24"/>
     <item
         android:title="@string/conta_txt"
-        android:id="@+id/homeFragment"
+        android:id="@+id/home_fragment"
         android:icon="@drawable/account_circle_24"/>
 </menu>
 

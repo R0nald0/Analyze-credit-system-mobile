@@ -3,8 +3,8 @@ package com.example.analyze_credit_system_mobile.view.viewmodel
 import com.example.analyze_credit_system_mobile.domain.usecase.ICreditUseCase
 import com.example.analyze_credit_system_mobile.domain.usecase.Impl.CustomerUseCase
 import com.example.analyze_credit_system_mobile.domain.usecase.Impl.ValidateCredit
-import com.example.analyze_credit_system_mobile.shared.extensions.convertDateLongToString
-import com.example.analyze_credit_system_mobile.shared.extensions.convertDateStringToLong
+import com.example.analyze_credit_system_mobile.view.shared.widgets.extension.convertDateLongToString
+import com.example.analyze_credit_system_mobile.view.shared.widgets.extension.convertDateStringToLong
 import com.google.common.truth.Truth.assertThat
 
 import org.junit.Before

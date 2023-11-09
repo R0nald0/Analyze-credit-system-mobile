@@ -69,25 +69,6 @@ class CustomerUseCase @Inject constructor(
               throw execption
           }
     }
-    override suspend fun findCustumerById(): Result<Customer> {
-        try {
-            val customerCurrenty  = custumerRepository.currentUser()
-            val customer = customerCurrenty.getOrThrow()
-             if (customer != null){
-                 return Result.success(customer)
-             }else{
-                 return Result.failure(Throwable("Identificador inválido"))
-             }
-        }
-        catch ( socketTimeoutException : SocketTimeoutException){
-            socketTimeoutException.printStackTrace()
-            return Result.failure(SocketTimeoutException("falha ao conectar no banco"))
-        }
-        catch (e:Exception){
-            e.printStackTrace()
-            return Result.failure(Throwable("erro ao buscar custumer",e ))
-        }
-    }
     override suspend fun custmerAuth(): Result<CustomerView> {
         try {
             val customerResult = custumerRepository.currentUser()
@@ -102,39 +83,12 @@ class CustomerUseCase @Inject constructor(
             return Result.failure(NullPointerException("erro ao retornar dados do customer"))
         }catch ( socketTimeoutException : SocketTimeoutException){
             socketTimeoutException.printStackTrace()
-            return Result.failure(SocketTimeoutException("falha ao conectar no banco"))
+            return Result.failure(SocketTimeoutException("Não conseguimos conectar no servidor"));
         }
         catch (ex:Exception){
-            return Result.failure(SocketTimeoutException("erro generico"))
+            ex.printStackTrace()
+            return Result.failure(Exception("nenhum usuario logado"))
         }
-    }
-    override suspend fun findCustumerByEmail(email: String): Result<Customer> {
-         try {
-             if (email.isNotBlank() && email.contains("@") && email.endsWith(".com")){
-                    val customer = custumerRepository.findCustumerByEmail(email)
-                    return Result.success(customer)
-             }
-             return Result.failure(Exception("no customers found with this email"))
-         }catch (customerException:Exception){
-             throw customerException
-         }
-         catch (ex:Exception){
-             return Result.failure(SocketTimeoutException("erro generico"))
-         }
-    }
-
-    override suspend fun findCustumerByAccountNumber(accountNumber: Long): Result<Customer>  {
-            try {
-                val byAccountNumber =
-                    custumerRepository.findCustumerByAccountNumber(accountNumber)
-                    return  byAccountNumber
-            }catch (nullPointerExeption :NullPointerException){
-                return Result.failure(NullPointerException("chave do destinátario inválida"))
-            }
-            catch (execption:Exception){
-                  execption.printStackTrace()
-                 return Result.failure(Exception("${execption.message}"))
-            }
     }
 
     override suspend fun deleteCustumer(customer: Customer): Result<Boolean> {
@@ -143,14 +97,15 @@ class CustomerUseCase @Inject constructor(
             return  Result.success(result)
         }catch (e:Exception){
             e.printStackTrace()
-            return Result.failure(Throwable("erro when delete customer",e))
+            return Result.failure(Throwable("error when delete customer",e))
         }
     }
 
-    override suspend fun updateCustumer(idCustomer: Long): Result<Boolean> {
+    override suspend fun updateCustumer(customer: Customer): Result<Boolean> {
         try{
-            val customer = findCustumerById().getOrThrow()
-            val result = custumerRepository.updateCustumer(idCustomer, CustomerCreateDto(customer))
+            //TODO rever Metodo
+            val customerFind = customer
+            val result = custumerRepository.updateCustumer(customerFind.id!!, CustomerCreateDto(customerFind))
             return  Result.success(result)
         }catch (e:Exception){
             e.printStackTrace()

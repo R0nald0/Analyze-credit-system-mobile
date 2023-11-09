@@ -19,27 +19,14 @@
             app:popEnterAnim="@anim/login_enter"
             app:popExitAnim="@anim/anime_pop"
             />
-        <action
-            android:id="@+id/action_loginFragment_to_homeFragment"
-            app:destination="@+id/homeFragment"
-           />
-        <action
-            android:id="@+id/action_loginFragment_to_createCreditFragment"
-            app:destination="@id/createCreditFragment" />
     </fragment>
     <fragment
         android:id="@+id/cadastroFragment"
         android:name="com.example.analyze_credit_system_mobile.view.activity.fragments.CadastroFragment"
         android:label="@string/cadastro_fragment_label"
-        tools:layout="@layout/fragment_cadastro">
-        <action
-            android:id="@+id/action_cadastroFragment_to_loginFragment"
-            app:destination="@id/loginFragment"
-
-            />
-    </fragment>
+        tools:layout="@layout/fragment_cadastro"/>
     <fragment
-        android:id="@+id/homeFragment"
+        android:id="@+id/home_fragment"
         android:name="com.example.analyze_credit_system_mobile.view.activity.fragments.HomeFragment"
         android:label="@string/conta_txt"
         tools:layout="@layout/fragment_home" >
@@ -74,7 +61,8 @@
         <action
             android:id="@+id/action_createCreditFragment_to_loginFragment"
             app:enterAnim="@anim/login_enter"
-            app:destination="@id/loginFragment" />
+            app:destination="@id/loginFragment"
+            />
     </fragment>
     <navigation
         android:id="@+id/navigationGraphCradit"
@@ -131,9 +119,9 @@
     </navigation>
     <fragment
         android:id="@+id/creditListFragment"
-        android:name="com.example.analyze_credit_system_mobile.view.activity.fragments.tbafragments.AllOrderAccountListFragment"
+        android:name="com.example.analyze_credit_system_mobile.view.activity.fragments.tbafragments.LoanRequestsListFragment"
         android:label="fragment_credit_list"
-        tools:layout="@layout/fragment_all_order_account_list" />
+        tools:layout="@layout/fragment_loan_requests_list" />
     <activity
         android:id="@+id/paymentActivity"
         android:name="com.example.analyze_credit_system_mobile.view.activity.PaymentActivity"
@@ -143,6 +131,6 @@
             app:argType="com.example.analyze_credit_system_mobile.view.model.CustomerView" />
         <argument
             android:name="typePaymentTitle"
-            app:argType="string" />
+            app:argType="com.example.analyze_credit_system_mobile.view.enums.TitulosMovimentacao" />
     </activity>
 </navigation>

@@ -1,32 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fillViewport="true">
-
     <androidx.constraintlayout.widget.ConstraintLayout
-
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".view.activity.fragments.CreateCreditEndFragment">
 
-        <!-- TODO: Update blank fragment layout -->
+        <include
+            android:id="@+id/include_confirm_toolbar"
+            layout="@layout/toolbar_layout"
+            android:layout_width="0dp"
 
-        <TextView
-            android:id="@+id/txv_titulo_create_end"
-            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Agora vamos confimar tudo"
-            android:textAlignment="center"
-            android:textSize="@dimen/size_txt_creat_dat"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txv_titulo_create_end"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Agora vamos confimar tudo"
+        android:textAlignment="center"
+        android:textSize="@dimen/size_txt_creat_dat"
+        app:layout_constraintBottom_toBottomOf="@+id/include_confirm_toolbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/include_confirm_toolbar" />
 
         <LinearLayout
             android:id="@+id/linearLayout3"
@@ -44,7 +46,7 @@
                 android:id="@+id/textView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Valor do Cédito" />
+                android:text="Valor do Crédito" />
 
             <TextView
                 android:id="@+id/txv_valor_credit_confirm"
@@ -71,7 +73,7 @@
                 android:id="@+id/textView6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Data Primeira Parcela" />
+                android:text="Data Primeira  Parcela" />
 
             <TextView
                 android:id="@+id/txv_date_credit_confirm"
@@ -126,6 +128,4 @@
             app:title="@string/credit_create_end_confirme_txt_button"
             app:title_loading_state="confirmando..." />
 
-
     </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>

@@ -1,128 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fillViewport="true"
-    >
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".view.activity.fragments.CreateCreditDateFragment">
 
-        <TextView
-            android:id="@+id/txv_chose_date"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="16dp"
-            android:text="@string/credit_create_date_chose_date_installment_txt"
-            android:textAlignment="center"
-            android:textSize="@dimen/size_txt_creat_dat"
-            android:textStyle="italic"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
-        <CalendarView
-            android:id="@+id/calendarView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txv_chose_date" />
+    <ScrollView
 
-        <TextView
-            android:id="@+id/txv_data_selected"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="8dp"
-            android:ellipsize="start"
-            android:textAlignment="center"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/calendarView" />
-
-        <com.example.analyze_credit_system_mobile.view.shared.widgets.ProgresseButton
-            android:id="@+id/progresseButton"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edt_number_installment"
-            app:title="@string/credit_create_txt_btn_proximo_passo"
-            app:title_loading_state="verificando" />
-
-        <TextView
-            android:id="@+id/textView5"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:text="@string/credit_create_date_number_installment_txt"
-            android:textAlignment="center"
-            android:textSize="@dimen/size_txt_creat_dat"
-            android:textStyle="italic"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txv_data_selected" />
-
-        <EditText
-            android:id="@+id/edt_number_installment"
-            android:layout_width="70dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:ems="10"
-            android:inputType="number|numberSigned"
-            android:lines="1"
-            android:maxLength="2"
-            android:numeric="integer"
-            android:singleLine="true"
-            android:text="1"
-            android:textAlignment="center"
-            app:layout_constraintEnd_toStartOf="@+id/txv_cout_value_installment"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView5" />
-
-        <TextView
-            android:id="@+id/txv_cout_value_installment"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:textAlignment="center"
-            android:textSize="17sp"
-            android:textStyle="italic"
-            app:layout_constraintBottom_toBottomOf="@+id/edt_number_installment"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/edt_number_installment"
-            app:layout_constraintTop_toBottomOf="@+id/textView5"
-            app:layout_constraintVertical_bias="0.642" />
+            app:layout_constraintTop_toTopOf="parent">
 
 
+            <TextView
+                android:id="@+id/txv_chose_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:text="@string/credit_create_date_chose_date_installment_txt"
+                android:textAlignment="center"
+                android:textSize="@dimen/size_txt_creat_dat"
+                android:textStyle="italic" />
+
+            <CalendarView
+                android:id="@+id/calendarView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="8dp" />
+
+            <TextView
+                android:id="@+id/txv_data_selected"
+                android:layout_width="395dp"
+                android:layout_height="wrap_content"
+                android:ellipsize="start"
+                android:textAlignment="center"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="379dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="8dp"
+                android:text="@string/credit_create_date_number_installment_txt"
+                android:textAlignment="center"
+                android:textSize="@dimen/size_txt_creat_dat"
+                android:textStyle="italic" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/edt_number_installment"
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:inputType="number|numberSigned"
+                    android:lines="1"
+                    android:maxLength="2"
+                    android:numeric="integer"
+                    android:singleLine="true"
+                    android:text="1"
+                    android:textAlignment="center" />
+
+                <TextView
+                    android:id="@+id/txv_cout_value_installment"
+                    android:layout_width="293dp"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:textSize="17sp"
+                    android:textStyle="italic" />
+            </LinearLayout>
+
+            <com.example.analyze_credit_system_mobile.view.shared.widgets.ProgresseButton
+                android:id="@+id/progresseButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                app:title="@string/credit_create_txt_btn_proximo_passo"
+                app:title_loading_state="verificando" />
+        </LinearLayout>
+
+    </ScrollView>
+
+    <include
+        android:id="@+id/include_date_toolbar"
+        layout="@layout/toolbar_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</ScrollView>

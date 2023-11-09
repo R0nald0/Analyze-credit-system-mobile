@@ -1,4 +1,4 @@
-package com.example.analyze_credit_system_mobile.shared.extensions
+package com.example.analyze_credit_system_mobile.view.shared.widgets.extension
 
 import android.content.Context
 import android.widget.Toast
@@ -13,9 +13,6 @@ import java.util.Locale
 fun TextInputLayout.clearFieldsError(){
         this.error= ""
         this.isErrorEnabled = false
-}
-fun Double.formatCurrency(locale: Locale = Locale.getDefault()): String {
-        return NumberFormat.getCurrencyInstance(locale).format(this)
 }
 
 fun BigDecimal.formatCurrency(locale: Locale = Locale("pt","BR")): String {

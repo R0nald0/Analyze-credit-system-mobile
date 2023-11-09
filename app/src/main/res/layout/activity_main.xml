@@ -6,64 +6,37 @@
     android:layout_height="match_parent"
     tools:context=".view.activity.MainActivity">
 
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Button"
-        app:layout_constraintBottom_toTopOf="@+id/guideline2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/containerViewNavHost"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:defaultNavHost="true"
+
+        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline2">
+        app:layout_constraintTop_toTopOf="parent"
+        app:navGraph="@navigation/navigation_user_accers"
+        tools:layout="@layout/fragment_main" />
 
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tabLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="0dp"
+        android:layout_height="55dp"
+        app:itemActiveIndicatorStyle="@style/AlertCustomStyle"
+        app:itemIconTint="@color/bottom_view_item_colors"
+        app:itemPaddingBottom="6dp"
+        app:itemPaddingTop="5dp"
+        app:itemTextColor="@color/bottom_view_item_colors"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/menu_bottom_nav" />
 
-            <com.google.android.material.tabs.TabItem
-
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Ultimas Atividades" />
-
-            <com.google.android.material.tabs.TabItem
-
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="compras" />
-
-            <com.google.android.material.tabs.TabItem
-
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Empréstimos" />
-
-        </com.google.android.material.tabs.TabLayout>
-
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/view_pager_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/CustomColor1green" />
-
-    </LinearLayout>
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.56" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

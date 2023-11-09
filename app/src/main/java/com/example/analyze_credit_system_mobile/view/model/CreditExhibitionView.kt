@@ -1,6 +1,6 @@
 package com.example.analyze_credit_system_mobile.view.model
 
-import com.example.analyze_credit_system_mobile.domain.enums.Status
+import com.example.analyze_credit_system_mobile.view.enums.Status
 import com.example.analyze_credit_system_mobile.domain.model.Credit
 import java.math.BigDecimal
 import java.util.UUID

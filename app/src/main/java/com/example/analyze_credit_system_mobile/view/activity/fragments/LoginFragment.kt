@@ -1,17 +1,21 @@
 package com.example.analyze_credit_system_mobile.view.activity.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import android.view.inputmethod.InputMethodManager
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.analyze_credit_system_mobile.R
 import com.example.analyze_credit_system_mobile.databinding.FragmentLoginBinding
 import com.example.analyze_credit_system_mobile.domain.states.AuthenticationState
-import com.example.analyze_credit_system_mobile.shared.extensions.clearFieldsError
+import com.example.analyze_credit_system_mobile.view.shared.widgets.extension.clearFieldsError
+import com.example.analyze_credit_system_mobile.view.shared.widgets.extension.hideKeyboard
+import com.example.analyze_credit_system_mobile.view.shared.widgets.extension.toastAlert
 import com.example.analyze_credit_system_mobile.view.viewmodel.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -39,6 +43,7 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initViewModels()
         initBidings()
+
     }
 
     private fun initViewModels() {
@@ -59,7 +64,7 @@ class LoginFragment : Fragment() {
                     findNavController().navigateUp()
                 }
                 is AuthenticationState.errorState ->{
-                    Toast.makeText(context, authenticationState.mensageError, Toast.LENGTH_LONG).show()
+                    context?.toastAlert("${authenticationState.mensageError}")
                 }
                 else -> {}
             }
@@ -71,15 +76,18 @@ class LoginFragment : Fragment() {
      )
 
    private fun initBidings(){
+
+       binding.include.imageBtnBack.setOnClickListener {
+           findNavController().navigate(R.id.mainFragment)
+       }
        binding.txtInputEmailLogin.clearFieldsError()
        binding.txtInputPassword.clearFieldsError()
 
-       binding.btnProgresssLogin.setOnClickListener {
+      binding.btnProgresssLogin.setOnClickListener {
               val email = binding.edtInputEmailLogin.text.toString()
                val password = binding.edtInputPassword.text.toString()
               loginViewModel.authentication(email, password)
-
-
+               it.hideKeyboard()
        }
        binding.btnCadastresse.setOnClickListener {
            findNavController().navigate(R.id.action_loginFragment_to_cadastroFragment)

@@ -6,12 +6,12 @@ import com.example.analyze_credit_system_mobile.view.model.CustomerView
 interface ICustomerUseCase {
     suspend fun login(email: String ,password :String) :Result<CustomerView>
     suspend fun createCustumer(customer: Customer): Result<Customer>
-    suspend fun findCustumerByEmail(email: String): Result<Customer>
-    suspend fun findCustumerByAccountNumber(accountNumber: Long): Result<Customer>
+
+
     suspend fun custmerAuth():Result<CustomerView>
-    suspend fun findCustumerById(): Result<Customer>
+
     suspend fun deleteCustumer(customer: Customer): Result<Boolean>
-    suspend fun updateCustumer(idCustomer: Long): Result<Boolean>
+    suspend fun updateCustumer(customer: Customer): Result<Boolean>
     suspend fun logout():Boolean
 
 }

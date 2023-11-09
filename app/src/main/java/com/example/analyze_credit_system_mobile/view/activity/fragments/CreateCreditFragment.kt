@@ -34,6 +34,7 @@ class CreateCreditFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initListenersViewModel()
         initBindings()
+
     }
 
     override fun onStart() {
@@ -42,10 +43,11 @@ class CreateCreditFragment : Fragment() {
     }
 
    private fun initBindings(){
+
        val watcher = MyWatcher(binding.edtCreditValue)
        binding.edtCreditValue.addTextChangedListener(watcher)
 
-       binding.btnNext.setOnClickListener {
+        binding.btnNext.setOnClickListener {
            val unMsk = watcher.unmsk()
            if (unMsk.isEmpty()) {
                binding.edtCreditValue.error = "Valor inválido"
@@ -64,13 +66,16 @@ class CreateCreditFragment : Fragment() {
         loginViewModel.authenticationState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is AuthenticationState.Loaded -> {
-                    binding.progressBarHorizontal.visibility = View.GONE
-                    binding.linearLayoutCredit.visibility = View.VISIBLE
+
+                    binding.shimmemr.visibility = View.GONE
+                    binding.shimmemr.stopShimmerAnimation()
                 }
 
                 is AuthenticationState.Loading -> {
-                    binding.progressBarHorizontal.visibility = View.VISIBLE
+
                     binding.linearLayoutCredit.visibility = View.GONE
+                    binding.shimmemr.startShimmerAnimation()
+                    binding.shimmemr.visibility = View.VISIBLE
                 }
 
                 is AuthenticationState.Unlogged -> {
@@ -79,12 +84,10 @@ class CreateCreditFragment : Fragment() {
 
                 is AuthenticationState.Logged -> {
                     customerView = state.customerView
+                    binding.shimmemr.visibility = View.GONE
                     binding.linearLayoutCredit.visibility = View.VISIBLE
                     binding.txvName.text =
                         getString(R.string.credit_create_txv_quanto_precisa, customerView.firstName)
-                }
-                is AuthenticationState.errorState -> {
-                    Toast.makeText(context, state.mensageError, Toast.LENGTH_SHORT).show()
                 }
                 else -> {}
             }

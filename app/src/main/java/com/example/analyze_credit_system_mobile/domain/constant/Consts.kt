@@ -6,4 +6,7 @@ object Consts{
     val BASE_URL_COTACOES_API = "https://economia.awesomeapi.com.br/json/"
      val BASE_URL_VIA_CEP_API = "https://viacep.com.br/ws/"
    // val BASE_URL_VIA_CEP_API = "https://cdn.apicep.com/file/apicep/"
+
+    val CHANNEL_ID = "0";
+    val NOTIFICATION_ID=0;
 }

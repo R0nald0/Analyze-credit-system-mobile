@@ -1,6 +1,5 @@
 package com.example.analyze_credit_system_mobile.view.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.compose.foundation.layout.Arrangement
@@ -20,8 +19,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.recyclerview.widget.RecyclerView
 import com.example.analyze_credit_system_mobile.databinding.RcvListCreditBinding
-import com.example.analyze_credit_system_mobile.domain.enums.Status
-import com.example.analyze_credit_system_mobile.shared.extensions.convertDateLongToString
+import com.example.analyze_credit_system_mobile.view.enums.Status
+import com.example.analyze_credit_system_mobile.view.shared.widgets.extension.convertDateLongToString
 import com.example.analyze_credit_system_mobile.view.model.CreditExhibitionView
 import com.example.analyze_credit_system_mobile.view.shared.widgets.components.AppCard
 import com.example.analyze_credit_system_mobile.view.shared.widgets.components.cardCredit

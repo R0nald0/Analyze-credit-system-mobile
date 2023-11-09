@@ -18,7 +18,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:shapeAppearanceOverlay="@style/ImagemNotice"
-        app:srcCompat="@drawable/batman" />
+        app:srcCompat="@drawable/banner_jurs" />
 
     <TextView
         android:id="@+id/txv_titulo_notice"

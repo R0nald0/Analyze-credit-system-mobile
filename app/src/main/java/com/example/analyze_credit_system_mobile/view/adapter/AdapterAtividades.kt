@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.analyze_credit_system_mobile.data.dto.response.AccountMovimentView
 import com.example.analyze_credit_system_mobile.databinding.AtividadesLayoutBinding
-import com.example.analyze_credit_system_mobile.shared.extensions.formatCurrency
+import com.example.analyze_credit_system_mobile.view.shared.widgets.extension.formatCurrency
 
 class AdapterAtividades : RecyclerView.Adapter<AdapterAtividades.AtividadesViewHolder>() {
      private var listAtividade = listOf<AccountMovimentView>()
@@ -25,7 +25,7 @@ class AdapterAtividades : RecyclerView.Adapter<AdapterAtividades.AtividadesViewH
          binding =itemAtividade
      }
         fun bind(item :AccountMovimentView){
-             binding.txvNomeAtividade.text = item.type.name
+             binding.txvNomeAtividade.text = item.type.type
              binding.txvValorAtividade.text = item.movimentValue.formatCurrency()
              binding.txvData.text = item.dateMoviment
         }

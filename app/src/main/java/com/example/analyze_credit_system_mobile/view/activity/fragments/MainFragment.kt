@@ -23,6 +23,7 @@ class MainFragment : Fragment() {
     private val binding by lazy{
         FragmentMainBinding.inflate(layoutInflater)
     }
+
     private val mainViewModel by viewModels<MainViewModel>()
     private lateinit var noticeAdapter: NoticeAdapter
     private lateinit var moedaAdapter: MoedaAdapter
@@ -43,9 +44,6 @@ class MainFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-     /*   val connectoin  = context?.getSystemService(Context.CONNECTIVITY_SERVICE)  as ConnectivityManager
-      val adapter =  connectoin.isActiveNetworkMetered*/
-
         mainViewModel.getCurrencyMoedas()
     }
 

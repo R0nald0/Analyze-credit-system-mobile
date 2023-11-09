@@ -7,9 +7,11 @@ import com.example.analyze_credit_system_mobile.domain.repository.ICustomerRepos
 import com.example.analyze_credit_system_mobile.domain.usecase.IAutenticationUseCase
 import com.example.analyze_credit_system_mobile.domain.usecase.ICreditUseCase
 import com.example.analyze_credit_system_mobile.domain.usecase.ICustomerUseCase
+import com.example.analyze_credit_system_mobile.domain.usecase.IFindCustomerUseCase
 import com.example.analyze_credit_system_mobile.domain.usecase.Impl.AutenticationUseCaseImpl
 import com.example.analyze_credit_system_mobile.domain.usecase.Impl.CreditUseCase
 import com.example.analyze_credit_system_mobile.domain.usecase.Impl.CustomerUseCase
+import com.example.analyze_credit_system_mobile.domain.usecase.Impl.FindCustomerUseCase
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -18,7 +20,6 @@ import dagger.hilt.components.SingletonComponent
 @Module
 @InstallIn(SingletonComponent::class)
 interface  InterfaceModuleApp {
-
 
     @Binds
      fun bindCreditUsCase(creditUseCase: CreditUseCase):ICreditUseCase
@@ -30,6 +31,8 @@ interface  InterfaceModuleApp {
      fun bindCustmerRepository(customerRepository: CustomerRepository):ICustomerRepository
     @Binds
      fun bindCreditRepository(creditRepository: CreditRepository):ICreditRepositoty
+     @Binds
+     fun bindFindCustomer(findCustomerUseCase :FindCustomerUseCase) :IFindCustomerUseCase
 
 
 }

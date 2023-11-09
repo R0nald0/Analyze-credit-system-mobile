@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.analyze_credit_system_mobile.databinding.FragmentAllOrderAccountListBinding
+import com.example.analyze_credit_system_mobile.databinding.FragmentLoanRequestsListBinding
 import com.example.analyze_credit_system_mobile.domain.states.AuthenticationState
 import com.example.analyze_credit_system_mobile.domain.states.StateCredit
 import com.example.analyze_credit_system_mobile.view.adapter.CreditListAdapter
@@ -18,9 +18,9 @@ import com.example.analyze_credit_system_mobile.view.viewmodel.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class AllOrderAccountListFragment : Fragment() {
+class LoanRequestsListFragment : Fragment() {
     private val binding by lazy {
-        FragmentAllOrderAccountListBinding.inflate(layoutInflater)
+        FragmentLoanRequestsListBinding.inflate(layoutInflater)
     }
     private val creditViewModel by viewModels<CreateCreditViewModel>()
     private val loginViewModel by activityViewModels<LoginViewModel>()
@@ -36,7 +36,6 @@ class AllOrderAccountListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return binding.root
     }
 
@@ -47,7 +46,6 @@ class AllOrderAccountListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         initObserver()
         initAdapter()
         initBinding()
@@ -65,8 +63,20 @@ class AllOrderAccountListFragment : Fragment() {
 
     fun initObserver(){
         creditViewModel.listCredit.observe(viewLifecycleOwner){creditList->
-            if(creditList.isEmpty())creditListAdapter.getAllOderCreditCustomer(listOf())
-            else creditListAdapter.getAllOderCreditCustomer(creditList)
+            if(creditList.isEmpty()) {
+                creditListAdapter.getAllOderCreditCustomer(listOf())
+                binding.apply {
+                   linearLayoutAllmovimentsEmpty.visibility =  View.VISIBLE
+                   rcvCrediList.visibility =View.GONE
+                }
+            }
+            else {
+                creditListAdapter.getAllOderCreditCustomer(creditList)
+                binding.apply {
+                    linearLayoutAllmovimentsEmpty.visibility =  View.GONE
+                    rcvCrediList.visibility =View.VISIBLE
+                }
+            }
         }
 
         creditViewModel.stateCreditLiveData.observe(viewLifecycleOwner){ state->
